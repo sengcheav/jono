@@ -3,7 +3,7 @@
 
 var express = require('express')
   , pg = require('pg').native
-  //, connectionString = process.env.DATABASE_URL
+  , connectionString = process.env.DATABASE_URL
   , start = new Date()
   , port = process.env.PORT
   , client;
