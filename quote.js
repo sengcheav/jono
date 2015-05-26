@@ -52,8 +52,6 @@ app.get('/quote/random', function(req, res) {
 });
 
 
-// GET /quote/:id, 
-//POST /quote and 
 //DELETE /quote/:id
 //Add an extra RESTful method GET /quote/all that returns the contents of the quotes database.
 
@@ -61,11 +59,15 @@ app.get('/quote/random', function(req, res) {
 
 
 
-
+/////////////////////////////////////////
 app.get('/quote/:id', function(req, res) {
-  if(req.params.id < 0) {
+  if(req.params.id < 1) {
     res.statusCode = 404;
-    return res.send('Error 404: No quote found');
+    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
+  }
+  if(req.params.id > numberQuotes){
+    res.statusCode = 404;
+    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
   }
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
   query.on('row', function(result) {
@@ -76,9 +78,13 @@ app.get('/quote/:id', function(req, res) {
     }
   });
 });
+//////////////////////////
 
+
+
+
+//////////////////////////
 app.post('/quote', function(req, res) {
-  console.log(req.body);
   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
     res.statusCode = 400;
     return res.send('Error 400: Post syntax incorrect.');
@@ -88,14 +94,18 @@ app.post('/quote', function(req, res) {
     author : req.body.author,
     text : req.body.text
   };
-
-  quotes.push(newQuote);
-  // should send back the location at this point
-  console.log("Added!");
-  newQuote.pos = quotes.length-1;
-  res.send(newQuote);
+  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
+  numberQuotes++;
+  res.send('added quote!');
 });
+///////////////////////////////////
 
+
+
+
+
+
+///////////////////////////////////
 app.delete('/quote/:id', function(req, res) {
   if(quotes.length <= req.params.id) {
     res.statusCode = 404;
@@ -105,6 +115,11 @@ app.delete('/quote/:id', function(req, res) {
   quotes.splice(req.params.id, 1);
   res.json(true);
 });
+///////////////////////////////////
+
+
+
+
 
 // use PORT set as an environment variable
 var server = app.listen(process.env.PORT, function() {
