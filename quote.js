@@ -44,14 +44,14 @@ app.get('/quote/all', function(req,res) {
 });
 
 app.get('/quote/random', function(req, res) {
-  client.query('SELECT COUNT(author) AS length FROM quotes');
+  query = client.query('SELECT COUNT(author) AS length FROM quotes');
   query.on('row', function(result) {
     if(!result){
       return res.send('quotes table is empty');
     }else{
       length = result.length;
       var key = Math.floor(Math.random() * length);
-      client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+      query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
       query.on('row', function(result) {
         if(!result){
           return res.send('cannot find random quote');
