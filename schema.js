@@ -5,12 +5,7 @@ var pg = require('pg').native
 
 client = new pg.Client(connectionString);
 client.connect();
-query = client.query('
-	CREATE TABLE quote(
-  author text PRIMARY KEY,
-  content text NOT NULL
-  )
-  ');
+query = client.query('CREATE TABLE quote(author text PRIMARY KEY, content text NOT NULL)');
 query.on('end', function(result) { client.end(); });
 
 
