@@ -17,7 +17,7 @@ var cors = require('cors');
 // instantiate app
 var app = express();
 
-
+var numberQuotes = 3;
 
 
 client = new pg.Client(connectionString);
@@ -40,16 +40,17 @@ app.get('/quote/all', function(req,res) {
 
   query = client.query('SELECT * FROM quotes');
     query.on('row', function(row) {
-    if(!result){
+    if(!row){
       return res.send('cannot return all quotes');
     }else{
     results.push(row);
     }
   });
-    return res.json(results);
+    query.on('end', function() {
+      client.end();
+      return res.json(results);
+    });
 });
-
-var numberQuotes = 3;
 
 app.get('/quote/random', function(req, res) {
   var key = Math.floor(Math.random() * numberQuotes);
@@ -60,6 +61,9 @@ app.get('/quote/random', function(req, res) {
     }else{
     res.send('author: '+ result.author +', quote:' + result.content);
     }
+  });
+  query.on('end', function() {
+        client.end();
   });
 });
 
@@ -86,6 +90,9 @@ app.get('/quote/:id', function(req, res) {
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
+    query.on('end', function() {
+        client.end();
+  });
 });
 
 
@@ -103,6 +110,9 @@ app.post('/quote', function(req, res) {
   query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
   numberQuotes++;
   res.send('added quote!');
+    query.on('end', function() {
+        client.end();
+  });
 });
 
 
@@ -112,13 +122,20 @@ app.post('/quote', function(req, res) {
 
 ///////////////////////////////////
 app.delete('/quote/:id', function(req, res) {
-  if(numberQuotes < req.params.id) {
+  if(req.params.id < 1) {
     res.statusCode = 404;
-    return res.send('Error 404: No quote found');
+    return res.send('No quote found');
+  }
+  if(req.params.id > numberQuotes){
+    res.statusCode = 404;
+    return res.send('No quote found');
   }
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
   numberQuotes--;
   res.send('quote removed!');
+    query.on('end', function() {
+        client.end();
+  });
 });
 ///////////////////////////////////
 
