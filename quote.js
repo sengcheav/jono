@@ -45,7 +45,8 @@ app.get('/quote/all', function(req,res) {
   });
 
   query.on('end', function() {
-    return res.JSON.stringify(results,null,4); client.end();
+    return res.send(JSON.stringify(results, null, 3)); client.end();
+
   });
 
 });
