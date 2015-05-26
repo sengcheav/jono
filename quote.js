@@ -17,12 +17,6 @@ var cors = require('cors');
 // instantiate app
 var app = express();
 
-var quotes = [
-  { author : 'Audrey Hepburn', text : "Nothing is impossible, the word itself says 'I'm possible'!"},
-  { author : 'Walt Disney', text : "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you"},
-  { author : 'Unknown', text : "Even the greatest was once a beginner. Don’t be afraid to take that first step."},
-  { author : 'Neale Donald Walsch', text : "You are afraid to die, and you’re afraid to live. What a way to exist."}
-];
 
 
 
@@ -43,52 +37,19 @@ app.get('/quote/all', function(req,res) {
   res.send("quote all called");
 });
 
+
 app.get('/quote/random', function(req, res) {
-  query = client.query('SELECT COUNT(author) AS length FROM quotes');
+  var key = Math.floor(Math.random() * numberQuotes);
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
   query.on('row', function(result) {
     if(!result){
-      return res.send('quotes table is empty');
+      return res.send('cannot find random quote');
     }else{
-      length = result.length;
-      var key = Math.floor(Math.random() * length);
-      query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
-      query.on('row', function(result) {
-        if(!result){
-          return res.send('cannot find random quote');
-        }else{
-          res.send('author: '+ result.author +', quote:' + result.content);
-        }
-      }); 
-    }
+    res.send('author: '+ result.author +', quote:' + result.content);
   });
 });
 
 
-//app.get('/', function(req, res) {
-//   var date = new Date();
-
-//   client.query('INSERT INTO visits(date) VALUES($1)', [date]);
-
-//   query = client.query('SELECT COUNT(date) AS count FROM visits WHERE date = $1', [date]);
-//   query.on('row', function(result) {
-//     console.log(result);
-
-//     if (!result) {
-//       return res.send('No data found');
-//     } else {
-//       res.send('Visits today: ' + result.count);
-//     }
-//   });
-// });
-
-// app.get('/signUp', function(request, response){
-//   var username = "ryan";
-//   var password = "b";
-
-//   client.query('INSERT INTO users(username,password) VALUES($1,$2)', [username,password]);
-//   response.send('Welcome, '+ username+'!');
-
-// });
 
 
 
