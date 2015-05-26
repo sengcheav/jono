@@ -39,11 +39,11 @@ app.get('/quote/all', function(req,res) {
   var results = [];
 
   query = client.query('SELECT * FROM quotes');
-    query.on('row', function(result) {
+    query.on('row', function(row) {
     if(!result){
       return res.send('cannot return all quotes');
     }else{
-    results.push(result);
+    results.push(row);
     }
   });
     return res.json(results);
