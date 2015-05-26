@@ -1,5 +1,12 @@
 // use the express middleware
-var express = require('express');
+//var express = require('express');
+
+var express = require('express')
+  , pg = require('pg').native
+  //, connectionString = process.env.DATABASE_URL
+  , start = new Date()
+  , port = process.env.PORT
+  , client;
 
 // make express handle JSON and other requests
 var bodyParser = require('body-parser');
@@ -32,10 +39,65 @@ app.get('/quote/all', function(req,res) {
 });
 
 app.get('/quote/random', function(req, res) {
-  var id = Math.floor(Math.random() * quotes.length);
-  var q = quotes[id];
-  res.send(q);
+  client.query('SELECT COUNT(author) AS length FROM quotes');
+  query.on('row', function(result) {
+    if(!result){
+      return res.send('quotes table is empty');
+    }else{
+      length = result.length;
+      var key = Math.floor(Math.random() * length);
+      client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+      query.on('row', function(result) {
+        if(!result){
+          return res.send('cannot find random quote');
+        }else{
+          res.send('author: '+ result.author +', quote:' + result.content);
+        }
+      }); 
+    }
+  });
 });
+
+
+//app.get('/', function(req, res) {
+//   var date = new Date();
+
+//   client.query('INSERT INTO visits(date) VALUES($1)', [date]);
+
+//   query = client.query('SELECT COUNT(date) AS count FROM visits WHERE date = $1', [date]);
+//   query.on('row', function(result) {
+//     console.log(result);
+
+//     if (!result) {
+//       return res.send('No data found');
+//     } else {
+//       res.send('Visits today: ' + result.count);
+//     }
+//   });
+// });
+
+// app.get('/signUp', function(request, response){
+//   var username = "ryan";
+//   var password = "b";
+
+//   client.query('INSERT INTO users(username,password) VALUES($1,$2)', [username,password]);
+//   response.send('Welcome, '+ username+'!');
+
+// });
+
+
+
+//Modify 
+//GET /quote/random,
+// GET /quote/:id, 
+//POST /quote and 
+//DELETE /quote/:id
+//Add an extra RESTful method GET /quote/all that returns the contents of the quotes database.
+
+
+
+
+
 
 app.get('/quote/:id', function(req, res) {
   if(quotes.length <= req.params.id || req.params.id < 0) {
