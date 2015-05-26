@@ -59,11 +59,8 @@ app.get('/quote/random', function(req, res) {
     if(!result){
       return res.send('cannot find random quote');
     }else{
-    res.send('author: '+ result.author +', quote:' + result.content);
+              res.send('author: '+ result.author +', quote:' + result.content);
     }
-  });
-  query.on('end', function() {
-        client.end();
   });
 });
 
