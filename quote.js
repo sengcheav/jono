@@ -43,7 +43,7 @@ app.get('/quote/all', function(req,res) {
     if(!result){
       return res.send('cannot return all quotes');
     }else{
-    results.push(row);
+    results.push(result);
     }
   });
     return res.json(results);
