@@ -43,9 +43,9 @@ app.get('/quote/all', function(req,res) {
     results.push(row);
   });
     query.on('end', function() {
-      client.end();
+               return res.json(results); client.end();
     });
-          return res.json(results);
+
 });
 
 app.get('/quote/random', function(req, res) {
