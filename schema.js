@@ -18,10 +18,10 @@ var quotes = [
 client = new pg.Client(connectionString);
 client.connect();
 query = client.query('CREATE TABLE quotes(tablekey serial, author text PRIMARY KEY, content text NOT NULL)');
-query = client.query('INSERT INTO quotes VALUES($1,$2)', [quotes[0].author,quotes[0].text]);
-query = client.query('INSERT INTO quotes VALUES($1,$2)', [quotes[1].author,quotes[1].text]);
-query = client.query('INSERT INTO quotes VALUES($1,$2)', [quotes[2].author,quotes[2].text]);
-query = client.query('INSERT INTO quotes VALUES($1,$2)', [quotes[3].author,quotes[3].text]);
+query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[0].author,quotes[0].text]);
+query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[1].author,quotes[1].text]);
+query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[2].author,quotes[2].text]);
+query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[3].author,quotes[3].text]);
 query.on('end', function(result) { client.end(); });
 
 
