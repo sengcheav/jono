@@ -17,7 +17,11 @@ var cors = require('cors');
 // instantiate app
 var app = express();
 
+
+
 var numberQuotes = 3;
+var token = 0;   
+validTokens = [];                                                                // LOCAL VARIABLE TO STORE NUMBER OF QUOTES STORED
 
 
 client = new pg.Client(connectionString);
@@ -35,19 +39,41 @@ app.use(cors());
 
 
 
-app.get('/quote/all', function(req,res) {
+//TODO TEST ALL METHODS IN ALL WAYS AMUCHAP
+//ALL ERROR CHECKS AND PRECOND CHECKS
+//FUTURE: LOCAL VARIABLES NOT GOOD PRACTICE INCASE SERVER CRASHES - THEY WILL BE RESET
+//MODIFY OTHER METHODS TO USE THE TOKEN
+
+
+
+
+
+
+
+
+app.get('/quote/all', function(req,res) {                                         //ACCESS DATABASE AND RETURN ALL QUOTES HELD
+  // precheck - are there quotes held?
+  if(numberQuotes<=0){
+    res.statusCode = 404;
+    return res.send('There are no quotes to access!');
+  }
   var results = [];
-
+  // query - select all quotes from database
   query = client.query('SELECT * FROM quotes', function(error, result){
-
-    
+    // return psql error to client if it occurs
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
   });
 
   query.on('row', function(row) {
+    // add all quotes from query to results array
     results.push(row);
   });
 
   query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
     return res.send(JSON.stringify(results, null, 3)); client.end();
 
   });
@@ -55,12 +81,26 @@ app.get('/quote/all', function(req,res) {
 });
 
 app.get('/quote/random', function(req, res) {
+  // precheck - are there quotes held?
+  if(numberQuotes<=0){
+    res.statusCode = 404;
+    return res.send('There are no quotes to access!');
+  }
+
   var key = Math.floor(Math.random() * numberQuotes);
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+    // query - select a random quote from database using a random number variable
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key], function(error, result){
+      // return psql error to client if it occurs
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+  });
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find random quote');
     }else{
+          // when result has been returned, return them to the client
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
@@ -73,6 +113,7 @@ app.get('/quote/random', function(req, res) {
 
 
 app.get('/quote/:id', function(req, res) {
+  //prechecks - id is valid
   if(req.params.id < 1) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
@@ -81,19 +122,34 @@ app.get('/quote/:id', function(req, res) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
   }
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
+      // query - select quote from database using a id variable provided in HTTP header
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id], function(error, result){
+          // return psql error to client if it occurs
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+
+  });
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find quote with this id');
     }else{
+                // when result has been returned, return them to the client
     res.send('author: '+ result.author +', quote:' + result.content);
     }
+  });
+  query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
+    client.end();
+
   });
 });
 
 
 
 app.post('/quote', function(req, res) {
+  //precheck - http header has enough information
   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
     res.statusCode = 400;
     return res.send('Error 400: Post syntax incorrect.');
@@ -103,18 +159,139 @@ app.post('/quote', function(req, res) {
     author : req.body.author,
     text : req.body.text
   };
-  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
+        // query - insert quote into database using info provided by client in http header
+  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text],function(error,result){
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+
+  });
+  //locally update the number of quotes held in the database
   numberQuotes++;
+  // inform the client of success
   res.send('added quote!');
+
+    query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
+    client.end();
+
+  });
 });
 
 
+//RESTful method for user login - post
+app.post('/login',function(req,res){
+  //precheck - http header has enough information
+  if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
+    res.statusCode = 400;
+    return res.send('Error 400: Username or Password missing');
+  }
+  //prelim check for security - without accessing information, does this username even exist?
+  query = client.query('SELECT username, password FROM users u WHERE u.username = $1 && u.password = $2', [req.params.username, req.params.password], function(error,result){
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+  });
+  query.on('row',function(result){
+    if(!result){
+      res.statusCode = 400;
+      return res.send('No user with this username exists, or the password is incorrect!');
+    }
+    else{
+      if(result.loggedin == true){
+        res.statusCode = 400;
+        return res.send('this user is already logged in!');
+      }
+      else{
+        var token = accessTokenUp();
+        query2 = client.query('UPDATE users SET loggedin = true, accessToken = $1 WHERE username = $2', [token,req.params.username], function(error, result){
+          if (error){
+            res.statusCode = 500;
+              return res.send('ERROR: '+ error.message);
+          }
+        });
+        res.statusCode = 200;
+        return res.send('Login successful!' + token);
+        query2.on('end', function() {
+          client.end();
+        });
+      }
+    }
+  });
+  query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
+    client.end();
+  });
+});
+
+app.post('/logout',function(req,res){
+  if(!req.body.hasOwnProperty('token')) {
+    res.statusCode = 400;
+    return res.send('Error 400: Access token missing!');
+  }
+  //Check the clients provided access token is one of the valid access tokens
+  if(!tokenAllowed(req.params.token)){
+    res.statusCode = 400;
+    return res.send('Invalid Access token!');
+  }
+  query = client.query('SELECT accessToken FROM users u WHERE u.accessToken = $1',[req.params.token],function(error,result){
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+  });
+  query.on('row', function(result){
+    if(!result){
+      res.statusCode = 400;
+      return res.send('User with this access token is not logged in!');
+    }
+    else{
+      query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [null,req.params.token], function(error, result){
+      if (error){
+        res.statusCode = 500;
+        return res.send('ERROR: '+ error.message);
+      }
+      });
+      res.statusCode = 200;
+      return res.send('logout successful!');
+      removeToken(req.params.token);
+      query2.on('end', function() {
+        client.end();
+      });
+    }
+  });
+  query.on('end', function() {
+    client.end();
+  });
+});
+
+
+
+function accessTokenUp(){
+  temp = token;
+  token++;
+  return temp;
+}
+
+function tokenAllowed(token){
+  return (validTokens.indexOf(token) != -1);
+}
+
+function removeToken(token){
+  var remove = validTokens.indexOf(token);
+  if(remove != -1) {
+    validTokens.splice(i, 1);
+  }
+}
 
 
 
 
 ///////////////////////////////////
 app.delete('/quote/:id', function(req, res) {
+  //precheck - provided id is valid
   if(req.params.id < 1) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found');
@@ -123,9 +300,24 @@ app.delete('/quote/:id', function(req, res) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found');
   }
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
+          // query - remove quote from database using id provided by client in http header
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id],function(error,result){
+    if (error){
+      res.statusCode = 500;
+      return res.send('ERROR: '+ error.message);
+    }
+
+  });
+    //locally update the number of quotes held in the database
   numberQuotes--;
+    // inform the client of success
   res.send('quote removed!');
+
+    query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
+    client.end();
+
+  });
 });
 ///////////////////////////////////
 

@@ -4,7 +4,7 @@ var pg = require('pg').native
   , query;
 
 
-
+//QUOTES TO BE INITIALLY ADDED TO DATABASE
 var quotes = [
   { author : 'Audrey Hepburn', text : "Nothing is impossible, the word itself says 'I'm possible'!"},
   { author : 'Walt Disney', text : "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you"},
@@ -14,14 +14,19 @@ var quotes = [
 
 
 
-
+//CREATE DATABASE CONECTION
 client = new pg.Client(connectionString);
 client.connect();
+//CREATE A SCHEMA - quotes
 query = client.query('CREATE TABLE quotes(tablekey serial, author text PRIMARY KEY, content text NOT NULL)');
+
+//POPULATE THE QUOTES SCHEMA
 query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[0].author,quotes[0].text]);
 query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[1].author,quotes[1].text]);
 query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[2].author,quotes[2].text]);
 query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [quotes[3].author,quotes[3].text]);
+
+//CALLBACK TO END DATABASE CONNECTION
 query.on('end', function(result) { client.end(); });
 
 
