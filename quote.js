@@ -32,9 +32,21 @@ app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
+
+
+
 app.get('/quote/all', function(req,res) {
-  console.log("quote all called");
-  res.send("quote all called");
+  var results = [];
+
+  query = client.query('SELECT author as a, content as c FROM quotes');
+    query.on('row', function(result) {
+    if(!result){
+      return res.send('cannot return all quotes');
+    }else{
+    results.push(row);
+    }
+  });
+    return res.json(results);
 });
 
 var numberQuotes = 3;
@@ -52,8 +64,6 @@ app.get('/quote/random', function(req, res) {
 });
 
 
-//DELETE /quote/:id
-//Add an extra RESTful method GET /quote/all that returns the contents of the quotes database.
 
 
 
@@ -108,7 +118,7 @@ app.delete('/quote/:id', function(req, res) {
   }
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
   numberQuotes--;
-  res.send('added removed!');
+  res.send('quote removed!');
 });
 ///////////////////////////////////
 
