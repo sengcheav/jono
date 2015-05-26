@@ -80,20 +80,20 @@ app.get('/quote/:id', function(req, res) {
 
 
 
-// app.post('/quote', function(req, res) {
-//   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
-//     res.statusCode = 400;
-//     return res.send('Error 400: Post syntax incorrect.');
-//   }
+app.post('/quote', function(req, res) {
+  if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
+    res.statusCode = 400;
+    return res.send('Error 400: Post syntax incorrect.');
+  }
 
-//   var newQuote = {
-//     author : req.body.author,
-//     text : req.body.text
-//   };
-//   query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
-//   numberQuotes++;
-//   res.send('added quote!');
-// });
+  var newQuote = {
+    author : req.body.author,
+    text : req.body.text
+  };
+  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
+  numberQuotes++;
+  res.send('added quote!');
+});
 
 
 
