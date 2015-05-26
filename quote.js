@@ -38,7 +38,10 @@ app.use(cors());
 app.get('/quote/all', function(req,res) {
   var results = [];
 
-  query = client.query('SELECT * FROM quotes');
+  query = client.query('SELECT * FROM quotes', function(error, result){
+
+    
+  });
 
   query.on('row', function(row) {
     results.push(row);
