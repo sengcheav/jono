@@ -55,9 +55,18 @@ app.get('/quote/random', function(req, res) {
   var key = Math.floor(Math.random() * numberQuotes);
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
   query.on('row', function(result) {
-  res.send('author: '+ result.author +', quote:' + result.content);
+    if(!result){
+      return res.send('cannot find random quote');
+    }else{
+    res.send('author: '+ result.author +', quote:' + result.content);
+    }
   });
 });
+
+
+
+
+
 
 
 app.get('/quote/:id', function(req, res) {
@@ -69,13 +78,13 @@ app.get('/quote/:id', function(req, res) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
   }
-
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
   query.on('row', function(result) {
+    if(!result){
+      return res.send('cannot find quote with this id');
+    }else{
     res.send('author: '+ result.author +', quote:' + result.content);
-  });
-  query.on('end', function() {
-    client.end();
+    }
   });
 });
 
@@ -94,9 +103,6 @@ app.post('/quote', function(req, res) {
   query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
   numberQuotes++;
   res.send('added quote!');
-  query.on('end', function() {
-    client.end();
-  });
 });
 
 
@@ -108,20 +114,18 @@ app.post('/quote', function(req, res) {
 app.delete('/quote/:id', function(req, res) {
   if(req.params.id < 1) {
     res.statusCode = 404;
-    return res.send('No quote found');
+    return res.send('Error 404: No quote found');
   }
   if(req.params.id > numberQuotes){
     res.statusCode = 404;
-    return res.send('No quote found');
+    return res.send('Error 404: No quote found');
   }
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
   numberQuotes--;
   res.send('quote removed!');
-    query.on('end', function() {
-        client.end();
-  });
 });
 ///////////////////////////////////
+
 
 
 
