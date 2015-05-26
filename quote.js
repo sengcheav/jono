@@ -32,10 +32,6 @@ app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
-app.get('/',function(req,res){
-  res.render('index.html');
-});
-
 app.get('/quote/all', function(req,res) {
   console.log("quote all called");
   res.send("quote all called");
@@ -50,6 +46,7 @@ app.get('/quote/random', function(req, res) {
       return res.send('cannot find random quote');
     }else{
     res.send('author: '+ result.author +', quote:' + result.content);
+    }
   });
 });
 
