@@ -59,31 +59,27 @@ app.get('/quote/random', function(req, res) {
 
 
 
-/////////////////////////////////////////
-// app.get('/quote/:id', function(req, res) {
-//   if(req.params.id < 1) {
-//     res.statusCode = 404;
-//     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
-//   }
-//   if(req.params.id > numberQuotes){
-//     res.statusCode = 404;
-//     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
-//   }
-//   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
-//   query.on('row', function(result) {
-//     if(!result){
-//       return res.send('cannot find quote with this id');
-//     }else{
-//     res.send('author: '+ result.author +', quote:' + result.content);
-//     }
-//   });
-// });
-// //////////////////////////
+app.get('/quote/:id', function(req, res) {
+  if(req.params.id < 1) {
+    res.statusCode = 404;
+    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
+  }
+  if(req.params.id > numberQuotes){
+    res.statusCode = 404;
+    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
+  }
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
+  query.on('row', function(result) {
+    if(!result){
+      return res.send('cannot find quote with this id');
+    }else{
+    res.send('author: '+ result.author +', quote:' + result.content);
+    }
+  });
+});
 
 
 
-
-// //////////////////////////
 // app.post('/quote', function(req, res) {
 //   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
 //     res.statusCode = 400;
@@ -98,7 +94,6 @@ app.get('/quote/random', function(req, res) {
 //   numberQuotes++;
 //   res.send('added quote!');
 // });
-///////////////////////////////////
 
 
 
