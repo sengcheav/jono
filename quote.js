@@ -37,6 +37,7 @@ app.get('/quote/all', function(req,res) {
   res.send("quote all called");
 });
 
+var numberQuotes = 3;
 
 app.get('/quote/random', function(req, res) {
   var key = Math.floor(Math.random() * numberQuotes);
