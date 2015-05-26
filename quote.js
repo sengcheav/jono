@@ -40,11 +40,7 @@ app.get('/quote/all', function(req,res) {
 
   query = client.query('SELECT * FROM quotes');
     query.on('row', function(row) {
-    if(!row){
-      return res.send('cannot return all quotes');
-    }else{
     results.push(row);
-    }
   });
     query.on('end', function() {
       client.end();
@@ -56,18 +52,9 @@ app.get('/quote/random', function(req, res) {
   var key = Math.floor(Math.random() * numberQuotes);
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
   query.on('row', function(result) {
-    if(!result){
-      return res.send('cannot find random quote');
-    }else{
-              res.send('author: '+ result.author +', quote:' + result.content);
-    }
+  res.send('author: '+ result.author +', quote:' + result.content);
   });
 });
-
-
-
-
-
 
 
 app.get('/quote/:id', function(req, res) {
@@ -79,16 +66,13 @@ app.get('/quote/:id', function(req, res) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
   }
+
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
   query.on('row', function(result) {
-    if(!result){
-      return res.send('cannot find quote with this id');
-    }else{
     res.send('author: '+ result.author +', quote:' + result.content);
-    }
   });
-    query.on('end', function() {
-        client.end();
+  query.on('end', function() {
+    client.end();
   });
 });
 
@@ -107,8 +91,8 @@ app.post('/quote', function(req, res) {
   query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
   numberQuotes++;
   res.send('added quote!');
-    query.on('end', function() {
-        client.end();
+  query.on('end', function() {
+    client.end();
   });
 });
 
