@@ -43,7 +43,7 @@ app.use(cors());
 //ALL ERROR CHECKS AND PRECOND CHECKS
 //FUTURE: LOCAL VARIABLES NOT GOOD PRACTICE INCASE SERVER CRASHES - THEY WILL BE RESET
 //MODIFY OTHER METHODS TO USE THE TOKEN
-
+// go through each api make sense? do what supposed to?
 
 
 
@@ -103,6 +103,11 @@ app.get('/quote/random', function(req, res) {
           // when result has been returned, return them to the client
     res.send('author: '+ result.author +', quote:' + result.content);
     }
+  });
+  query.on('end', function() {
+    // when all results have been returned, return them to the client, using stringify() of json
+    client.end();
+
   });
 });
 
