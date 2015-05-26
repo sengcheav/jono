@@ -52,11 +52,6 @@ app.get('/quote/random', function(req, res) {
 });
 
 
-
-
-
-//Modify 
-//GET /quote/random,
 // GET /quote/:id, 
 //POST /quote and 
 //DELETE /quote/:id
@@ -72,9 +67,14 @@ app.get('/quote/:id', function(req, res) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found');
   }
-
-  var q = quotes[req.params.id];
-  res.send(q);
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
+  query.on('row', function(result) {
+    if(!result){
+      return res.send('cannot find quote with this id');
+    }else{
+    res.send('author: '+ result.author +', quote:' + result.content);
+    }
+  });
 });
 
 app.post('/quote', function(req, res) {
