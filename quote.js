@@ -39,12 +39,14 @@ app.get('/quote/all', function(req,res) {
   var results = [];
 
   query = client.query('SELECT * FROM quotes');
-    query.on('row', function(row) {
+
+  query.on('row', function(row) {
     results.push(row);
   });
-    query.on('end', function() {
-               return res.json(results); client.end();
-    });
+
+  query.on('end', function() {
+    return res.JSON.stringify(results,null,4); client.end();
+  });
 
 });
 
