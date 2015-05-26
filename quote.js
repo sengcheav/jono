@@ -38,7 +38,7 @@ app.use(cors());
 app.get('/quote/all', function(req,res) {
   var results = [];
 
-  query = client.query('SELECT author as a, content as c FROM quotes');
+  query = client.query('SELECT * FROM quotes');
     query.on('row', function(result) {
     if(!result){
       return res.send('cannot return all quotes');
