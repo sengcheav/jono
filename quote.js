@@ -276,7 +276,7 @@ app.post('/logout',function(req,res){
 
 
 app.get('/',function(req,res){
-  res.render('form.html');
+  res.sendFile('form.html');
 });
 
 
