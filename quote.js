@@ -105,11 +105,6 @@ app.get('/quote/random', function(req, res) {
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
-  query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    client.end();
-
-  });
 });
 
 
@@ -145,11 +140,6 @@ app.get('/quote/:id', function(req, res) {
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
-  query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    client.end();
-
-  });
 });
 
 
@@ -178,11 +168,6 @@ app.post('/quote', function(req, res) {
   // inform the client of success
   res.send('added quote!');
 
-    query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    client.end();
-
-  });
 });
 
 
@@ -220,16 +205,10 @@ app.post('/login',function(req,res){
         });
         res.statusCode = 200;
         return res.send('Login successful!' + token);
-        query2.on('end', function() {
-          client.end();
-        });
       }
     }
   });
-  query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    client.end();
-  });
+
 });
 
 app.post('/logout',function(req,res){
@@ -263,14 +242,9 @@ app.post('/logout',function(req,res){
       res.statusCode = 200;
       return res.send('logout successful!');
       removeToken(req.body.token);
-      query2.on('end', function() {
-        client.end();
-      });
     }
   });
-  query.on('end', function() {
-    client.end();
-  });
+
 });
 
 
@@ -320,10 +294,6 @@ app.delete('/quote/:id', function(req, res) {
     // inform the client of success
   res.send('quote removed!');
 
-    query.on('end', function() {
-      client.end();
-
-  });
 });
 ///////////////////////////////////
 
