@@ -19,8 +19,7 @@ var app = express();
 
 
 
-var numberQuotes = 3;
-var token = 0;   
+var numberQuotes = 3;  
 validTokens = [];                                                                // LOCAL VARIABLE TO STORE NUMBER OF QUOTES STORED
 
 
@@ -32,7 +31,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // serve up files from this directory 
-//app.use(express.static(__dirname));
+app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
@@ -195,14 +194,14 @@ app.post('/login',function(req,res){
     return res.send('Error 400: Username or Password missing');
   }
   //prelim check for security - without accessing information, does this username even exist?
-  query = client.query('SELECT username, password FROM users u WHERE u.username = $1 && u.password = $2', [req.params.username, req.params.password], function(error,result){
+  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password], function(error,result){
     if (error){
       res.statusCode = 500;
       return res.send('ERROR: '+ error.message);
     }
   });
   query.on('row',function(result){
-    if(!result){
+    if(result.count == 0){
       res.statusCode = 400;
       return res.send('No user with this username exists, or the password is incorrect!');
     }
@@ -213,7 +212,7 @@ app.post('/login',function(req,res){
       }
       else{
         var token = accessTokenUp();
-        query2 = client.query('UPDATE users SET loggedin = true, accessToken = $1 WHERE username = $2', [token,req.params.username], function(error, result){
+        query2 = client.query('UPDATE users SET loggedin = true, accessToken = $1 WHERE username = $2', [token,req.body.username], function(error, result){
           if (error){
             res.statusCode = 500;
               return res.send('ERROR: '+ error.message);
@@ -243,19 +242,19 @@ app.post('/logout',function(req,res){
     res.statusCode = 400;
     return res.send('Invalid Access token!');
   }
-  query = client.query('SELECT accessToken FROM users u WHERE u.accessToken = $1',[req.params.token],function(error,result){
+  query = client.query('SELECT Count(accessToken) FROM users u WHERE u.accessToken = $1',[req.body.token],function(error,result){
     if (error){
       res.statusCode = 500;
       return res.send('ERROR: '+ error.message);
     }
   });
   query.on('row', function(result){
-    if(!result){
+    if(result.count == 0){
       res.statusCode = 400;
       return res.send('User with this access token is not logged in!');
     }
     else{
-      query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [null,req.params.token], function(error, result){
+      query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [-1,req.body.token], function(error, result){
       if (error){
         res.statusCode = 500;
         return res.send('ERROR: '+ error.message);
@@ -263,7 +262,7 @@ app.post('/logout',function(req,res){
       });
       res.statusCode = 200;
       return res.send('logout successful!');
-      removeToken(req.params.token);
+      removeToken(req.body.token);
       query2.on('end', function() {
         client.end();
       });
@@ -275,20 +274,11 @@ app.post('/logout',function(req,res){
 });
 
 
-app.get('/',function(req,res){
-  res.sendFile(__dirname + '/form.html');
-});
-
-
-app.post('/test',function(req,res){
-  res.send(req.body.username + ',' + req.body.password);
-
-});
-
 
 function accessTokenUp(){
   temp = token;
   token++;
+  validTokens.push(temp);
   return temp;
 }
 
@@ -331,8 +321,7 @@ app.delete('/quote/:id', function(req, res) {
   res.send('quote removed!');
 
     query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    client.end();
+      client.end();
 
   });
 });
