@@ -44,6 +44,8 @@ app.use(cors());
 //FUTURE: LOCAL VARIABLES NOT GOOD PRACTICE INCASE SERVER CRASHES - THEY WILL BE RESET
 //MODIFY OTHER METHODS TO USE THE TOKEN
 // go through each api make sense? do what supposed to?
+//random doesnt like query.on('end'){ client.end();}
+// test post and delete methods
 
 
 
@@ -272,6 +274,16 @@ app.post('/logout',function(req,res){
   });
 });
 
+
+app.get('/',function(req,res){
+  res.render('form.html');
+});
+
+
+app.post('/test',function(req,res){
+  res.send(req.body.username + ',' + req.body.password);
+
+});
 
 
 function accessTokenUp(){
