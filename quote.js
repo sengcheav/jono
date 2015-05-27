@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // serve up files from this directory 
-app.use(express.static(__dirname));
+//app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
