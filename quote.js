@@ -276,7 +276,7 @@ app.post('/logout',function(req,res){
 
 
 app.get('/',function(req,res){
-  res.sendFile('form.html');
+  res.sendFile(__dirname + '/form.html');
 });
 
 
