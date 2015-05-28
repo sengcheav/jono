@@ -158,9 +158,9 @@ app.post('/quote', function(req, res) {
 });
 
 
-function giveMeAToken(password){
+function giveMeAToken(given){
   console.log('in giveMeAToken()');
-  password(password).hash(function(error, hash) {
+  password(given).hash(function(error, hash) {
   if(error){ throw new Error('Something went wrong!'); }
   return hash;     
   });
@@ -246,8 +246,7 @@ app.post('/login',function(req,res){
           }
         });
         res.statusCode = 200;
-        //Document.cookie.add(token);
-        // return res.send('Login successful!' + token);
+        res.sendFile(path.join(__dirname, '/www', 'home.html'));
       }
     }
   });
