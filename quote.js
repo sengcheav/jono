@@ -248,7 +248,7 @@ app.post('/login',function(req,res){
           }
         });
         res.statusCode = 200;
-        res.sendFile(path.join(__dirname, '/www', 'home.html'));
+        res.send(token);
       }
     }
   });
