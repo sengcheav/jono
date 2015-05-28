@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
 var password = require('password-hash-and-salt');
-var numberQuotes = 3;                                                                
+var numberQuotes = 3;     
+var path = require('path');                                                           
 
 
 client = new pg.Client(connectionString);
@@ -162,6 +163,7 @@ function giveMeAToken(given){
   console.log('in giveMeAToken()');
   password(given).hash(function(error, hash) {
   if(error){ throw new Error('Something went wrong!'); }
+  console.log('hash is: ' + hash);
   return hash;     
   });
 }
