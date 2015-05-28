@@ -1,38 +1,21 @@
-// use the express middleware
-//var express = require('express');
-
-var express = require('express')
-  , pg = require('pg').native
-  , connectionString = process.env.DATABASE_URL
-  , start = new Date()
-  , port = process.env.PORT
-  , client;
-
-// make express handle JSON and other requests
+var express = require('express');
+var pg = require('pg').native;
+var connectionString = process.env.DATABASE_URL;
+var start = new Date();
+var port = process.env.PORT;
+var client;
 var bodyParser = require('body-parser');
-
-// use cross origin resource sharing
 var cors = require('cors');
-
-// instantiate app
 var app = express();
-
-
-
-var numberQuotes = 3;  
-validTokens = [];                                                                // LOCAL VARIABLE TO STORE NUMBER OF QUOTES STORED
+var password = require('password-hash-and-salt');
+var numberQuotes = 3;                                                                
 
 
 client = new pg.Client(connectionString);
 client.connect();
-
-// make sure we can parse JSON passed in the body or encoded into url
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-
-// serve up files from this directory 
-app.use(express.static(__dirname));
-// make sure we use CORS to avoid cross domain problems
+app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
@@ -45,6 +28,10 @@ app.use(cors());
 // go through each api make sense? do what supposed to?
 //random doesnt like query.on('end'){ client.end();}
 // test post and delete methods
+
+
+//CREATE A BASIC CLIENT TO TEST
+//add on query end
 
 
 
@@ -171,8 +158,54 @@ app.post('/quote', function(req, res) {
 });
 
 
+function giveMeAToken(password){
+  console.log('in giveMeAToken()');
+  password(password).hash(function(error, hash) {
+  if(error){ throw new Error('Something went wrong!'); }
+  return hash;     
+  });
+}
+
+function tokenAllowed(username,userToken){
+  console.log('in tokenAllowed()');
+  console.log('checkig provided token in database');
+      query = client.query = ('SELECT token FROM users u WHERE u.username = $1',[username],function(error,result){
+        if (error){
+          res.statusCode = 500;
+          return res.send('ERROR: '+ error.message);
+        }
+      });
+      query.on('row', function(result){
+      console.log('results obtained, performing check');
+        password(userToken).verifyAgainst(result.token, function(error, verified) {
+        if(error){
+          res.statusCode = 500;
+          return res.send('ERROR: '+ error.message);
+        }    
+        if(!verified) {
+          console.log('token has not been verified, returning false');
+          res.statusCode = 400;
+          return false;
+        }else{
+          console.log('token has been verified, returning true');
+          return true;
+        }
+        });
+      });
+      query.on('end',function(){
+        client.end();
+      });
+
+}
+
+
+
+
+
+
 //RESTful method for user login - post
 app.post('/login',function(req,res){
+  console.log('starting logon');
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
     res.statusCode = 400;
@@ -186,25 +219,35 @@ app.post('/login',function(req,res){
     }
   });
   query.on('row',function(result){
+    console.log('accessed database');
     if(result.count == 0){
+      console.log('no results found');
       res.statusCode = 400;
       return res.send('No user with this username exists, or the password is incorrect!');
     }
     else{
+      console.log('database does contain this username password combonation');
       if(result.loggedin == true){
+        console.log('this user is already logged in');
         res.statusCode = 400;
         return res.send('this user is already logged in!');
       }
       else{
-        var token = accessTokenUp();
+        console.log('user is not logged in, generating a token');
+        var token = giveMeAToken(req.body.password);
+        console.log('given username: '+ req.body.username);
+        console.log('given password: '+ req.body.password);
+        console.log('generated token from password: '+ token);
         query2 = client.query('UPDATE users SET loggedin = true, accessToken = $1 WHERE username = $2', [token,req.body.username], function(error, result){
+        console.log('user set to loggen on, hash token stored in their account');
           if (error){
             res.statusCode = 500;
               return res.send('ERROR: '+ error.message);
           }
         });
         res.statusCode = 200;
-        return res.send('Login successful!' + token);
+        //Document.cookie.add(token);
+        // return res.send('Login successful!' + token);
       }
     }
   });
@@ -212,15 +255,18 @@ app.post('/login',function(req,res){
 });
 
 app.post('/logout',function(req,res){
+  console.log('attempting to log out');
   if(!req.body.hasOwnProperty('token')) {
     res.statusCode = 400;
     return res.send('Error 400: Access token missing!');
   }
   //Check the clients provided access token is one of the valid access tokens
-  if(!tokenAllowed(req.params.token)){
+  if(!tokenAllowed(req.body.token)){
+    console.log('checking token is allowed');
     res.statusCode = 400;
     return res.send('Invalid Access token!');
   }
+  console.log('token check complete, token allowed')
   query = client.query('SELECT Count(accessToken) FROM users u WHERE u.accessToken = $1',[req.body.token],function(error,result){
     if (error){
       res.statusCode = 500;
@@ -229,43 +275,29 @@ app.post('/logout',function(req,res){
   });
   query.on('row', function(result){
     if(result.count == 0){
+      console.log('this acces token does not exist');
       res.statusCode = 400;
       return res.send('User with this access token is not logged in!');
     }
     else{
-      query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [-1,req.body.token], function(error, result){
+      console.log('appropriate user account found, attempting to log out');
+      query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [null,req.body.token], function(error, result){
+      console.log('user account set to logged out, access token set to null');
       if (error){
         res.statusCode = 500;
         return res.send('ERROR: '+ error.message);
       }
       });
       res.statusCode = 200;
+      console.log('log out successful');
       return res.send('logout successful!');
-      removeToken(req.body.token);
+      //remove token
     }
   });
 
 });
 
 
-
-function accessTokenUp(){
-  temp = token;
-  token++;
-  validTokens.push(temp);
-  return temp;
-}
-
-function tokenAllowed(token){
-  return (validTokens.indexOf(token) != -1);
-}
-
-function removeToken(token){
-  var remove = validTokens.indexOf(token);
-  if(remove != -1) {
-    validTokens.splice(i, 1);
-  }
-}
 
 
 

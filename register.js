@@ -18,11 +18,11 @@ client = new pg.Client(connectionString);
 client.connect();
 
 //CREATE A SCHEMA - users
-query = client.query('CREATE TABLE users(userid serial, username text PRIMARY KEY, password text NOT NULL, loggedIn boolean, accessToken INTEGER)');
-query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[0].username,users[0].password,false,-1]);
-query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[1].username,users[1].password,false,-1]);
-query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[2].username,users[2].password,false,-1]);
-query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[3].username,users[3].password,false,-1]);
+query = client.query('CREATE TABLE users(userid serial, username text PRIMARY KEY, password text NOT NULL, loggedIn boolean, accessToken text)');
+query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[0].username,users[0].password,false,null]);
+query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[1].username,users[1].password,false,null]);
+query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[2].username,users[2].password,false,null]);
+query = client.query('INSERT INTO users(username,password,loggedin) VALUES($1,$2)', [users[3].username,users[3].password,false,null]);
 
 
 //CALLBACK TO END DATABASE CONNECTION
