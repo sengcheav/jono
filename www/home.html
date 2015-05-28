@@ -1,17 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Title of the document</title>
-</head>
+    <title>Page Title</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+</head>
 <body>
+<!-- Start of first page -->
+<div data-role="page" id="foo">
+
+    <div data-role="header">
+        <h1>Foo</h1>
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content">
+
+        <label for="text-1">Get a quote:</label>
+        <input name="text-1" id="text1" value="1" type="text">
+        <input type="submit" value="Submit Button" id="button1" />
+
+	<!-- put the result here -->
+	<div id="result"  class="functions"></div>
+
+        <label for="text-2">Add a new quote:</label>
+        <input type="submit" value="Submit Button" id="button2" />
+
+
+
 <section class="container">
     <div class="login">
-      <h1>logout</h1>
-      <form method="post" action="/logout">
-        <p class="submit"><input type="submit" name="commit" value="Login"></p>
+      <h1>Login to Web App</h1>
+        <p><input type="text" name="username" value="" placeholder="Username" id = "username"></p>
+        <p><input type="password" name="password" value="" placeholder="Password" id = "password"></p>
+        <input type="submit" value="login" id="button4" />
       </form>
     </div>
   </section>
+
+        <input type="submit" value="Logout" id="button3" />
+    </div><!-- /content -->
+
+    <div data-role="footer">
+        <h4>Page Footer</h4>
+    </div><!-- /footer -->
+</div><!-- /page -->
+
+<script type="text/javascript">
+$(document).bind('pageinit', function() {
+
+  var hash;
+  
+  $.ajaxSetup ({
+    cache: false
+  });
+
+  $( "#button1" ).bind( "click", function(event, ui) {
+    var q = $("#text1").val();
+
+    var jsonUrl = "https://calm-bastion-2419.herokuapp.com"+q;
+    alert("Fetching result from "+jsonUrl);
+    $.get(jsonUrl, function(data) {
+      alert(data.author);
+      $("#result").html("<p><b>"+data.author+" said "+data.text+"</b></p>")
+    }, 'json');
+  });
+
+
+  $( "#button2" ).bind( "click", function(event, ui) {
+
+    var jsonUrl = "https://calm-bastion-2419.herokuapp.com";
+    var newQuote = { "author" : "foo", "text" : "some text" };
+    $.post(jsonUrl, newQuote, function(data) {
+      alert("Added quote number " + data.pos + " " + data.author + " " + data.text);
+    }, 'json');
+  });
+
+    $( "#button3" ).bind( "click", function(event, ui) {
+    alert("logout button pressed");
+    var jsonUrl = "https://calm-bastion-2419.herokuapp.com/logout";
+
+    $.post(jsonUrl, hash, function(data) {
+      hash = null;
+  });
+
+    $( "#button4" ).bind( "click", function(event, ui) {
+    var username = $("#username").val();
+    var password = $("#password").val();
+
+    $.ajax({
+                    type: "POST",
+                    url : "https://calm-bastion-2419.herokuapp.com/login",
+                    data : username,password,
+                    success : function(data){
+                        console.log(data);
+                        hash = data;
+                    }
+    },"json");
+
+});
+</script>
 </body>
 </html>
