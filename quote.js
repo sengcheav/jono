@@ -10,6 +10,8 @@ var app = express();
 var password = require('password-hash-and-salt');
 var numberQuotes = 3;     
 var path = require('path');                                                           
+var randtoken = require('rand-token');
+
 
 
 client = new pg.Client(connectionString);
@@ -158,9 +160,14 @@ app.post('/quote', function(req, res) {
 
 });
 
+function rawToken(){
+  var token = randtoken.generate(16);
+}
+
 
 function giveMeAToken(given){
   console.log('in giveMeAToken()');
+  console.log('raw token is: '+given);
   password(given).hash(function(error, hash) {
   if(error){ throw new Error('Something went wrong!'); }
   console.log('hash is: ' + hash);
@@ -168,17 +175,22 @@ function giveMeAToken(given){
   });
 }
 
-function tokenAllowed(username,userToken){
+function tokenAllowed(userToken){
   console.log('in tokenAllowed()');
   console.log('checkig provided token in database');
-      query = client.query = ('SELECT token FROM users u WHERE u.username = $1',[username],function(error,result){
+      query = client.query = ('SELECT token FROM activeTokens a WHERE a.token = $1',[userToken],function(error,result){
         if (error){
           res.statusCode = 500;
           return res.send('ERROR: '+ error.message);
         }
       });
       query.on('row', function(result){
-      console.log('results obtained, performing check');
+        if(!result){
+          console.log('This token does not exist!');
+          res.statusCode = 400;
+          return false;
+        }
+        console.log('results obtained, performing check');
         password(userToken).verifyAgainst(result.token, function(error, verified) {
         if(error){
           res.statusCode = 500;
@@ -236,10 +248,10 @@ app.post('/login',function(req,res){
       }
       else{
         console.log('user is not logged in, generating a token');
-        var token = giveMeAToken(req.body.password);
+        var token = giveMeAToken(rawToken());
         console.log('given username: '+ req.body.username);
         console.log('given password: '+ req.body.password);
-        console.log('generated token from password: '+ token);
+        console.log('generated token from randgen token: '+ token);
         query2 = client.query('UPDATE users SET loggedin = true, accessToken = $1 WHERE username = $2', [token,req.body.username], function(error, result){
         console.log('user set to loggen on, hash token stored in their account');
           if (error){

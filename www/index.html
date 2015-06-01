@@ -52,7 +52,7 @@
 <script type="text/javascript">
 $(document).bind('pageinit', function() {
 
-  var hash;
+  var token;
   
   $.ajaxSetup ({
     cache: false
@@ -79,26 +79,45 @@ $(document).bind('pageinit', function() {
     }, 'json');
   });
 
-    $( "#button3" ).bind( "click", function(event, ui) {
-    alert("logout button pressed");
-    var jsonUrl = "https://calm-bastion-2419.herokuapp.com/logout";
 
-    $.post(jsonUrl, hash, function(data) {
-      hash = null;
-  });
+
+
+    $( "#button3" ).bind( "click", function(event, ui) {
+      console.log('attempting to logout');
+    $.ajax({
+      type: "POST",
+      url : "https://calm-bastion-2419.herokuapp.com/logout",
+      data : token,
+      success : function(data){
+        console.log('logout post succesful, returned: '+ data)
+        token = data;
+      }
+      error: function(data) {
+         console.log('logout post returned error: '+ data);
+      }
+    },"json");
+
+
+
+
+
+
 
     $( "#button4" ).bind( "click", function(event, ui) {
     var username = $("#username").val();
     var password = $("#password").val();
-
+    console.log('button pressed to login, ajax post request being sent');
     $.ajax({
-                    type: "POST",
-                    url : "https://calm-bastion-2419.herokuapp.com/login",
-                    data : username,password,
-                    success : function(data){
-                        console.log(data);
-                        hash = data;
-                    }
+      type: "POST",
+      url : "https://calm-bastion-2419.herokuapp.com/login",
+      data : username,password,
+      success : function(data){
+        console.log('login post succesful, returned: '+ data)
+        token = data;
+      }
+      error: function(data) {
+         console.log('login post returned error: '+ data);
+      }
     },"json");
 
 });
