@@ -98,13 +98,6 @@ app.get('/quote/random', function(req, res) {
 });
 
 
-
-app.get('/',function(req,res){
-  res.sendFile(index.html);
-});
-
-
-
 app.get('/quote/:id', function(req, res) {
   //prechecks - id is valid
   if(req.params.id < 1) {
@@ -172,8 +165,7 @@ function giveMeAToken(given){
   console.log('raw token is: '+given);
   password(given).hash(function(error, hash) {
   if(error){
-    res.statusCode = 500;
-    return res.send('ERROR: '+ error.message); 
+    console.log('something went wrong!');
   }
   console.log('hash is: ' + hash);
   return hash;     
