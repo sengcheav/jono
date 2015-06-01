@@ -36,6 +36,9 @@ app.use(cors());
 //CREATE A BASIC CLIENT TO TEST
 //add on query end
 
+// go through all the steps / questions. all worknig?
+// does it work every way, will you get marks for it? ie will it be hard to recreate
+
 
 
 
@@ -176,7 +179,7 @@ function giveMeAToken(given){
 function tokenAllowed(userToken){
   console.log('in tokenAllowed()');
   console.log('checkig provided token in database');
-      query = client.query('SELECT token FROM activeTokens a WHERE a.token = $1',[userToken]);
+      query = client.query('SELECT accessToken FROM users u WHERE u.token = $1',[userToken]);
       query.on('row', function(result){
         if(!result){
           console.log('This token does not exist!');
