@@ -259,6 +259,7 @@ app.post('/login',function(req,res){
               return res.send('ERROR: '+ error.message);
           }
         });
+        console.log('login complete, returning user a token');
         res.statusCode = 200;
         res.send(token);
       }
