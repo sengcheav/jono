@@ -99,7 +99,9 @@ app.get('/quote/random', function(req, res) {
 
 
 
-
+app.get('/',function(req,res){
+  res.sendFile(index.html);
+});
 
 
 
