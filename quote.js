@@ -175,27 +175,16 @@ function giveMeAToken(given){
 function tokenAllowed(userToken){
   console.log('in tokenAllowed()');
   console.log('checkig provided token in database');
-      query = client.query = ('SELECT token FROM activeTokens a WHERE a.token = $1',[userToken],function(error,result){
-        if (error){
-          res.statusCode = 500;
-          return res.send('ERROR: '+ error.message);
-        }
-      });
+      query = client.query = ('SELECT token FROM activeTokens a WHERE a.token = $1',[userToken]);
       query.on('row', function(result){
         if(!result){
           console.log('This token does not exist!');
-          res.statusCode = 400;
           return false;
         }
         console.log('results obtained, performing check');
-        password(userToken).verifyAgainst(result.token, function(error, verified) {
-        if(error){
-          res.statusCode = 500;
-          return res.send('ERROR: '+ error.message);
-        }    
+        password(userToken).verifyAgainst(result.token, function(error, verified) {   
         if(!verified) {
           console.log('token has not been verified, returning false');
-          res.statusCode = 400;
           return false;
         }else{
           console.log('token has been verified, returning true');
