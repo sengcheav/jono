@@ -116,14 +116,7 @@ app.get('/quote/:id', function(req, res) {
     return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
   }
       // query - select quote from database using a id variable provided in HTTP header
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id], function(error, result){
-          // return psql error to client if it occurs
-    if (error){
-      res.statusCode = 500;
-      return res.send('ERROR: '+ error.message);
-    }
-
-  });
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find quote with this id');
