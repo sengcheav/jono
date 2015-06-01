@@ -92,7 +92,7 @@ $(document).bind('pageinit', function() {
         console.log('logout post succesful, returned: '+ data);
         alert('logged out!');
         token = data;
-      }
+      },
       error: function(data) {
          console.log('logout post returned error: '+ data);
          alert('! logged out!');
@@ -118,13 +118,13 @@ $(document).bind('pageinit', function() {
         console.log('login post succesful, returned: '+ data);
         token = data;
         alert('logged in!');
-      }
+      },
       error: function(data) {
          console.log('login post returned error: '+ data);
           alert('! logged in!');
       }
     },"json");
-      });
+  });
 
 });
 </script>
