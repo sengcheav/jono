@@ -157,6 +157,7 @@ app.post('/quote', function(req, res) {
 
 function rawToken(){
   var token = randtoken.generate(16);
+  return token;
 }
 
 
