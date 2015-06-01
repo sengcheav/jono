@@ -179,7 +179,7 @@ function giveMeAToken(given){
 function tokenAllowed(userToken){
   console.log('in tokenAllowed()');
   console.log('checkig provided token in database');
-      query = client.query('SELECT accessToken FROM users u WHERE u.token = $1',[userToken]);
+      query = client.query('SELECT accessToken FROM users u WHERE u.accessToken = $1',[userToken]);
       query.on('row', function(result){
         if(!result){
           console.log('This token does not exist!');
