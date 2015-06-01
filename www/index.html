@@ -87,7 +87,7 @@ $(document).bind('pageinit', function() {
     $.ajax({
       type: "POST",
       url : "https://calm-bastion-2419.herokuapp.com/logout",
-      data : token,
+      data : {token: token},
       success : function(data){
         console.log('logout post succesful, returned: '+ data);
         alert('logged out!');
@@ -113,7 +113,7 @@ $(document).bind('pageinit', function() {
     $.ajax({
       type: "POST",
       url : "https://calm-bastion-2419.herokuapp.com/login",
-      data : username,password,
+      data: {username: username, password: password},
       success : function(data){
         console.log('login post succesful, returned: '+ data);
         token = data;
