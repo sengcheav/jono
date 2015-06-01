@@ -17,10 +17,19 @@
       <p><input type="text" name="username" value="" placeholder="Username" id = "username"></p>
       <p><input type="password" name="password" value="" placeholder="Password" id = "password"></p>
       <p><input type="text" name="allQ" id = "all2"></p>
+      <p><input type="text" name="rQ" id = "random2"></p>
+      <p><input type="text" name="iQ" placeholder="id" id = "ID2"></p>
+      <p><input type="text" name="pQa" placeholder="postAuthor" id = "post2a"></p>
+      <p><input type="text" name="pQt" placeholder="postText" id = "post2t"></p>
+      <p><input type="text" name="dQ" placeholder="delete" id = "delete2"></p>
 
       <input type="submit" value="login" id="login" />
       <input type="submit" value="Logout" id="logout" />
       <input type="submit" value="allQuotes" id="all"/>
+      <input type="submit" value="random" id="random"/>
+      <input type="submit" value="ID" id="ID"/>
+      <p><input type="text" name="post" id = "post"></p>
+      <p><input type="text" name="delete" id = "delete"></p>
 
     </div>
 
@@ -33,6 +42,81 @@
         cache: false
       });
 
+        $( "#delete" ).bind( "click", function(event, ui) {
+          console.log('attempting to delete quote');
+          var d = $("delete2").val();
+        $.ajax({
+          type: "DELETE",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/id",
+          data: {id: d},
+          success : function(data){
+            alert('delete succesful');
+
+          },
+          error: function(data) {
+            alert('delete unsuccesful');
+          }
+        },"json");
+
+        });
+
+        $( "#post" ).bind( "click", function(event, ui) {
+          console.log('attempting to post quote');
+          var a = $("#post2a").val();
+          var t = $("#post2t").val();
+        $.ajax({
+          type: "POST",
+          url : "https://calm-bastion-2419.herokuapp.com/quote",
+          data: {author: a, text: t},
+          success : function(data){
+            alert('post  quote succesful');
+
+          },
+          error: function(data) {
+            alert('postquote unsuccesful');
+          }
+        },"json");
+
+        });
+
+
+
+        $( "#ID" ).bind( "click", function(event, ui) {
+          console.log('attempting to get id quote');
+          var id = $("#ID2").val();
+        $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/id",
+          data: {id: id},
+          success : function(data){
+            alert('get id quote succesful');
+            $('#ID2').val(data);
+
+          },
+          error: function(data) {
+            alert('get id quote unsuccesful');
+          }
+        },"json");
+
+        });
+
+
+        $( "#random" ).bind( "click", function(event, ui) {
+          console.log('attempting to get random quote');
+        $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/random",
+          success : function(data){
+            alert'get random quote succesful');
+            $('#random2').val(data);
+
+          },
+          error: function(data) {
+            alert('get random quote unsuccesful');
+          }
+        },"json");
+
+        });
 
 
         $( "#all" ).bind( "click", function(event, ui) {
@@ -41,12 +125,12 @@
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           success : function(data){
-            console.log('get all quotes succesful');
+            alert('get all quotes succesful');
             $('#all2').val(data);
 
           },
           error: function(data) {
-            console.log('get all quotes unsuccesful');
+            alert('get all quotes unsuccesful');
           }
         },"json");
 

@@ -40,7 +40,7 @@ app.use(cors());
 // does it work every way, will you get marks for it? ie will it be hard to recreate
 
 
-// on html page - need quote/all, quote/random, quote/id, post quote, delete quotes
+// on html page - need  , quote/id, post quote, delete quotes
 
 
 
