@@ -42,6 +42,8 @@ app.use(cors());
 
 // on html page - need  , quote/id, post quote, delete quotes
 
+// client side checks, server side checks, database checks
+
 
 
 
@@ -146,13 +148,7 @@ app.post('/quote', function(req, res) {
     text : req.body.text
   };
         // query - insert quote into database using info provided by client in http header
-  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text],function(error,result){
-    if (error){
-      res.statusCode = 500;
-      return res.send('ERROR: '+ error.message);
-    }
-
-  });
+  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
   //locally update the number of quotes held in the database
   numberQuotes++;
   // inform the client of success
