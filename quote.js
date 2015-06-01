@@ -171,7 +171,10 @@ function giveMeAToken(given){
   console.log('in giveMeAToken()');
   console.log('raw token is: '+given);
   password(given).hash(function(error, hash) {
-  if(error){ throw new Error('Something went wrong!'); }
+  if(error){
+    res.statusCode = 500;
+    return res.send('ERROR: '+ error.message); 
+  }
   console.log('hash is: ' + hash);
   return hash;     
   });
