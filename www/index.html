@@ -89,11 +89,13 @@ $(document).bind('pageinit', function() {
       url : "https://calm-bastion-2419.herokuapp.com/logout",
       data : token,
       success : function(data){
-        console.log('logout post succesful, returned: '+ data)
+        console.log('logout post succesful, returned: '+ data);
+        alert('logged out!');
         token = data;
       }
       error: function(data) {
          console.log('logout post returned error: '+ data);
+         alert('! logged out!');
       }
     },"json");
 
@@ -112,11 +114,13 @@ $(document).bind('pageinit', function() {
       url : "https://calm-bastion-2419.herokuapp.com/login",
       data : username,password,
       success : function(data){
-        console.log('login post succesful, returned: '+ data)
+        console.log('login post succesful, returned: '+ data);
         token = data;
+        alert('logged in!');
       }
       error: function(data) {
          console.log('login post returned error: '+ data);
+          alert('! logged in!');
       }
     },"json");
 
