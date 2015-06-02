@@ -83,18 +83,18 @@
 
         $( "#ID" ).bind( "click", function(event, ui) {
           console.log('attempting to get id quote');
-          var id = $("#ID2").val();
+          var i = $("#ID2").val();
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: id},
+          data: {id: i},
           success : function(data){
             alert('get id quote succesful');
             $('#ID2').val(data);
 
           },
           error: function(data) {
-            alert('get id quote unsuccesful');
+            alert('get id quote unsuccesful' + data);
           }
         },"json");
 
