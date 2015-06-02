@@ -47,7 +47,7 @@
           var d = $("delete2").val();
         $.ajax({
           type: "DELETE",
-          url : "https://calm-bastion-2419.herokuapp.com/quote/id",
+          url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {id: d},
           success : function(data){
             alert('delete succesful');
@@ -86,7 +86,7 @@
           var id = $("#ID2").val();
         $.ajax({
           type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/quote",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
           data: {id: id},
           success : function(data){
             alert('get id quote succesful');
