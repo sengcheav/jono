@@ -84,11 +84,10 @@
         $( "#ID" ).bind( "click", function(event, ui) {
           console.log('attempting to get id quote');
           var i = $("#ID2").val();
-          var ii = parseInt(i, 10);
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: ii},
+          data: {id: +i},
           success : function(data){
             alert('get id quote succesful');
             $('#ID2').val(data);
