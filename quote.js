@@ -222,7 +222,7 @@ app.post('/login',function(req,res){
     }
   });
   query.on('end',function(){
-    res.send(token);
+    res.write(token);
   });
 });
 
