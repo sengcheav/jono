@@ -219,6 +219,7 @@ app.post('/login',function(req,res){
       }
     }
   });
+  console.log('end of login with token: ' + token);
   res.send(token);
 });
 

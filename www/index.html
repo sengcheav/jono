@@ -37,6 +37,13 @@
     $(document).bind('pageinit', function() {
 
       var token;
+
+      function getThisToken(){
+        return window.token;
+      }
+      function setThisToken(gt){
+        window.token = gt;
+      }
       
       $.ajaxSetup ({
         cache: false
@@ -124,7 +131,7 @@
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
-          data : {token: token},
+          data : {token: getThisToken()},
           success : function(data){
             alert('get all quotes succesful');
             $('#all2').val(data);
@@ -143,12 +150,12 @@
         $.ajax({
           type: "POST",
           url : "https://calm-bastion-2419.herokuapp.com/logout",
-          data : {token: token},
+          data : {token: getThisToken()},
           success : function(data){
             alert('token before: '+token);
             console.log('logout post succesful, returned: '+ data);
             alert('logged out!');
-            token = data;
+            setThisToken(null);
             alert('token after: '+token);
           },
           error: function(data) {
@@ -170,15 +177,11 @@
           data: {username: username, password: password},
           success : function(data){
             alert(data);
-            alert('token before: '+token);
-            console.log('login post succesful, returned: '+ data);
             token = data;
-            alert('token after: '+token);
-            alert('logged in!');
           },
           error: function(data) {
-             console.log('login post returned error: '+ data);
-              alert('! logged in!');
+            alert(data);
+            alert('! logged in!');
           }
         },"json");
       });
