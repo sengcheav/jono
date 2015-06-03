@@ -174,6 +174,7 @@ function tokenAllowed(userToken){
 
 //RESTful method for user login - post
 app.post('/login',function(req,res){
+  var token = giveMeAToken(rawToken());
   console.log('starting logon');
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
@@ -203,7 +204,7 @@ app.post('/login',function(req,res){
       }
       else{
         console.log('user is not logged in, generating a token');
-        var token = giveMeAToken(rawToken());
+
         console.log('given username: '+ req.body.username);
         console.log('given password: '+ req.body.password);
         console.log('generated token from randgen token: '+ token);
@@ -216,11 +217,13 @@ app.post('/login',function(req,res){
         });
         console.log('login complete, returning user a token');
         res.statusCode = 200;
-        res.send(token);
+
       }
     }
   });
-
+  query.on('end',function(){
+    res.send(token);
+  });
 });
 
 app.post('/logout',function(req,res){
