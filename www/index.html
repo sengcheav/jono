@@ -169,6 +169,7 @@
           url : "https://calm-bastion-2419.herokuapp.com/login",
           data: {username: username, password: password},
           success : function(data){
+            alert(data);
             alert('token before: '+token);
             console.log('login post succesful, returned: '+ data);
             token = data;
