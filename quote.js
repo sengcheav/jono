@@ -219,10 +219,7 @@ app.post('/login',function(req,res){
       }
     }
   });
-  res.statusCode = 200;
-  res.writeHead(res.statusCode);
-  res.write(token);
-  res.end();
+  res.send(token);
 });
 
 app.post('/logout',function(req,res){
