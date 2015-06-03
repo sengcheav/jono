@@ -137,7 +137,6 @@ function giveMeAToken(given){
   console.log('1hash is: ' + hash);
   h = hash;     
   });
-  console.log('2hash is: ' + hash);
   console.log('h is: ' + h);
   return h;
 }
