@@ -174,7 +174,7 @@ function tokenAllowed(userToken){
 
 //RESTful method for user login - post
 app.post('/login',function(req,res){
-  var token = giveMeAToken(rawToken());
+  var token ;
   console.log('starting logon');
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
@@ -189,6 +189,7 @@ app.post('/login',function(req,res){
     }
   });
   query.on('row',function(result){
+    token = giveMeAToken(rawToken());
     console.log('accessed database');
     if(result.count == 0){
       console.log('no results found');
@@ -219,8 +220,10 @@ app.post('/login',function(req,res){
       }
     }
   });
-  console.log('end of login with token: ' + token);
-  res.send(token);
+  query.on('end',function(){
+    console.log('end of login with token: ' + token);
+    res.send(token);
+  });
 });
 
 app.post('/logout',function(req,res){
