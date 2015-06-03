@@ -127,15 +127,20 @@ function rawToken(){
 
 
 function giveMeAToken(given){
+
+  var token = [];
+
   console.log('in giveMeAToken()');
   console.log('raw token is: '+given);
   password(given).hash(function(error, hash) {
-  if(error){
-    console.log('something went wrong!');
-  }
-  console.log('hash is: ' + hash);
-  return hash;   
+  if(error){console.log('something went wrong!'); }
+
+  token.hash = hash; 
   });
+
+  console.log('token.hash = ' + token.hash);
+  return token.hash;
+
 }
 
 function tokenAllowed(userToken){
