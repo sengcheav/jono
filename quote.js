@@ -134,9 +134,11 @@ function giveMeAToken(given){
   if(error){
     console.log('something went wrong!');
   }
-  console.log('hash is: ' + hash);
+  console.log('1hash is: ' + hash);
   h = hash;     
   });
+  console.log('2hash is: ' + hash);
+  console.log('h is: ' + h);
   return h;
 }
 
