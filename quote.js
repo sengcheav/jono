@@ -22,11 +22,9 @@ app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
-app.get('/quote/all', function(req,res) {
-  if((req.params.token == null) || (!tokenAllowed(req.params.token))) {
-    res.statusCode = 401;
-    return res.send('Error 400: PYou are not logged in !');
-  }                                     
+
+
+app.get('/quote/all', function(req,res) {                                        
   // precheck - are there quotes held?
   if(numberQuotes<=0){
     res.statusCode = 404;
@@ -176,7 +174,6 @@ function tokenAllowed(userToken){
 
 //RESTful method for user login - post
 app.post('/login',function(req,res){
-
   console.log('starting logon');
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
@@ -191,7 +188,6 @@ app.post('/login',function(req,res){
     }
   });
   query.on('row',function(result){
-    var token = giveMeAToken(rawToken());
     console.log('accessed database');
     if(result.count == 0){
       console.log('no results found');
@@ -207,7 +203,7 @@ app.post('/login',function(req,res){
       }
       else{
         console.log('user is not logged in, generating a token');
-
+        var token = giveMeAToken(rawToken());
         console.log('given username: '+ req.body.username);
         console.log('given password: '+ req.body.password);
         console.log('generated token from randgen token: '+ token);
@@ -219,11 +215,12 @@ app.post('/login',function(req,res){
           }
         });
         console.log('login complete, returning user a token');
+        res.statusCode = 200;
+        res.send(token);
       }
     }
-    console.log('end of login with token: ' + token);
-    res.send(token);
   });
+
 });
 
 app.post('/logout',function(req,res){
