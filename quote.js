@@ -216,13 +216,14 @@ app.post('/login',function(req,res){
           }
         });
         console.log('login complete, returning user a token');
-        res.statusCode = 200;
-
       }
     }
   });
   query.on('end',function(){
+    res.statusCode = 200;
+    res.writeHead(res.statusCode);
     res.write(token);
+    res.end();
   });
 });
 
