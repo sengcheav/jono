@@ -23,7 +23,7 @@ app.use(cors());
 
 
 app.get('/quote/all', function(req,res) {
-  if(!req.body.hasOwnProperty('token') || (!tokenAllowed(req.params.token))) {
+  if(req.params.token == null) || (!tokenAllowed(req.params.token))) {
     res.statusCode = 401;
     return res.send('Error 400: PYou are not logged in !');
   }                                     
