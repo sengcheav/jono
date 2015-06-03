@@ -124,6 +124,7 @@
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
+          data : {token: token},
           success : function(data){
             alert('get all quotes succesful');
             $('#all2').val(data);

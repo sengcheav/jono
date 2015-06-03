@@ -22,34 +22,11 @@ app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
-
-
-//TODO TEST ALL METHODS IN ALL WAYS AMUCHAP
-//ALL ERROR CHECKS AND PRECOND CHECKS
-//FUTURE: LOCAL VARIABLES NOT GOOD PRACTICE INCASE SERVER CRASHES - THEY WILL BE RESET
-//MODIFY OTHER METHODS TO USE THE TOKEN
-// go through each api make sense? do what supposed to?
-//random doesnt like query.on('end'){ client.end();}
-// test post and delete methods
-
-
-//CREATE A BASIC CLIENT TO TEST
-//add on query end
-
-// go through all the steps / questions. all worknig?
-// does it work every way, will you get marks for it? ie will it be hard to recreate
-
-
-// on html page - need  , quote/id, post quote, delete quotes
-
-// client side checks, server side checks, database checks
-
-
-
-
-
-
-app.get('/quote/all', function(req,res) {                                         //ACCESS DATABASE AND RETURN ALL QUOTES HELD
+app.get('/quote/all', function(req,res) {
+  if(!req.body.hasOwnProperty('token') || (!tokenAllowed(req.params.token))) {
+    res.statusCode = 401;
+    return res.send('Error 400: PYou are not logged in !');
+  }                                     
   // precheck - are there quotes held?
   if(numberQuotes<=0){
     res.statusCode = 404;
@@ -107,13 +84,9 @@ app.get('/quote/random', function(req, res) {
 
 app.get('/quote/:id', function(req, res) {
   //prechecks - id is valid
-  if(req.params.id < 1) {
+  if(req.params.id < 1 || req.params.id > numberQuotes) {
     res.statusCode = 404;
-    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
-  }
-  if(req.params.id > numberQuotes){
-    res.statusCode = 404;
-    return res.send('Error 404: No quote found, please note quotes index starts from ONE(1)');
+    return res.send('Error 404: No quote found');
   }
       // query - select quote from database using a id variable provided in HTTP header
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
