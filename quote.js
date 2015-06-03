@@ -219,12 +219,10 @@ app.post('/login',function(req,res){
       }
     }
   });
-  query.on('end',function(){
-    res.statusCode = 200;
-    res.writeHead(res.statusCode);
-    res.write(token);
-    res.end();
-  });
+  res.statusCode = 200;
+  res.writeHead(res.statusCode);
+  res.write(token);
+  res.end();
 });
 
 app.post('/logout',function(req,res){
