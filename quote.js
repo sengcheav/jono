@@ -131,13 +131,15 @@ function rawToken(){
 function giveMeAToken(given){
   console.log('in giveMeAToken()');
   console.log('raw token is: '+given);
+  var h;
   password(given).hash(function(error, hash) {
   if(error){
     console.log('something went wrong!');
   }
   console.log('hash is: ' + hash);
-  return hash;     
+  h = hash;     
   });
+  return h;
 }
 
 function tokenAllowed(userToken){
