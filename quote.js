@@ -125,9 +125,6 @@ app.post('/quote', function(req, res) {
 function giveMeAToken(given){
   var token = randtoken.generate(16);
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
-  query.on('end',function(){
-    client.end();
-  });
   return token;
 }
 
@@ -169,11 +166,6 @@ app.post('/login',function(request,response){
       response.send(token);
     }
   });
-
-  query.on('end',function(){
-    client.end();
-  });
-//
 });
 
 
