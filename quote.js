@@ -128,9 +128,9 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given){
-  query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
+  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
-    if(result.count ==  0){
+    if(!result){
       console.log('This token does not exist!');
       return false;
     }
