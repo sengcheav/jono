@@ -161,10 +161,6 @@ app.post('/login',function(request,response){
 
 
 app.post('/logout',function(request,response){
-  console.log('gggggggggggggggg');
-  for (var key in request.param) {
-    console.log(key);
-  }
   if(!(tokenAllowed(request.param.token))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
@@ -174,7 +170,6 @@ app.post('/logout',function(request,response){
   return response.send(null)
 });
 
-//
 
 
 
