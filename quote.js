@@ -124,7 +124,6 @@ app.post('/quote', function(req, res) {
 
 function giveMeAToken(given){
   var token = randtoken.generate(16);
-  query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
   return token;
 }
 
@@ -155,8 +154,9 @@ app.post('/login',function(request,response){
       return response.send('No user with this username exists, or the password is incorrect!');
     }
   });
-    response.statusCode = 200;
-    response.send(token);
+  query = client.query('INSERT INTO validTokens(token) VALUES($1)', [token]);
+  response.statusCode = 200;
+  response.send(token);
 });
 
 
