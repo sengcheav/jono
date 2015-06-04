@@ -163,7 +163,7 @@ app.post('/login',function(request,response){
 app.post('/logout',function(request,response){
 
   if(!(tokenAllowed(request.body.token))){
-    response.statusCode = 400;
+    response.statusCode = 407;
     return response.send('Invalid Access token!');
   }
 
