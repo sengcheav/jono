@@ -137,22 +137,16 @@ function tokenAllowed(given){
     }
     return true;
   });
-  query.on('end',function(){
-    client.end();
-  });
 
 }
 
 function removeActiveToken(given){
   query = client.query('DELETE FROM validTokens WHERE token = $1',[given]);
-  query.on('end',function(){
-    client.end();
-  });
 }
 
 
 app.post('/login',function(request,response){
-
+  var token = giveMeAToken();
   query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.body.username, request.body.password]);
 
   query.on('row',function(result){
@@ -160,12 +154,9 @@ app.post('/login',function(request,response){
       response.statusCode = 400;
       return response.send('No user with this username exists, or the password is incorrect!');
     }
-    else{   //valid user
-      var token = giveMeAToken();
-      response.statusCode = 200;
-      response.send(token);
-    }
   });
+    response.statusCode = 200;
+    response.send(token);
 });
 
 
