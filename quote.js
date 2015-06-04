@@ -142,9 +142,9 @@ function tokenAllowed(given){
     ok = true;
   });
   query.on('end',function(){
-    return ok;
-    removeActiveToken(given)
+    removeActiveToken(given);
     client.end();
+    return ok;
   });
 
 }
