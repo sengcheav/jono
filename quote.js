@@ -87,6 +87,7 @@ function tokenAllowed(given,callback1,callback2){
     }
   });
 
+
 }
 
 function removeActiveToken(given,callback){
@@ -107,12 +108,7 @@ function doAll(req,res){
   }
   var results = [];
   // query - select all quotes from database
-  query = client.query('SELECT * FROM quotes', function(error, result){
-    // return psql error to client if it occurs
-    if (error){
-      return res.send('ERROR: '+ error.message);
-    }
-  });
+  query = client.query('SELECT * FROM quotes');
 
   query.on('row', function(row) {
     // add all quotes from query to results array
@@ -135,12 +131,7 @@ function doDelete(req,res){
     return res.send('Error 404: No quote found');
   }
           // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id],function(error,result){
-    if (error){
-      return res.send('ERROR: '+ error.message);
-    }
-
-  });
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
     //locally update the number of quotes held in the database
   numberQuotes--;
     // inform the client of success
@@ -199,12 +190,7 @@ function doRandom(req,res){
 
   var key = Math.floor(Math.random() * numberQuotes);
     // query - select a random quote from database using a random number variable
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key], function(error, result){
-      // return psql error to client if it occurs
-    if (error){
-      return res.send('ERROR: '+ error.message);
-    }
-  });
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find random quote');
