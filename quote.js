@@ -82,12 +82,12 @@ app.get('/quote/random', function(req, res) {
 
 app.get('/quote/:id', function(req, res) {
   //prechecks - id is valid
-  if(req.params.id < 1 || req.params.id > numberQuotes) {
+  if(req.body.id < 1 || req.body.id > numberQuotes) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found');
   }
       // query - select quote from database using a id variable provided in HTTP header
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.params.id]);
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.body.id]);
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find quote with this id');
