@@ -161,11 +161,11 @@ app.post('/login',function(request,response){
 
 
 app.post('/logout',function(request,response){
-  if(!(tokenAllowed(request.param.token))){
+  if(!(tokenAllowed(request.body.token))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
   }
-  removeActiveToken(request.param.token);
+  removeActiveToken(request.body.token);
   response.statusCode = 200;
   return response.send(null)
 });
