@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
 var password = require('password-hash-and-salt');
-var numberQuotes = 3;     
+var numberQuotes = 4;     
 var path = require('path');                                                           
 var randtoken = require('rand-token');
 
@@ -112,9 +112,8 @@ app.post('/quote', function(req, res) {
     text : req.body.text
   };
         // query - insert quote into database using info provided by client in http header
-  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
-  //locally update the number of quotes held in the database
-  numberQuotes++;
+  query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [numberQuotes++, newQuote.author,newQuote.text]);
+  
   // inform the client of success
   res.send('added quote!');
 
