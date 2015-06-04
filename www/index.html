@@ -48,7 +48,7 @@
         $.ajax({
           type: "DELETE",
           url : "https://calm-bastion-2419.herokuapp.com/quote",
-          data: {id: d},
+          data: {id: d, token: token},
           success : function(data){
             alert('delete succesful');
 
@@ -67,7 +67,7 @@
         $.ajax({
           type: "POST",
           url : "https://calm-bastion-2419.herokuapp.com/quote",
-          data: {author: a, text: t},
+          data: {author: a, text: t, token: token},
           success : function(data){
             alert('post  quote succesful');
 
@@ -87,7 +87,7 @@
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: i},
+          data: {id: i, token: token},
           success : function(data){
             alert('get id quote succesful');
             $('#ID2').val(data);
@@ -106,6 +106,7 @@
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
+          data : {token: token},
           success : function(data){
             alert('get random quote succesful');
             $('#random2').val(data);

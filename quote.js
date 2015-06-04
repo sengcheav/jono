@@ -24,7 +24,14 @@ app.use(cors());
 
 
 
-app.get('/quote/all', function(req,res) {                                        
+app.get('/quote/all', function(req,res) {   
+  tokenAllowed(request.body.token,dontAll(request,response),doAll(request,response));                                     
+});
+
+
+
+
+function doAll(req,res){
   // precheck - are there quotes held?
   if(numberQuotes<=0){
     res.statusCode = 404;
@@ -50,10 +57,30 @@ app.get('/quote/all', function(req,res) {
     return res.send(JSON.stringify(results, null, 3)); client.end();
 
   });
+}
 
-});
+function dontAll(req,res){
+      return response.send('Invalid Access token!');
+}
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/quote/random', function(req, res) {
+    tokenAllowed(request.body.token,dontRandom(request,response),doRandom(request,response));
+});
+
+
+
+function doRandom(req,res){
   // precheck - are there quotes held?
   if(numberQuotes<=0){
     res.statusCode = 404;
@@ -77,10 +104,27 @@ app.get('/quote/random', function(req, res) {
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
-});
+
+}
+
+
+function dontRandom(req,res){
+    return response.send('Invalid Access token!');
+}
+
+
+
+
+
 
 
 app.get('/quote/:id', function(req, res) {
+    tokenAllowed(request.body.token,dontId(request,response),doId(request,response));
+});
+
+
+
+function doId(req,res){
   //prechecks - id is valid
   if(req.body.id < 1 || req.body.id > numberQuotes) {
     res.statusCode = 404;
@@ -96,11 +140,25 @@ app.get('/quote/:id', function(req, res) {
     res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
-});
+}
+
+
+function dontId(req,res){
+  return response.send('Invalid Access token!');
+}
+
 
 
 
 app.post('/quote', function(req, res) {
+    tokenAllowed(request.body.token,dontPost(request,response),doPost(request,response));
+
+
+});
+
+
+
+function doPost(req,res){
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
     res.statusCode = 400;
@@ -113,11 +171,14 @@ app.post('/quote', function(req, res) {
   };
         // query - insert quote into database using info provided by client in http header
   query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [numberQuotes++, newQuote.author,newQuote.text]);
-  
+
   // inform the client of success
   res.send('added quote!');
+}
 
-});
+function dontPost(req,res){
+      return response.send('Invalid Access token!');
+}
 
 
 
@@ -146,6 +207,7 @@ function removeActiveToken(given,callback){
 }
 
 
+
 app.post('/login',function(request,response){
   var token = giveMeAToken();
   query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.body.username, request.body.password]);
@@ -160,6 +222,14 @@ app.post('/login',function(request,response){
   response.statusCode = 200;
   response.send(token);
 });
+
+
+
+
+
+
+
+
 
 
 app.post('/logout',function(request,response){
@@ -183,10 +253,17 @@ function loggedOut(request,response){
 
 
 
-
 ///////////////////////////////////
 app.delete('/quote/:id', function(req, res) {
-  //precheck - provided id is valid
+  tokenAllowed(request.body.token,dontDelete(req,res),doDelete(req,res));
+});
+///////////////////////////////////
+
+
+
+
+function doDelete(req,res){
+    //precheck - provided id is valid
   if(req.params.id < 1) {
     res.statusCode = 404;
     return res.send('Error 404: No quote found');
@@ -207,9 +284,14 @@ app.delete('/quote/:id', function(req, res) {
   numberQuotes--;
     // inform the client of success
   res.send('quote removed!');
+}
 
-});
-///////////////////////////////////
+function dontDelete(req,res){
+  return response.send('Invalid Access token!');
+}
+
+
+
 
 
 
