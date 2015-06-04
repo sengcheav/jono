@@ -161,7 +161,7 @@ app.post('/login',function(request,response){
 
 
 app.post('/logout',function(request,response){
-  console.log('gggggggggggggggg' + request.query.token);
+  console.log('gggggggggggggggg' + request);
   if(!(tokenAllowed(request.params.token))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
