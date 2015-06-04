@@ -146,16 +146,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/logout",
           data : {token: token},
           success : function(data){
-            alert('token before: '+token);
-            console.log('logout post succesful, returned: '+ data);
             alert('logged out!');
-            token = null;
-            alert('token after: '+token);
+            token = data;
           },
           error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-            alert('! logged out!');
+            alert('Not logged out!');
           }
         },"json");
 
@@ -171,13 +166,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/login",
           data: {username: username, password: password},
           success : function(data){
-            alert(data);
             token = data;
             alert('logged on!!');
           },
           error: function(data) {
-            alert(data);
-            alert('! logged in!');
+            alert('Not logged in!');
           }
         },"json");
       });
