@@ -192,7 +192,6 @@ function doRandom(req,res){
           // when result has been returned, return them to the client
     res.send('author: '+ result.author +', quote:' + result.content);
     }
-  });
+  });//
 
 }
-//
