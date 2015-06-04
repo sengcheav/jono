@@ -96,10 +96,9 @@ function removeActiveToken(given,callback){
 }
 
 function noToken(req,res){
+  res.statusCode(400);
   return res.send('Invalid Access token!');
 }
-
-
 
 function doAll(req,res){
   // precheck - are there quotes held?
@@ -115,11 +114,7 @@ function doAll(req,res){
     results.push(row);
   });
 
-  query.on('end', function() {
-    // when all results have been returned, return them to the client, using stringify() of json
-    return res.send(JSON.stringify(results, null, 3)); client.end();
-
-  });
+  return res.send(results);
 }
 
 function doDelete(req,res){
