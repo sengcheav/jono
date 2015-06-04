@@ -19,10 +19,10 @@ client.connect();
 
 //CREATE A SCHEMA - users
 query = client.query('CREATE TABLE users(username text PRIMARY KEY, password text NOT NULL)');
-query = client.query('INSERT INTO users(username,password,loggedin,accessToken) VALUES($1,$2,$3,$4)', [users[0].username,users[0].password]);
-query = client.query('INSERT INTO users(username,password,loggedin,accessToken) VALUES($1,$2,$3,$4)', [users[1].username,users[1].password]);
-query = client.query('INSERT INTO users(username,password,loggedin,accessToken) VALUES($1,$2,$3,$4)', [users[2].username,users[2].password]);
-query = client.query('INSERT INTO users(username,password,loggedin,accessToken) VALUES($1,$2,$3,$4)', [users[3].username,users[3].password]);
+query = client.query('INSERT INTO users(username,password) VALUES($1,$2)', [users[0].username,users[0].password]);
+query = client.query('INSERT INTO users(username,password) VALUES($1,$2)', [users[1].username,users[1].password]);
+query = client.query('INSERT INTO users(username,password) VALUES($1,$2)', [users[2].username,users[2].password]);
+query = client.query('INSERT INTO users(username,password) VALUES($1,$2)', [users[3].username,users[3].password]);
 
 
 //CALLBACK TO END DATABASE CONNECTION
