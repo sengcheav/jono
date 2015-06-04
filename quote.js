@@ -25,7 +25,7 @@ app.use(cors());
 
 
 app.get('/quote/all', function(req,res) {   
-  tokenAllowed(request.body.token,dontAll(request,response),doAll(request,response));                                     
+  tokenAllowed(req.body.token,dontAll(req,res),doAll(req,res));                                     
 });
 
 
@@ -60,7 +60,7 @@ function doAll(req,res){
 }
 
 function dontAll(req,res){
-      return response.send('Invalid Access token!');
+      return res.send('Invalid Access token!');
 }
 
 
@@ -75,7 +75,7 @@ function dontAll(req,res){
 
 
 app.get('/quote/random', function(req, res) {
-    tokenAllowed(request.body.token,dontRandom(request,response),doRandom(request,response));
+    tokenAllowed(req.body.token,dontRandom(req,res),doRandom(req,res));
 });
 
 
@@ -109,7 +109,7 @@ function doRandom(req,res){
 
 
 function dontRandom(req,res){
-    return response.send('Invalid Access token!');
+    return res.send('Invalid Access token!');
 }
 
 
@@ -119,7 +119,7 @@ function dontRandom(req,res){
 
 
 app.get('/quote/:id', function(req, res) {
-    tokenAllowed(request.body.token,dontId(request,response),doId(request,response));
+    tokenAllowed(req.body.token,dontId(req,res),doId(req,res));
 });
 
 
@@ -144,14 +144,14 @@ function doId(req,res){
 
 
 function dontId(req,res){
-  return response.send('Invalid Access token!');
+  return res.send('Invalid Access token!');
 }
 
 
 
 
 app.post('/quote', function(req, res) {
-    tokenAllowed(request.body.token,dontPost(request,response),doPost(request,response));
+    tokenAllowed(req.body.token,dontPost(req,res),doPost(req,res));
 
 
 });
@@ -177,7 +177,7 @@ function doPost(req,res){
 }
 
 function dontPost(req,res){
-      return response.send('Invalid Access token!');
+      return res.send('Invalid Access token!');
 }
 
 
@@ -208,19 +208,19 @@ function removeActiveToken(given,callback){
 
 
 
-app.post('/login',function(request,response){
+app.post('/login',function(req,res){
   var token = giveMeAToken();
-  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.body.username, request.body.password]);
+  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
   query.on('row',function(result){
     if(result.count == 0){
-      response.statusCode = 400;
-      return response.send('No user with this username exists, or the password is incorrect!');
+      res.statusCode = 400;
+      return res.send('No user with this username exists, or the password is incorrect!');
     }
   });
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [token]);
-  response.statusCode = 200;
-  response.send(token);
+  res.statusCode = 200;
+  res.send(token);
 });
 
 
@@ -232,21 +232,20 @@ app.post('/login',function(request,response){
 
 
 
-app.post('/logout',function(request,response){
-  tokenAllowed(request.body.token,notFound(request,response),found(request,response));
+app.post('/logout',function(req,res){
+  tokenAllowed(req.body.token,notFound(req,res),found(req,res));
 });
 
-function notFound(request,response){
-    return response.send('Invalid Access token!');
+function notFound(req,res){
+    return res.send('Invalid Access token!');
 }
 
-function found(request,response){
-  removeActiveToken(request.body.token,loggedOut(request,response));
-
+function found(req,res){
+  removeActiveToken(req.body.token,loggedOut(req,res));
 }
 
-function loggedOut(request,response){
-  return response.send(null)
+function loggedOut(req,res){
+  return res.send(null)
 }
 
 
@@ -255,7 +254,7 @@ function loggedOut(request,response){
 
 ///////////////////////////////////
 app.delete('/quote/:id', function(req, res) {
-  tokenAllowed(request.body.token,dontDelete(req,res),doDelete(req,res));
+  tokenAllowed(req.body.token,dontDelete(req,res),doDelete(req,res));
 });
 ///////////////////////////////////
 
@@ -287,7 +286,7 @@ function doDelete(req,res){
 }
 
 function dontDelete(req,res){
-  return response.send('Invalid Access token!');
+  return res.send('Invalid Access token!');
 }
 
 
