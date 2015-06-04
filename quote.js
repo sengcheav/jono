@@ -156,17 +156,17 @@ function removeActiveToken(given){
 
 app.post('/login',function(request,response){
 
-  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.params.username, req.params.password]);
+  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.params.username, request.params.password]);
 
   query.on('row',function(result){
     if(result.count == 0){
-      res.statusCode = 400;
-      return res.send('No user with this username exists, or the password is incorrect!');
+      response.statusCode = 400;
+      return response.send('No user with this username exists, or the password is incorrect!');
     }
     else{   //valid user
       var token = giveMeAToken();
-      res.statusCode = 200;
-      res.send(token);
+      response.statusCode = 200;
+      response.send(token);
     }
   });
 
@@ -180,13 +180,13 @@ app.post('/login',function(request,response){
 app.post('/logout',function(request,response){
 
   if(!(tokenAllowed(request.params.token))){
-    res.statusCode = 400;
-    return res.send('Invalid Access token!');
+    response.statusCode = 400;
+    return response.send('Invalid Access token!');
   }
 
   removeActiveToken(request.params.token);
-  res.statusCode = 200;
-  return res.send(null)
+  response.statusCode = 200;
+  return response.send(null)
 
 });
 
