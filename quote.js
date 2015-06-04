@@ -156,7 +156,7 @@ function removeActiveToken(given){
 
 app.post('/login',function(request,response){
 
-  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.params.username, request.params.password]);
+  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [request.body.username, request.body.password]);
 
   query.on('row',function(result){
     if(result.count == 0){
