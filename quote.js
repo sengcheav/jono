@@ -122,12 +122,13 @@ app.post('/quote', function(req, res) {
 
 
 
-function giveMeAToken(given, callback){
+function giveMeAToken(given){
   var token = randtoken.generate(16);
+  query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
   query.on('end',function(){
     client.end();
   });
-  callback(token);
+  return token;
 }
 
 function tokenAllowed(given){
@@ -152,11 +153,6 @@ function removeActiveToken(given){
   });
 }
 
-function addToValidTokens(given){
-  query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
-  return given;
-}
-
 
 app.post('/login',function(request,response){
 
@@ -168,11 +164,9 @@ app.post('/login',function(request,response){
       return response.send('No user with this username exists, or the password is incorrect!');
     }
     else{   //valid user
-      var token = giveMeAToken(function(given){
-        addToValidTokens(given);
-        response.statusCode = 200;
-        response.send(token);
-      });
+      var token = giveMeAToken();
+      response.statusCode = 200;
+      response.send(token);
     }
   });
 
