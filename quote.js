@@ -111,8 +111,11 @@ function doAll(req,res){
     // add all quotes from query to results array
     results.push(row);
   });
-
+  query.on('end',function(){
   return res.send(results);
+  });
+
+
 }
 
 function doDelete(req,res){
