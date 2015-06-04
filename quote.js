@@ -127,9 +127,9 @@ function giveMeAToken(given){
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
   query.on('end',function(){
     client.end();
-
+    return token;
   });
-  return token;
+  
 }
 
 function tokenAllowed(given){
@@ -144,8 +144,9 @@ function tokenAllowed(given){
   });
   query.on('end',function(){
     client.end();
-  });
     return ok;
+  });
+
 }
 
 function removeActiveToken(given){
