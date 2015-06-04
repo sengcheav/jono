@@ -168,7 +168,6 @@ app.post('/logout',function(request,response){
 });
 
 function notFound(request,response){
-    response.statusCode = 400;
     return response.send('Invalid Access token!');
 }
 
@@ -178,7 +177,6 @@ function found(request,response){
 }
 
 function loggedOut(request,response){
-    response.statusCode = 200;
   return response.send(null)
 }
 
