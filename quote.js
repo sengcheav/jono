@@ -160,28 +160,18 @@ function doPost(req,res){
 
 
 function doId(req,res){
-  //prechecks - id is valid
-  if(req.body.id < 1 || req.body.id > numberQuotes) {
-    return res.send('Error 404: No quote found');
-  }
-      // query - select quote from database using a id variable provided in HTTP header
+  // query - select quote from database using a id variable provided in HTTP header
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.body.id]);
   query.on('row', function(result) {
     if(!result){
       return res.send('cannot find quote with this id');
     }else{
-                // when result has been returned, return them to the client
-    res.send('author: '+ result.author +', quote:' + result.content);
+      res.send('author: '+ result.author +', quote:' + result.content);
     }
   });
 }
 
 function doRandom(req,res){
-  // precheck - are there quotes held?
-  if(numberQuotes<=0){
-    return res.send('There are no quotes to access!');
-  }
-
   var key = Math.floor(Math.random() * numberQuotes);
     // query - select a random quote from database using a random number variable
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
