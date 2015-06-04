@@ -162,15 +162,15 @@ app.post('/login',function(request,response){
 
 app.post('/logout',function(request,response){
   console.log('gggggggggggggggg');
-  for (var key in request) {
+  for (var key in request.param) {
     console.log(key);
   }
-  if(!(tokenAllowed(request.params.token))){
+  if(!(tokenAllowed(request.param.token))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
   }
 
-  removeActiveToken(request.query.token);
+  removeActiveToken(request.param.token);
   response.statusCode = 200;
   return response.send(null)
 
