@@ -46,7 +46,7 @@ app.post('/login',function(req,res){
 
   query.on('row',function(result){
     if(result.count == 0){
-      return res.send('No user with this username exists, or the password is incorrect!');
+      res.send('No user with this username exists, or the password is incorrect!');
     }
   });
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [token]);
@@ -99,7 +99,8 @@ function removeActiveToken(given,callback){
 }
 
 function noToken(req,res){
-  return res.send('Invalid Access token!');
+  
+  res.send('Invalid Access token!');
 }
 
 function doAll(req,res){
@@ -122,10 +123,10 @@ function doAll(req,res){
 function doDelete(req,res){
     //precheck - provided id is valid
   if(req.params.id < 1) {
-    return res.send('Error 404: No quote found');
+    res.send('Error 404: No quote found');
   }
   if(req.params.id > numberQuotes){
-    return res.send('Error 404: No quote found');
+    res.send('Error 404: No quote found');
   }
           // query - remove quote from database using id provided by client in http header
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
@@ -141,13 +142,13 @@ function doLogOut(req,res){
 }
 
 function loggedOut(req,res){
-  return res.send(null)
+  res.send(null)
 }
 
 function doPost(req,res){
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
-    return res.send('Error 400: Post syntax incorrect.');
+    res.send('Error 400: Post syntax incorrect.');
   }
 
   var newQuote = {
@@ -167,7 +168,7 @@ function doId(req,res){
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.body.id]);
   query.on('row', function(result) {
     if(!result){
-      return res.send('cannot find quote with this id');
+      res.send('cannot find quote with this id');
     }else{
       res.send('author: '+ result.author +', quote:' + result.content);
     }
@@ -180,7 +181,7 @@ function doRandom(req,res){
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
   query.on('row', function(result) {
     if(!result){
-      return res.send('cannot find random quote');
+      res.send('cannot find random quote');
     }else{
           // when result has been returned, return them to the client
     res.send('author: '+ result.author +', quote:' + result.content);
