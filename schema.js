@@ -21,10 +21,10 @@ client.connect();
 query = client.query('CREATE TABLE quotes(tablekey integer, author text PRIMARY KEY, content text NOT NULL)');
 
 //POPULATE THE QUOTES SCHEMA
-query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2,$3)', [1,quotes[0].author,quotes[0].text]);
-query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2,$3)', [2,quotes[1].author,quotes[1].text]);
-query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2,$3)', [3,quotes[2].author,quotes[2].text]);
-query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2,$3)', [4,quotes[3].author,quotes[3].text]);
+query = client.query('INSERT INTO quotes(tablekey, author,content) VALUES($1,$2,$3)', [1,quotes[0].author,quotes[0].text]);
+query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [2,quotes[1].author,quotes[1].text]);
+query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [3,quotes[2].author,quotes[2].text]);
+query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [4,quotes[3].author,quotes[3].text]);
 
 //CALLBACK TO END DATABASE CONNECTION
 query.on('end', function(result) { client.end(); });
