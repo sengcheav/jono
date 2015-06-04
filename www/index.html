@@ -37,13 +37,6 @@
     $(document).bind('pageinit', function() {
 
       var token;
-
-      function getThisToken(){
-        return window.token;
-      }
-      function setThisToken(gt){
-        window.token = gt;
-      }
       
       $.ajaxSetup ({
         cache: false
@@ -147,15 +140,16 @@
 
         $( "#logout" ).bind( "click", function(event, ui) {
           console.log('attempting to logout');
+          alert(token);
         $.ajax({
           type: "POST",
           url : "https://calm-bastion-2419.herokuapp.com/logout",
-          data : {token: getThisToken()},
+          data : {token: token},
           success : function(data){
             alert('token before: '+token);
             console.log('logout post succesful, returned: '+ data);
             alert('logged out!');
-            setThisToken(null);
+            token = null;
             alert('token after: '+token);
           },
           error: function(data) {
