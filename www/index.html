@@ -167,6 +167,7 @@
           data: {username: username, password: password},
           success : function(data){
             token = data;
+            alert(data);
             alert('logged on!!');
           },
           error: function(data) {
