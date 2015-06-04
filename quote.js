@@ -142,7 +142,6 @@ function tokenAllowed(given){
     ok = true;
   });
   query.on('end',function(){
-    removeActiveToken(given);
     client.end();
     return ok;
   });
@@ -180,7 +179,7 @@ app.post('/login',function(request,response){
 });
 
 
-app.post('/logout',function(request,response){
+app.post('/logout',function(request,response,removeActiveToken){
 
   if(!(tokenAllowed(request.body.token))){
     response.statusCode = 400;
