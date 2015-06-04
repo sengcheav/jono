@@ -78,6 +78,7 @@
 
 
         $( "#ID" ).bind( "click", function(event, ui) {
+          alert(token);
           console.log('attempting to get id quote');
           var i = $("#ID2").val();
         $.ajax({
@@ -114,6 +115,7 @@
 
         $( "#all" ).bind( "click", function(event, ui) {
           console.log('attempting to get all quotes');
+          alert(token);
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
