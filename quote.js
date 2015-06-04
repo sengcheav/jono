@@ -128,14 +128,15 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given){
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
+  query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
-    if(result.token == null){
+    if(result.count ==  0){
       console.log('This token does not exist!');
       return false;
     }
     return true;
   });
+
 }
 
 function removeActiveToken(given){
@@ -161,12 +162,12 @@ app.post('/login',function(request,response){
 
 app.post('/logout',function(request,response){
 
-  if(!(tokenAllowed(request.body.token))){
+  if(!(tokenAllowed(request.param('token')))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
   }
 
-  removeActiveToken(request.body.token);
+  removeActiveToken(request.param('token'));
   response.statusCode = 200;
   return response.send(null)
 
