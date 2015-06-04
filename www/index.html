@@ -50,11 +50,9 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {id: d, token: token},
           success : function(data){
-            alert('delete succesful');
 
           },
           error: function(data) {
-            alert('delete unsuccesful');
           }
         },"json");
 
@@ -69,11 +67,9 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {author: a, text: t, token: token},
           success : function(data){
-            alert('post  quote succesful');
 
           },
           error: function(data) {
-            alert('postquote unsuccesful');
           }
         },"json");
 
@@ -89,12 +85,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
           data: {id: i, token: token},
           success : function(data){
-            alert('get id quote succesful');
             $('#ID2').val(data);
 
           },
           error: function(data) {
-            alert('get id quote unsuccesful' + data);
           }
         },"json");
 
@@ -108,12 +102,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
           data : {token: token},
           success : function(data){
-            alert('get random quote succesful');
             $('#random2').val(data);
 
           },
           error: function(data) {
-            alert('get random quote unsuccesful');
           }
         },"json");
 
@@ -127,12 +119,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
           success : function(data){
-            alert('get all quotes succesful');
             $('#all2').val(data);
 
           },
           error: function(data) {
-            alert('get all quotes unsuccesful');
           }
         },"json");
 
@@ -147,12 +137,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/logout",
           data : {token: token},
           success : function(data){
-            alert(data);
             alert('logged out!');
             token = data;
           },
           error: function (xhr, ajaxOptions, thrownError) {
-            alert('Not logged out!');
           }
         },"json");
 
@@ -169,7 +157,6 @@
           data: {username: username, password: password},
           success : function(data){
             token = data;
-            alert(data);
             alert('logged on!!');
           },
           error: function(data) {
