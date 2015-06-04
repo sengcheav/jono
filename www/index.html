@@ -152,9 +152,10 @@
             token = null;
             alert('token after: '+token);
           },
-          error: function(data) {
-             console.log('logout post returned error: '+ data);
-             alert('! logged out!');
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+            alert('! logged out!');
           }
         },"json");
 
