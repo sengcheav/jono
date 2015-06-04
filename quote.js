@@ -132,15 +132,17 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given){
+  var ok;
   query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
     if(result.count ==  0){
       console.log('This token does not exist!');
-      return false;
+      ok = false;
     }
-    return true;
+    ok = true;
   });
   query.on('end',function(){
+    return ok;
     client.end();
   });
 
