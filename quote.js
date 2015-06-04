@@ -143,6 +143,7 @@ function tokenAllowed(given){
   });
   query.on('end',function(){
     return ok;
+    removeActiveToken(given)
     client.end();
   });
 
@@ -186,7 +187,6 @@ app.post('/logout',function(request,response){
     return response.send('Invalid Access token!');
   }
 
-  removeActiveToken(request.body.token);
   response.statusCode = 200;
   return response.send(null)
 
