@@ -120,55 +120,36 @@ app.post('/quote', function(req, res) {
 
 });
 
-function rawToken(){
-  var token = randtoken.generate(16);
-  return token;
-}
 
 
 function giveMeAToken(given){
+  var token = randtoken.generate(16);
+  query = client.query('INSERT INTO activeTokens(token) VALUES($1)', [given]);
+  return token;
 
-  var token = [];
-
-  console.log('in giveMeAToken()');
-  console.log('raw token is: '+given);
-  password(given).hash(function(error, hash) {
-    if(error){
-      console.log('something went wrong!'); 
-    }
-    token.hash = hash; 
-  });
-
-  console.log('token.hash = ' + token.hash);
-  return token.hash;
 
 }
 
-function tokenAllowed(userToken){
-  console.log('in tokenAllowed()');
-  console.log('checkig provided token in database');
-  console.log('here');
-      query = client.query('SELECT accessToken FROM users u WHERE u.accessToken = $1',[userToken]);
-      query.on('row', function(result){
-        if(!result){
-          console.log('This token does not exist!');
-          return false;
-        }
-        console.log('results obtained, performing check');
-        password(userToken).verifyAgainst(result.token, function(error, verified) {   
-        if(!verified) {
-          console.log('token has not been verified, returning false');
-          return false;
-        }else{
-          console.log('token has been verified, returning true');
-          return true;
-        }
-        });
-      });
-      query.on('end',function(){
-        client.end();
-      });
+function tokenAllowed(given){
+  query = client.query('SELECT token FROM activeTokens a WHERE a.token = $1',[given]);
+  query.on('row', function(result){
+    if(!result){
+      console.log('This token does not exist!');
+      return false;
+    }
+    return true;
+  });
+  query.on('end',function(){
+    client.end();
+  });
 
+}
+
+function removeActiveToken(given){
+  query = client.query('DELETE FROM activeTokens a WHERE a.token = $1',[given]);
+  query.on('end',function(){
+    client.end();
+  });
 }
 
 
@@ -207,7 +188,7 @@ app.post('/login',function(req,res){
       }
       else{
         console.log('user is not logged in, generating a token');
-        var token = rawToken();
+        var token = giveMeAToken();
         console.log('given username: '+ req.body.username);
         console.log('given password: '+ req.body.password);
         console.log('generated token from randgen token: '+ token);
@@ -253,6 +234,7 @@ app.post('/logout',function(req,res){
       return res.send('User with this access token is not logged in!');
     }
     else{
+      removeActiveToken(req.body.token);
       console.log('appropriate user account found, attempting to log out');
       query2 = client.query('UPDATE users SET loggedin = false, accessToken = $1 WHERE accessToken = $2', [null,req.body.token], function(error, result){
       console.log('user account set to logged out, access token set to null');
