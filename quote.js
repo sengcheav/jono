@@ -122,7 +122,7 @@ app.post('/quote', function(req, res) {
 
 
 
-function giveMeAToken(given){
+function giveMeAToken(){
   var token = randtoken.generate(16);
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
   query.on('end',function(){
