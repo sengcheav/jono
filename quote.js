@@ -164,24 +164,20 @@ app.post('/login',function(request,response){
 
 
 app.post('/logout',function(request,response){
-  tokenAllowed(request.body.token,notFound(),found());
-
-  
-
+  tokenAllowed(request.body.token,notFound(request,response),found(request,response));
 });
 
-function notFound(){
+function notFound(request,response){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
+}
+
+function found(request,response){
+  removeActiveToken(request.body.token,loggedOut(request,response));
 
 }
 
-function found(){
-  removeActiveToken(request.body.token,loggedOut());
-
-}
-
-function loggedOut(){
+function loggedOut(request,response){
     response.statusCode = 200;
   return response.send(null)
 }
