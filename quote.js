@@ -76,9 +76,13 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given,callback1,callback2){
+  var results = [];
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
-    if(!result){
+    results.push(row);
+  });
+  query.on('end',function(){
+    if(results.size == 0){
       console.log('This token does not exist!');
       callback1();
     }
@@ -86,7 +90,6 @@ function tokenAllowed(given,callback1,callback2){
       callback2();
     }
   });
-
 
 }
 
