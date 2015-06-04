@@ -146,7 +146,7 @@ function tokenAllowed(given){
 }
 
 function removeActiveToken(given){
-  query = client.query('DELETE FROM activeTokens a WHERE a.token = $1',[given]);
+  query = client.query('DELETE FROM activeTokens WHERE token = $1',[given]);
   query.on('end',function(){
     client.end();
   });
