@@ -133,9 +133,10 @@ function giveMeAToken(given){
   console.log('in giveMeAToken()');
   console.log('raw token is: '+given);
   password(given).hash(function(error, hash) {
-  if(error){console.log('something went wrong!'); }
-
-  token.hash = hash; 
+    if(error){
+      console.log('something went wrong!'); 
+    }
+    token.hash = hash; 
   });
 
   console.log('token.hash = ' + token.hash);
@@ -206,7 +207,7 @@ app.post('/login',function(req,res){
       }
       else{
         console.log('user is not logged in, generating a token');
-        var token = giveMeAToken(rawToken());
+        var token = rawToken();
         console.log('given username: '+ req.body.username);
         console.log('given password: '+ req.body.password);
         console.log('generated token from randgen token: '+ token);
