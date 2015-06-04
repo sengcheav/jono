@@ -96,7 +96,6 @@ function removeActiveToken(given,callback){
 }
 
 function noToken(req,res){
-  res.statusCode = 400;
   return res.send('Invalid Access token!');
 }
 
