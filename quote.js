@@ -127,24 +127,21 @@ function giveMeAToken(given){
   query = client.query('INSERT INTO validTokens(token) VALUES($1)', [given]);
   query.on('end',function(){
     client.end();
-    return token;
   });
-  
+  return token;
 }
 
 function tokenAllowed(given){
-  var ok;
   query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
     if(result.count ==  0){
       console.log('This token does not exist!');
-      ok = false;
+      return false;
     }
-    ok = true;
+    return true;
   });
   query.on('end',function(){
     client.end();
-    return ok;
   });
 
 }
@@ -180,13 +177,14 @@ app.post('/login',function(request,response){
 });
 
 
-app.post('/logout',function(request,response,removeActiveToken){
+app.post('/logout',function(request,response){
 
   if(!(tokenAllowed(request.body.token))){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
   }
 
+  removeActiveToken(request.body.token);
   response.statusCode = 200;
   return response.send(null)
 
