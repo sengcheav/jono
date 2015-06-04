@@ -100,10 +100,6 @@ function noToken(req,res){
 }
 
 function doAll(req,res){
-  // precheck - are there quotes held?
-  if(numberQuotes<=0){
-    return res.send('There are no quotes to access!');
-  }
   var results = [];
   // query - select all quotes from database
   query = client.query('SELECT * FROM quotes');
