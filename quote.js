@@ -169,14 +169,12 @@ app.post('/logout',function(request,response){
     response.statusCode = 400;
     return response.send('Invalid Access token!');
   }
-
   removeActiveToken(request.param.token);
   response.statusCode = 200;
   return response.send(null)
-
 });
 
-
+//
 
 
 
