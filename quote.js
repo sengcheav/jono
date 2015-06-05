@@ -113,7 +113,7 @@ function giveMeAToken(given){
 
 function tokenAllowed(given,callback){
 
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result,fields){
+  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
 
   var count;
   query.on('row',function(result){
@@ -126,7 +126,7 @@ function tokenAllowed(given,callback){
       callback(true);
     }
     else{
-      callback(false)
+      callback(false);
     }
   });
 
