@@ -145,7 +145,11 @@ function doAll(req,res){
   });
 
   query.on('end',function(){
-    res.send(results);
+    for(var i = 0; i < results.length; i++){
+      res.write(results[i]);
+    }
+    res.end();
+    //res.send(results);
   });
 
 
