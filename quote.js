@@ -30,6 +30,7 @@ app.use(cors());
 // security
 // go through assignment steps
 
+//client gives approrpriate error/ console messages
 //logical steps ie already logged on?
 
 
@@ -121,7 +122,7 @@ function tokenAllowed(given,callback){
   });
 
   query.on('end',function(){
-
+    console.log('count:' +count);
     if(count != 0){
       callback(true);
     }
