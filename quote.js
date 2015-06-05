@@ -27,6 +27,11 @@ app.use(cors());
 // sort behaviours, should it send error or just a message?
 // add error checking, status codes, all the frills
 
+// security
+// go through assignment steps
+
+//logical steps ie already logged on?
+
 
 
 
@@ -111,6 +116,7 @@ function tokenAllowed(given,callback){
   });
 
   query.on('end',function(){
+    console.log('count: '+count);
     if(count != 0){
       callback(true);
     }
