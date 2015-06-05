@@ -69,6 +69,7 @@ app.post('/login',function(req,res){
 
   var count;
   query.on('row',function(result){
+        console.log('count1: '+count);
     count = result.count
   });
 
