@@ -96,11 +96,14 @@ function giveMeAToken(given){
 function tokenAllowed(given,callback){
 
   var ok;
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
+  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result){
+    console.log('\n'+'\n'+'\n'+ 'result2: ' + result);
+    console.log('\n'+'\n'+'\n'+ 'resultsize2: ' + result.size);
+  });
   query.on('row', function(result){
   
-  console.log('\n'+'\n'+'\n'+ 'result: ' + result);
-  console.log('\n'+'\n'+'\n'+ 'resultsize: ' + result.size);
+  console.log('\n'+'\n'+'\n'+ 'result2: ' + result);
+  console.log('\n'+'\n'+'\n'+ 'resultsize2: ' + result.size);
     if(!result){
       ok = false;
     }
