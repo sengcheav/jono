@@ -62,6 +62,7 @@ app.post('/login',function(req,res){
   var results = [];
   query.on('row',function(result){
     results.push(result);
+    console.log(result.length);
   });
 
   query.on('end',function(){
