@@ -74,8 +74,7 @@ app.post('/login',function(req,res){
 
   var count;
   query.on('row',function(result){
-    count = result.count
-    console.log('count: ' +result.count);
+    count = result.count;
   });
 
   query.on('end',function(){
@@ -114,40 +113,16 @@ function giveMeAToken(given){
 
 function tokenAllowed(given,callback){
 
-  var ok;
-  var qq = [];
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result,fields){
-    //console.log('\n'+'\n'+'\n'+ 'resultslength: ' + results.length);
-    qq.push(result);
-        console.log('\n'+'\n'+'\n'+'res1: ' + qq);
 
+  var count;
+  query.on('row',function(result){
+    count = result.count;
   });
-  // query.on('row', function(result){
-  //   results.push(result);
-  //   console.log('\n'+ 'result: ' + result);
-  // });
-  
-  // console.log('\n'+'\n'+'\n'+ 'result2: ' + result);
-  // console.log('\n'+'\n'+'\n'+ 'resultsize2: ' + result.size);
-  //   if(!result){
-  //     ok = false;
-  //   }
-  //   else{
-  //     ok = true;
-  //   }
 
-  // });
-
-  
   query.on('end',function(){
-    console.log('\n'+'\n'+'\n'+'res2: ' + qq);
-    //console.log('\n'+'\n'+'\n'+'size: ' + result.length);
-    for (var key in qq) {
-      console.log('\n'+'key: '+key);
-    }
 
-
-    if(qq.length == 1){
+    if(count != 0){
       callback(true);
     }
     else{
