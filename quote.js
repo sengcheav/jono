@@ -79,6 +79,7 @@ app.post('/login',function(req,res){
   });
 
   query.on('end',function(){
+        console.log('logincount:' +count);
     if(count != 0){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
         res.send(token);
@@ -122,7 +123,7 @@ function tokenAllowed(given,callback){
   });
 
   query.on('end',function(){
-    console.log('count:' +count);
+    console.log('allcount:' +count);
     if(count != 0){
       callback(true);
     }
