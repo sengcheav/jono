@@ -56,7 +56,7 @@ app.post('/quote', function(req, res) {
 app.post('/login',function(req,res){
 
   var token = giveMeAToken();
-  var query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
+  var query = client.query('SELECT * FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
 
   var results = [];
