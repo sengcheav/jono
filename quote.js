@@ -117,7 +117,7 @@ function tokenAllowed(given,callback){
   // });
 
   query.on('end',function(){
-    if(results.size != 0){
+    if(results.size == 1){
       callback(true);
     }
     else{
