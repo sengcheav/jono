@@ -48,18 +48,22 @@ app.post('/quote', function(req, res) {
 });
 
 app.post('/login',function(req,res){
+  
   var token = giveMeAToken();
   var query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
 
-  var result = [];
+  var results = [];
   query.on('row',function(result){
     results.push(result);
   });
+
   query.on('end',function(){
-    var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
-      res.send(token);
-    });
+    if(results.size != 0){
+      var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
+        res.send(token);
+      });
+    }
   });
 
 });
