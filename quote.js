@@ -59,21 +59,14 @@ app.post('/login',function(req,res){
   var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
 
-  var results = [];
+  var count;
   query.on('row',function(result){
-    results.push(result);
-    for (var key in result) {
-      console.log('\n'+'keyr6u89o: '+key);
-    }
+    count = result.count
+    console.log('count: ' +result.count);
   });
 
   query.on('end',function(){
-        for (var key in results) {
-      console.log('\n'+'key0909: '+key);
-    }
-    console.log('\n'+'77: '+results.length);
-    if(results.length != 0){
-
+    if(count != 0){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
         res.send(token);
       });
