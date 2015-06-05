@@ -112,14 +112,14 @@ function tokenAllowed(given,callback){
 
   query = client.query('SELECT COUNT(*) FROM validTokens v WHERE v.token = $1',[given]);
 
-  var count;
+  var count2;
   query.on('row',function(result){
-    count = result.count;
+    count2 = result.count;
   });
 
   query.on('end',function(){
-    console.log('allcount:' +count);
-    if(count != 0){
+    console.log('allcount:' +count2);
+    if(count2 != 0){
       callback(true);
     }
     else{
