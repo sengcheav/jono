@@ -103,6 +103,7 @@ function tokenAllowed(given,callback){
   });
   query.on('row', function(result){
     results.push(result);
+    console.log('\n'+ 'result: ' + result);
   });
   
   // console.log('\n'+'\n'+'\n'+ 'result2: ' + result);
