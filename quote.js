@@ -96,10 +96,10 @@ function giveMeAToken(given){
 function tokenAllowed(given,callback){
 
   var ok;
-  var result;
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,results,fields){
+  var res;
+  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result,fields){
     //console.log('\n'+'\n'+'\n'+ 'resultslength: ' + results.length);
-    result = results;
+    res = result;
 
   });
   // query.on('row', function(result){
@@ -121,7 +121,7 @@ function tokenAllowed(given,callback){
   
   query.on('end',function(){
     console.log('\n'+'\n'+'\n'+'res: ' + result);
-    console.log('\n'+'\n'+'\n'+'size: ' + result.length);
+    //console.log('\n'+'\n'+'\n'+'size: ' + result.length);
     for (var key in result) {
       console.log('\n'+'key: '+key);
     }
