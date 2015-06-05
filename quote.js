@@ -81,7 +81,9 @@ function tokenAllowed(given,callback1,callback2){
   query.on('row', function(result){
     results.push(row);
   });
+  console.log('1     '+results.size)
   query.on('end',function(){
+    console.log('2       '+results.size);
     if(results.size == 0){
       console.log('This token does not exist!');
       callback1();
