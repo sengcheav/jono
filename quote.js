@@ -96,8 +96,8 @@ function giveMeAToken(given){
 function tokenAllowed(given,callback){
 
   var ok;
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result){
-    console.log('\n'+'\n'+'\n'+ 'resultrows: ' + result.rows);
+  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,results,fields){
+    console.log('\n'+'\n'+'\n'+ 'resultslength: ' + results.length);
 
   });
   query.on('row', function(result){   // NOTHING
