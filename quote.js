@@ -49,15 +49,19 @@ app.post('/quote', function(req, res) {
 
 app.post('/login',function(req,res){
   var token = giveMeAToken();
-  query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
+  var query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
+
+  var result = [];
   query.on('row',function(result){
-    if(result.count == 0){
-      res.send('No user with this username exists, or the password is incorrect!');
-    }
+    results.push(result);
   });
-  query = client.query('INSERT INTO validTokens(token) VALUES($1)', [token]);
-  res.send(token);
+  query.on('end',function(){
+    var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
+      res.send(token);
+    });
+  });
+
 });
 
 app.post('/logout',function(req,res){
@@ -99,7 +103,7 @@ function tokenAllowed(given,callback){
   query.on('end',function(){
     callback(ok);
   });
-  
+
 }
 
 function removeActiveToken(given,callback){
