@@ -12,7 +12,7 @@ client = new pg.Client(connectionString);
 client.connect();
 
 //CREATE A SCHEMA - users
-query = client.query('CREATE TABLE validTokens(token text)');
+query = client.query('CREATE TABLE validTokens(token text PRIMARY KEY)');
 
 
 //CALLBACK TO END DATABASE CONNECTION
