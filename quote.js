@@ -100,6 +100,7 @@ function tokenAllowed(given,callback){
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given], function(error,result,fields){
     //console.log('\n'+'\n'+'\n'+ 'resultslength: ' + results.length);
     res = result;
+        console.log('\n'+'\n'+'\n'+'res1: ' + res);
 
   });
   // query.on('row', function(result){
@@ -120,9 +121,9 @@ function tokenAllowed(given,callback){
 
   
   query.on('end',function(){
-    console.log('\n'+'\n'+'\n'+'res: ' + result);
+    console.log('\n'+'\n'+'\n'+'res2: ' + res);
     //console.log('\n'+'\n'+'\n'+'size: ' + result.length);
-    for (var key in result) {
+    for (var key in res) {
       console.log('\n'+'key: '+key);
     }
 
