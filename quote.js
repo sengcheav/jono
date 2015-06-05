@@ -62,10 +62,15 @@ app.post('/login',function(req,res){
   var results = [];
   query.on('row',function(result){
     results.push(result);
-    console.log(result.size);
+    for (var key in result) {
+      console.log('\n'+'keyr6u89o: '+key);
+    }
   });
 
   query.on('end',function(){
+        for (var key in results) {
+      console.log('\n'+'key0909: '+key);
+    }
     console.log('\n'+'77: '+results.length);
     if(results.length != 0){
 
