@@ -16,7 +16,7 @@ var randtoken = require('rand-token');
 
 client = new pg.Client(connectionString);
 client.connect();
-app.use(bodyParser.urlencoded());
+//app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(express.static(__dirname +'/www'));
 app.use(cors());
@@ -62,10 +62,7 @@ app.delete('/quote/:id', function(req, res) {
 });
 ///////////////////////////////////
 
-// use PORT set as an environment variable
-var server = app.listen(process.env.PORT, function() {
-    console.log('Listening on port %d', server.address().port);
-});
+
 
 
 
@@ -191,3 +188,9 @@ function doRandom(req,res){
   });//
 
 }
+
+
+// use PORT set as an environment variable
+var server = app.listen(process.env.PORT, function() {
+    console.log('Listening on port %d', server.address().port);
+});
