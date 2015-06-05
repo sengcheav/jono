@@ -80,24 +80,26 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given,callback){
-  var results = [];
+
   var ok;
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
-    results.push(row);
-  });
-  console.log('1     '+results.size)
-  query.on('end',function(){
-    console.log('2       '+results.size);
-    if(results.size == 0){
-      console.log('This token does not exist!');
+
+    console.log(result);
+    console.log(result.size);
+    if(!result){
       ok = false;
     }
     else{
       ok = true;
     }
+
+  });
+
+  query.on('end',function(){
     callback(ok);
   });
+  
 }
 
 function removeActiveToken(given,callback){
