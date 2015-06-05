@@ -121,12 +121,12 @@ function tokenAllowed(given,callback){
   
   query.on('end',function(){
     console.log('\n'+'\n'+'\n'+'res: ' + result);
-    console.log('\n'+'\n'+'\n'+'size: ' + result.size);
+    console.log('\n'+'\n'+'\n'+'size: ' + result.length);
     for (var key in result) {
       console.log('\n'+'key: '+key);
     }
-    
-    
+
+
     if(results.size == 1){
       callback(true);
     }
