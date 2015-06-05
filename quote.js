@@ -71,6 +71,11 @@ app.post('/login',function(req,res){
         res.send(token);
       });
     }
+    else{
+      res.writeHead(401);
+      res.write('unauthorized!');
+      res.end();
+    }
   });
 
 });
@@ -159,7 +164,7 @@ function doAll(req,res){
   query.on('end',function(){
     res.writeHead(200);
     res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-    res.end();;
+    res.end();
   });
 
 
