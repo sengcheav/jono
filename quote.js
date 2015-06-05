@@ -25,15 +25,16 @@ app.use(cors());
 
 // First check the token is allowed, then perform one of the callbacks based on succces of this.
 app.get('/quote/all', function(req,res) {   
-  if(tokenAllowed(req.body.token),function(ok){
+  tokenAllowed(req.body.token,function(ok){
     if(ok){
       doAll(req,res);
     }
     else{
       noToken(req,res);
     }
-  });                               
+  });                              
 });
+
 
 app.get('/quote/random', function(req, res) {
     tokenAllowed(req.body.token,noToken(req,res),doRandom(req,res));
@@ -45,10 +46,10 @@ app.get('/quote/:id', function(req, res) {
 
 app.post('/quote', function(req, res) {
     tokenAllowed(req.body.token,noToken(req,res),doPost(req,res));
-});
+}); 
 
 app.post('/login',function(req,res){
-  
+
   var token = giveMeAToken();
   var query = client.query('SELECT Count(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
 
