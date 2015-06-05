@@ -16,7 +16,7 @@ var randtoken = require('rand-token');
 
 client = new pg.Client(connectionString);
 client.connect();
-//app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(express.static(__dirname +'/www'));
 app.use(cors());
@@ -25,7 +25,14 @@ app.use(cors());
 
 // First check the token is allowed, then perform one of the callbacks based on succces of this.
 app.get('/quote/all', function(req,res) {   
-  tokenAllowed(req.body.token,noToken(req,res),doAll(req,res));                                     
+  if(tokenAllowed(req.body.token),function(ok){
+    if(ok){
+      doAll(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                               
 });
 
 app.get('/quote/random', function(req, res) {
@@ -72,8 +79,9 @@ function giveMeAToken(given){
   return token;
 }
 
-function tokenAllowed(given,callback1,callback2){
+function tokenAllowed(given,callback){
   var results = [];
+  var ok;
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
     results.push(row);
@@ -83,13 +91,13 @@ function tokenAllowed(given,callback1,callback2){
     console.log('2       '+results.size);
     if(results.size == 0){
       console.log('This token does not exist!');
-      callback1();
+      ok = false;
     }
     else{
-      callback2();
+      ok = true;
     }
+    callback(ok);
   });
-
 }
 
 function removeActiveToken(given,callback){
