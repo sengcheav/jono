@@ -65,8 +65,9 @@ app.post('/login',function(req,res){
   });
 
   query.on('end',function(){
-    if(results.size != 0){
-      console.log('\n'+'77: '+results.length);
+    console.log('\n'+'77: '+results.length);
+    if(results.length != 0){
+
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
         res.send(token);
       });
