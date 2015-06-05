@@ -145,11 +145,9 @@ function doAll(req,res){
   });
 
   query.on('end',function(){
-    for(var i = 0; i < results.length; i++){
-      res.write(results[i]);
-    }
-    res.end();
-    //res.send(results);
+    res.writeHead(200);
+    res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+    res.end();;
   });
 
 
