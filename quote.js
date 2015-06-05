@@ -119,7 +119,7 @@ function tokenAllowed(given,callback){
 
   query.on('end',function(){
     console.log('allcount:' +count);
-    if(count2 != 0){
+    if(count != 0){
       callback(true);
     }
     else{
