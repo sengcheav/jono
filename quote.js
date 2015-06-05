@@ -98,9 +98,9 @@ function tokenAllowed(given,callback){
   var ok;
   query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
   query.on('row', function(result){
-
-    console.log(result);
-    console.log(result.size);
+  
+  console.log('\n'+'\n'+'\n'+ 'result: ' + result);
+  console.log('\n'+'\n'+'\n'+ 'resultsize: ' + result.size);
     if(!result){
       ok = false;
     }
