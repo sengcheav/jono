@@ -115,10 +115,10 @@ function tokenAllowed(given,callback){
   var count2;
   query.on('row',function(result){
     count2 = result.count;
+    console.log('allcount:' +result.count);
   });
 
   query.on('end',function(){
-    console.log('allcount:' +count2);
     if(count2 != 0){
       callback(true);
     }
