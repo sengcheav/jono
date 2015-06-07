@@ -308,6 +308,9 @@ function doRandom(req,res){
     var key = Math.floor(Math.random() * max);
     var results = [];
 
+    console.log('key: '+ key);
+    console.log('max: '+ max);
+
     query2 = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
 
     query2.on('row',function(row){
