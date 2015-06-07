@@ -18,7 +18,7 @@ var quotes = [
 client = new pg.Client(connectionString);
 client.connect();
 //CREATE A SCHEMA - quotes
-query = client.query('CREATE TABLE quotes(tablekey integer, author text PRIMARY KEY, content text NOT NULL)');
+query = client.query('CREATE TABLE quotes(tablekey integer PRIMARY KEY, author text CHECK UNIQUE, content text NOT NULL)');
 
 //POPULATE THE QUOTES SCHEMA
 query = client.query('INSERT INTO quotes(tablekey, author,content) VALUES($1,$2,$3)', [1,quotes[0].author,quotes[0].text]);
