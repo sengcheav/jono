@@ -75,10 +75,11 @@
           data: {author: a, text: t, token: token},
           success : function(data){
             if(data == 'Invalid Access token!'){    // errorless, but not succesfull
-              alert('quote posted succesfully');
+              alert('quote not posted, are you logged in?');              
             }
             else{
-              alert('quote not posted, are you logged in?');
+
+              alert('quote posted succesfully');
             }
             
           },

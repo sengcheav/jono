@@ -35,6 +35,7 @@ app.use(cors());
 //comments
 // sending res random, need proper write and end send back with proper status code
 // random pre checks
+//failure, send failure
 
 
 app.get('/quote/all', function(req,res) {   
@@ -82,7 +83,7 @@ app.post('/quote', function(req, res) {
 });
 
 app.post('/logout',function(req,res){
-    tokenAllowed(req.query.token,function(ok){
+    tokenAllowed(req.body.token,function(ok){
     if(ok){
       doLogOut(req,res);
     }
@@ -117,12 +118,13 @@ app.post('/login',function(req,res){
   query.on('end',function(){
     if(count != 0){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
-        res.send(token);
+        res.writeHead(200);
+        res.write(token);
+        res.end();
       });
     }
     else{
-      res.writeHead(401);
-      res.write('unauthorized!');
+      res.write('unauthorized');
       res.end();
     }
   });
@@ -168,22 +170,26 @@ function noToken(req,res){
 function doDelete(req,res){
     //precheck - provided id is valid
   if(req.params.id < 1) {
-    res.send('Error 404: No quote found');
+    res.writeHead(400);
+    res.end();
   }
   if(req.params.id > numberQuotes){
-    res.send('Error 404: No quote found');
+    res.writeHead(400);
+    res.end();
   }
           // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
     //locally update the number of quotes held in the database
   numberQuotes--;
     // inform the client of success
-  res.send('quote removed!');
+
+  res.writeHead(200);
+  res.end();
 }
 
 
 function doLogOut(req,res){
-  removeActiveToken(req.body.token,loggedOut(req,res));
+  removeActiveToken(req.query.token,loggedOut(req,res));
 }
 
 function loggedOut(req,res){
@@ -193,7 +199,8 @@ function loggedOut(req,res){
 function doPost(req,res){
   //precheck - http header has enough information
   if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
-    res.send('Error 400: Post syntax incorrect.');
+    res.writeHead(400);
+    res.end();
   }
 
   var newQuote = {
@@ -203,8 +210,10 @@ function doPost(req,res){
         // query - insert quote into database using info provided by client in http header
   query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [numberQuotes++, newQuote.author,newQuote.text]);
 
-  // inform the client of success
-  res.send('added quote!');
+  query.on('end',function(){
+    res.writeHead(200);
+    res.end();
+  });
 }
 
 function doAll(req,res){
@@ -252,17 +261,25 @@ function doId(req,res){
 
 function doRandom(req,res){
   var key = Math.floor(Math.random() * numberQuotes);
-    // query - select a random quote from database using a random number variable
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
-  query.on('row', function(result) {
-    if(!result){
-      res.send('cannot find random quote');
-    }else{
-          // when result has been returned, return them to the client
-    res.send('author: '+ result.author +', quote:' + result.content);
-    }
-  });//
+  var results = [];
 
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+
+  query.on('row',function(row){
+    results.push(row);
+  });
+
+  query.on('end',function(){
+    if(results.length == 0){
+      res.writeHead(404);
+      res.end();
+    }
+    else{
+      res.writeHead(200);
+      res.write('author: '+ result.author +', quote:' + result.content);
+      res.end();
+    }
+  });
 }
 
 
