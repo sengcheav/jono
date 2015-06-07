@@ -191,7 +191,7 @@ function doPost(req,res){
   var newKey;
   query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
 
-  query.on('row',function(){
+  query.on('row',function(row){
     newkey = row.tablekey + 1;
   });
 
@@ -300,7 +300,7 @@ function doRandom(req,res){
 
   query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
 
-  query.on('row',function(){
+  query.on('row',function(row){
     max = row.tablekey;
   });
 
