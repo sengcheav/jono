@@ -193,7 +193,7 @@ function doLogOut(req,res){
 }
 
 function loggedOut(req,res){
-  res.write(null)
+  res.write("")
   res.end();
 }
 
