@@ -95,7 +95,7 @@ app.post('/logout',function(req,res){
 
 // HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
 app.get('/quote/delete/:id', function(req, res) {
-      console.log('4'+req.params.id.val());
+      console.log('4'+req.params.id.val;
 
     tokenAllowed(req.query.token,function(ok){
     if(ok){
