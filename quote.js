@@ -321,11 +321,7 @@ function doRandom(req,res){
       }
       else{
         res.writeHead(200);
-
-        console.log(results[0]);
-        console.log(results.author);
-
-        res.write('author: '+ results.author +', quote:' + results.content);
+        res.write('author: '+ results[0].author +', quote:' + results[0].content);
         res.end();
       }
     });
