@@ -65,7 +65,28 @@
 
         });
 
+        $( "#ID" ).bind( "click", function(event, ui) {
+          var i = $("#ID2").val();
+          var ix = parseInt(i,10);
+        $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
+          data: {id: ix, token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('quote not retrieved, are you logged in?');
+            }
+            else{
+              alert('quote retrieved with id succesfully');
+              $('#ID2').val(data);
+            }
+          },
+          error: function(data) {
+            alert('an error occured, quote not retrieved.');
+          }
+        },"json");
 
+        });
 
         $( "#post" ).bind( "click", function(event, ui) {
           var a = $("#post2a").val();
@@ -90,32 +111,6 @@
         },"json");
 
         });
-
-
-
-        $( "#ID" ).bind( "click", function(event, ui) {
-          var i = $("#ID2").val();
-          var ix = parseInt(i,10);
-        $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: ix, token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
-              alert('quote not retrieved, are you logged in?');
-            }
-            else{
-              alert('quote retrieved with id succesfully');
-              $('#ID2').val(data);
-            }
-          },
-          error: function(data) {
-            alert('an error occured, quote not retrieved.');
-          }
-        },"json");
-
-        });
-
 
         $( "#random" ).bind( "click", function(event, ui) {
         $.ajax({

@@ -95,6 +95,9 @@ app.post('/logout',function(req,res){
 
 // HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
 app.get('/quote/delete/:id', function(req, res) {
+      console.log('1'+req.body.id);
+      console.log('2'+req.params.id);
+      console.log('3'+req.query.id);
     tokenAllowed(req.query.token,function(ok){
     if(ok){
       doDelete(req,res);
@@ -167,27 +170,6 @@ function noToken(req,res){
   res.send('Invalid Access token!');
 }
 
-function doDelete(req,res){
-  if(req.query.id < 1) {
-    res.writeHead(400);
-    res.end();
-  }
-  if(req.query.id > numberQuotes){
-    res.writeHead(400);
-    res.end();
-  }
-
-
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
-
-  query.on('end',function(){
-    numberQuotes--;
-    res.writeHead(200);
-    res.end();
-  });
-}
-
-
 function doLogOut(req,res){
   removeActiveToken(req.query.token,loggedOut(req,res));
 }
@@ -239,6 +221,7 @@ function doAll(req,res){
 }
 
 function doId(req,res){
+
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
 
@@ -257,6 +240,26 @@ function doId(req,res){
       res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
       res.end();
     }
+  });
+}
+
+function doDelete(req,res){
+  if(req.query.id < 1) {
+    res.writeHead(400);
+    res.end();
+  }
+  if(req.query.id > numberQuotes){
+    res.writeHead(400);
+    res.end();
+  }
+
+
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
+
+  query.on('end',function(){
+    numberQuotes--;
+    res.writeHead(200);
+    res.end();
   });
 }
 
