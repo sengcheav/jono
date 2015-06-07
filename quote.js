@@ -133,10 +133,11 @@ app.post('/login',function(req,res){
 
 function doseqTok(req,res){
   var token = giveMeAToken();
-  removeActiveToken(req.query.token,function(){
     res.writeHead(200);
     res.write(token);
     res.end();
+  removeActiveToken(req.query.token,function(){
+
   });
 }
 
