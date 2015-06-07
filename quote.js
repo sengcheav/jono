@@ -330,6 +330,35 @@ function doRandom(req,res){
       }
     });
   });
+
+
+    var key = Math.floor(Math.random() * (max + 1));
+    var results = [];
+
+    console.log('key: '+ key);
+    console.log('max: '+ max);
+
+    query2 = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+
+    query2.on('row',function(row){
+      results.push(row);
+    });
+
+    query2.on('end',function(){
+      if(results.length == 0){
+        res.writeHead(404);
+        res.end();
+      }
+      else{
+        res.writeHead(200);
+        res.write('author: '+ results.author +', quote:' + results.content);
+
+        res.end();
+      }
+    });
+
+
+  
 }
 
 
