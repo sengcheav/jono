@@ -118,11 +118,14 @@
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
-          success : function(data,xhr){    // data2 is errorless successful return of all quotes
-            if(data == 'Invalid Access token!') console.log('1');
-            if(data === 'Invalid Access token!') console.log('2');
-            alert('all quotes retrieved succesfully');
-            $('#all2').val(data);
+          success : function(data,xhr){    
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('did not retrieve quotes, are you logged in?');
+            }
+            else{
+              alert('all quotes retrieved succesfully');
+              $('#all2').val(data);
+            }
           },
           error: function(data) {
             alert('an error occured, quotes not retrieved');
