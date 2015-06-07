@@ -196,6 +196,8 @@
             else{
               alert('succesfully logged in');
               token = data;
+              $('#username').val("");
+              $('#password').val("");
             }
           },
           error: function(data) {
