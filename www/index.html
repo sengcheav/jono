@@ -119,8 +119,7 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
           success : function(data){
-            if(data.accepted) console.log('1');
-            else console.log('2');
+            console.log(data.length);
 
             alert('all quotes retrieved succesfully');
             $('#all2').val(data);
