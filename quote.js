@@ -242,7 +242,7 @@ function doId(req,res){
   // console.log('gg: '+req.query.id);
 
 
-  
+
 
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
@@ -302,7 +302,8 @@ function doRandom(req,res){
     }
     else{
       res.writeHead(200);
-      res.write('author: '+ results.author +', quote:' + results.content);
+      res.write({g: 'author: '+ results.author +', quote:' + results.content});
+      res.write({f: 't'})
       res.end();
     }
   });
