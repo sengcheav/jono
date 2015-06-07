@@ -167,7 +167,9 @@ function noToken(req,res){
 }
 
 function doDelete(req,res){
-  console.log('1111'+req.body.id);
+  console.log('1'+req.body.id);
+  console.log('11'+req.params.id);
+  console.log('111'+req.query.id);
 
   if(req.params.id < 1) {
     res.writeHead(400);
@@ -178,8 +180,12 @@ function doDelete(req,res){
     res.end();
   }
 
-  var id = parseInt(req.body.id);
-  console.log('22'+id);
+  var id1 = parseInt(req.body.id);
+  var id2 = parseInt(req.params.id);
+  var id3 = parseInt(req.query.id);
+  console.log('2'+id1);
+  console.log('22'+id2);
+  console.log('222'+id3);
 
   // query - remove quote from database using id provided by client in http header
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [1]);
