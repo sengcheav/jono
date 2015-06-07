@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
 var password = require('password-hash-and-salt');
-var numberQuotes = 4;     
+var numberQuotes = 4;
+var quoteID = 5;          
 var path = require('path');                                                           
 var randtoken = require('rand-token');
 
@@ -188,7 +189,7 @@ function doPost(req,res){
     text : req.body.text
   };
 
-  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
+  query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [quoteID++, newQuote.author,newQuote.text]);
 
   query.on('end',function(){
     res.writeHead(200);
