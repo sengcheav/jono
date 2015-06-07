@@ -133,12 +133,17 @@ app.post('/login',function(req,res){
 
 function doseqTok(req,res){
   var token = giveMeAToken();
-    res.writeHead(200);
-    res.write(token);
-    res.end();
-  removeActiveToken(req.query.token,function(){
 
+  var query = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
+        res.writeHead(200);
+        res.write(token);
+        res.end();
   });
+  query.on('end',function(){
+    removeActiveToken(req.query.token,function(){});
+  });
+
+  
 }
 
 

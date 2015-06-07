@@ -62,6 +62,24 @@
           }
         },"json");
 
+                  $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
+          data : {token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){
+              alert('you have been logged out');
+            }
+            else{
+              token = data;
+            }
+          },
+          error: function(data) {
+          }
+        },"json");
+
+        
+
         });
 
         $( "#ID" ).bind( "click", function(event, ui) {
@@ -89,6 +107,24 @@
           }
         },"json");
 
+                          $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
+          data : {token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){
+              alert('you have been logged out');
+            }
+            else{
+              token = data;
+            }
+          },
+          error: function(data) {
+          }
+        },"json");
+
+
+
         });
 
         $( "#post" ).bind( "click", function(event, ui) {
@@ -113,6 +149,22 @@
           }
         },"json");
 
+                  $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
+          data : {token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){
+              alert('you have been logged out');
+            }
+            else{
+              token = data;
+            }
+          },
+          error: function(data) {
+          }
+        },"json");
+
         });
 
         $( "#random" ).bind( "click", function(event, ui) {
@@ -132,6 +184,23 @@
           },
           error: function(data) {
             alert('an error occured, quote not retrieved');
+          }
+        },"json");
+
+
+                  $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
+          data : {token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){
+              alert('you have been logged out');
+            }
+            else{
+              token = data;
+            }
+          },
+          error: function(data) {
           }
         },"json");
 
@@ -170,10 +239,9 @@
             }
           },
           error: function(data) {
-            alert('an error occurred, please try again');
           }
         },"json");
-        
+
 
         });
 
