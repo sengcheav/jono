@@ -44,10 +44,11 @@
 
         $( "#delete" ).bind( "click", function(event, ui) {
           var id = $("delete2").val();
+          var ix = parseInt(i,10);
         $.ajax({
-          type: "DELETE",
-          url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: id, token: token},
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/quote/delete/:id",
+          data: {id: ix, token: token},
           success : function(data){
             if(data == 'Invalid Access token!'){    // errorless, but not succesfull
               alert('quote not deleted, are you logged in?');

@@ -93,7 +93,8 @@ app.post('/logout',function(req,res){
   });                              
 });
 
-app.delete('/quote/:id', function(req, res) {
+// HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
+app.get('/quote/delete/:id', function(req, res) {
     tokenAllowed(req.body.token,function(ok){
     if(ok){
       doDelete(req,res);
@@ -167,33 +168,17 @@ function noToken(req,res){
 }
 
 function doDelete(req,res){
-  console.log('1'+req.body.id);
-  console.log('11'+req.params.id);
-  console.log('111'+req.query.id);
-
-  console.log('345');
-  for(key in req.params.id){
-    console.log('k: '+req.params.id[key]);
-  }
-
-  if(req.params.id < 1) {
+  if(req.query.id < 1) {
     res.writeHead(400);
     res.end();
   }
-  if(req.params.id > numberQuotes){
+  if(req.query.id > numberQuotes){
     res.writeHead(400);
     res.end();
   }
 
-  var id1 = parseInt(req.body.id);
-  var id2 = parseInt(req.params.id);
-  var id3 = parseInt(req.query.id);
-  console.log('2'+id1);
-  console.log('22'+id2);
-  console.log('222'+id3);
 
-  // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [1]);
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
 
   query.on('end',function(){
     numberQuotes--;
