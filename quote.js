@@ -77,6 +77,17 @@ app.post('/logout',function(req,res){
   });                              
 });
 
+app.get('seqtok',function(req,res){
+  tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doseqTok(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
+});
+
 // HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
 app.get('/quote/delete/:id', function(req, res) {
     tokenAllowed(req.query.token,function(ok){
@@ -117,6 +128,17 @@ app.post('/login',function(req,res){
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function seqTok(req,res){
+  var token = giveMeAToken();
+  removeActiveToken(req.query.token,function(){
+    res.writeHead(200);
+    res.write(token);
+    res.end();
+  });
+}
+
+
 
 function giveMeAToken(given){
   var token = randtoken.generate(16);
