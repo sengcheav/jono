@@ -157,6 +157,23 @@
           }
         },"json");
 
+        $.ajax({
+          type: "GET",
+          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
+          data : {token: token},
+          success : function(data){
+            if(data == 'Invalid Access token!'){
+              alert('you have been logged out');
+            }
+            else{
+              token = data;
+            }
+          },
+          error: function(data) {
+            alert('an error occurred, please try again');
+          }
+        },"json");
+        });
         });
 
 
