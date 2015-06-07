@@ -259,7 +259,8 @@ function doId(req,res){
     
     else{
       res.writeHead(200);
-      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+      res.write({author: results[0].author, content: results[0].content});
+      res.write({f: 't'})
       res.end();
     }
   });
@@ -288,6 +289,7 @@ function doDelete(req,res){
 function doRandom(req,res){
   var key = Math.floor(Math.random() * numberQuotes);
   var results = [];
+  console.log(numberQuotes);
 
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
 
@@ -302,8 +304,8 @@ function doRandom(req,res){
     }
     else{
       res.writeHead(200);
-      res.write({g: 'author: '+ results.author +', quote:' + results.content});
-      res.write({f: 't'})
+      res.write('author: '+ results.author +', quote:' + results.content);
+
       res.end();
     }
   });
