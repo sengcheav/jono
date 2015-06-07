@@ -191,9 +191,9 @@ function doPost(req,res){
   var newKey;
   query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
 
-  query.on('row'){
+  query.on('row',function(){
     newkey = row.tablekey + 1;
-  }
+  });
 
   query.on('end',function(){
 
