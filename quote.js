@@ -259,12 +259,15 @@ function doDelete(req,res){
     res.end();
   }
 
+  console.log(req.params.id);
+    console.log(req.body.id);
+      console.log(req.query.id);
 
-  for (var k in req.params) {
-      if (req.params.hasOwnProperty(k)) {
-           console.log('k:' + k);
-        }
-    }
+  // for (var k in req.params.id) {
+  //     if (req.params.hasOwnProperty(k)) {
+  //          console.log('k:' + k);
+  //       }
+  //   }
   //   for(key in req.params){
   //   console.log('1: '+key[0]);
   // }
