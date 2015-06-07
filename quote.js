@@ -173,7 +173,7 @@ function doDelete(req,res){
 
   console.log('345');
   for(key in req.params.id){
-    console.log('k: '+key);
+    console.log('k: '+req.params.id[key]);
   }
 
   if(req.params.id < 1) {
