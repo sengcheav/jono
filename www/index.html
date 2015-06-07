@@ -62,28 +62,7 @@
           }
         },"json");
 
-                $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
-          data : {token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){
-              alert('you have been logged out');
-            }
-            else{
-              token = data;
-            }
-          },
-          error: function(data) {
-            alert('an error occurred, please try again');
-          }
-        },"json");
-      });
-
         });
-
-
-
 
         $( "#ID" ).bind( "click", function(event, ui) {
           var i = $("#ID2").val();
@@ -110,24 +89,6 @@
           }
         },"json");
 
-                $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
-          data : {token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){
-              alert('you have been logged out');
-            }
-            else{
-              token = data;
-            }
-          },
-          error: function(data) {
-            alert('an error occurred, please try again');
-          }
-        },"json");
-      });
-
         });
 
         $( "#post" ).bind( "click", function(event, ui) {
@@ -152,24 +113,6 @@
           }
         },"json");
 
-                $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
-          data : {token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){
-              alert('you have been logged out');
-            }
-            else{
-              token = data;
-            }
-          },
-          error: function(data) {
-            alert('an error occurred, please try again');
-          }
-        },"json");
-      });
-
         });
 
         $( "#random" ).bind( "click", function(event, ui) {
@@ -192,24 +135,6 @@
           }
         },"json");
 
-                $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
-          data : {token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){
-              alert('you have been logged out');
-            }
-            else{
-              token = data;
-            }
-          },
-          error: function(data) {
-            alert('an error occurred, please try again');
-          }
-        },"json");
-      });
-
         });
 
 
@@ -231,25 +156,6 @@
             alert('an error occured, quotes not retrieved');
           }
         },"json");
-
-                $.ajax({
-          type: "GET",
-          url : "https://calm-bastion-2419.herokuapp.com/seqtok",
-          data : {token: token},
-          success : function(data){
-            if(data == 'Invalid Access token!'){
-              alert('you have been logged out');
-            }
-            else{
-              token = data;
-            }
-          },
-          error: function(data) {
-            alert('an error occurred, please try again');
-          }
-        },"json");
-      });
-
 
         });
 
@@ -299,6 +205,12 @@
           }
         },"json");
       });
+
+
+
+
+
+
 
 
     });
