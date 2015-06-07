@@ -321,9 +321,10 @@ function doRandom(req,res){
       }
       else{
         res.writeHead(200);
-        for(key in results){
-          console.log('k:'+key)
-        }
+
+        console.log(results[0]);
+        console.log(results.author);
+
         res.write('author: '+ results.author +', quote:' + results.content);
         res.end();
       }
