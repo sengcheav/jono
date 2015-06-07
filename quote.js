@@ -259,7 +259,7 @@ function doDelete(req,res){
     res.end();
   }
 
-  console.log('k'+req.params.id);
+  console.log('k'+req.params.id.id);
     console.log('j'+req.body.id);
       console.log('r'+req.query.id);
 
