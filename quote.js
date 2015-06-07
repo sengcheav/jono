@@ -139,7 +139,6 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given,callback){
-  console.log(given);
   query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
 
   var count = 0;
@@ -168,10 +167,6 @@ function noToken(req,res){
 }
 
 function doDelete(req,res){
-  console.log('1'+req.query.id);
-    console.log('2'+req.body.id);
-      console.log('3'+req.params.id);
-    //precheck - provided id is valid
   if(req.params.id < 1) {
     res.writeHead(400);
     res.end();
@@ -181,7 +176,7 @@ function doDelete(req,res){
     res.end();
   }
           // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
     //locally update the number of quotes held in the database
   numberQuotes--;
     // inform the client of success
