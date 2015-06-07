@@ -32,12 +32,9 @@ app.use(cors());
 
 //client gives approrpriate error/ console messages
 //logical steps ie already logged on?
+//comments
 
 
-
-
-
-// First check the token is allowed, then perform one of the callbacks based on succces of this.
 app.get('/quote/all', function(req,res) {   
   tokenAllowed(req.query.token,function(ok){
     if(ok){
@@ -49,18 +46,60 @@ app.get('/quote/all', function(req,res) {
   });                              
 });
 
-
 app.get('/quote/random', function(req, res) {
-    tokenAllowed(req.body.token,noToken(req,res),doRandom(req,res));
+    tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doRandom(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
 });
 
 app.get('/quote/:id', function(req, res) {
-    tokenAllowed(req.body.token,noToken(req,res),doId(req,res));
+    tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doId(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
 });
 
 app.post('/quote', function(req, res) {
-    tokenAllowed(req.body.token,noToken(req,res),doPost(req,res));
-}); 
+    tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doPost(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
+});
+
+app.post('/logout',function(req,res){
+    tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doLogOut(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
+});
+
+app.delete('/quote/:id', function(req, res) {
+    tokenAllowed(req.query.token,function(ok){
+    if(ok){
+      doDelete(req,res);
+    }
+    else{
+      noToken(req,res);
+    }
+  });                              
+});
 
 app.post('/login',function(req,res){
 
@@ -88,19 +127,7 @@ app.post('/login',function(req,res){
 
 });
 
-app.post('/logout',function(req,res){
-  tokenAllowed(req.body.token,noToken(req,res),doLogOut(req,res));
-});
-
-app.delete('/quote/:id', function(req, res) {
-  tokenAllowed(req.body.token,noToken(req,res),doDelete(req,res));
-});
-///////////////////////////////////
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function giveMeAToken(given){
   var token = randtoken.generate(16);
