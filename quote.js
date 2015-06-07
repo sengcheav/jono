@@ -40,9 +40,12 @@ app.use(cors());
 // First check the token is allowed, then perform one of the callbacks based on succces of this.
 app.get('/quote/all', function(req,res) {   
       console.log('\n\n');
-  for(key in req.body){
-    console.log('key: '+key);
-  }
+      console.log('reqbody: '+req.body.token);
+      console.log('reqparams '+req.params.token);
+      console.log('reqparam '+req.param.token);
+      console.log('reqquery: '+req.query.token);
+      console.log('reqparam() '+req.param('token'));
+
   tokenAllowed(req.body.token,function(ok){
     if(ok){
       doAll(req,res);
