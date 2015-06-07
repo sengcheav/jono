@@ -114,12 +114,12 @@ function tokenAllowed(given,callback){
 
   var count = 0;
   query.on('row',function(result){
-    count++;
+    count = result.count;
   });
 
   query.on('end',function(){
     console.log('allcount:' +count);
-    if(count != 0){
+    if(count != 0){                 
       callback(true);
     }
     else{
