@@ -39,14 +39,7 @@ app.use(cors());
 
 // First check the token is allowed, then perform one of the callbacks based on succces of this.
 app.get('/quote/all', function(req,res) {   
-      console.log('\n\n');
-      console.log('reqbody: '+req.body.token);
-      console.log('reqparams '+req.params.token);
-      console.log('reqparam '+req.param.token);
-      console.log('reqquery: '+req.query.token);
-      console.log('reqparam() '+req.param('token'));
-
-  tokenAllowed(req.body.token,function(ok){
+  tokenAllowed(req.query.token,function(ok){
     if(ok){
       doAll(req,res);
     }
@@ -115,24 +108,12 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given,callback){
-  console.log('given:'+ given);
 
-  query = client.query('SELECT * FROM validTokens v WHERE v.token = $1',[given]);
+  query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
 
   var count = 0;
   query.on('row',function(result){
-
-    console.log('\n\n');
-    console.log('result:' +result);
-
-    for(key in result){
-      console.log('key: '+key);
-    }
-
-
-
-
-    //count = result.count;
+    count = result.count;
   });
 
   query.on('end',function(){
