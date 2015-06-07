@@ -74,7 +74,6 @@ app.post('/login',function(req,res){
   });
 
   query.on('end',function(){
-        console.log('logincount:' +count);
     if(count != 0){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
         res.send(token);
@@ -114,11 +113,22 @@ function tokenAllowed(given,callback){
 
   var count = 0;
   query.on('row',function(result){
+
+    console.log('\n\n')
+    console.log('result:' +result);
+
+    for(key in result){
+      console.log('key: '+key);
+    }
+
+    console.log('rescount: '+result.count);
+
+    
+
     count = result.count;
   });
 
   query.on('end',function(){
-    console.log('allcount:' +count);
     if(count != 0){                 
       callback(true);
     }
