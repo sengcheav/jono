@@ -226,7 +226,7 @@ function doId(req,res){
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
 
-  query.on('row', function(result) {
+  query.on('row', function(row) {
     results.push(row);
   });
 
