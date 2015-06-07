@@ -259,9 +259,9 @@ function doDelete(req,res){
     res.end();
   }
 
-  console.log(req.params.id);
-    console.log(req.body.id);
-      console.log(req.query.id);
+  console.log('k'+req.params.id);
+    console.log('j'+req.body.id);
+      console.log('r'+req.query.id);
 
   // for (var k in req.params.id) {
   //     if (req.params.hasOwnProperty(k)) {
