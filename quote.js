@@ -171,6 +171,11 @@ function doDelete(req,res){
   console.log('11'+req.params.id);
   console.log('111'+req.query.id);
 
+  console.log('345');
+  for(key in req.params.id){
+    console.log('k: '+key);
+  }
+
   if(req.params.id < 1) {
     res.writeHead(400);
     res.end();
