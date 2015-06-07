@@ -231,13 +231,13 @@ function doId(req,res){
   // for(key in req.body){
   //   console.log('2: '+req.body[key]);
   // }
-  for(key in req.query){
-    console.log('3a: '+key);
-  }
-  for(key in req.query){
-    console.log('3b: '+req.query[key]);
-  }
-
+  // for(key in req.query){
+  //   console.log('3a: '+key);
+  // }
+  // for(key in req.query){
+  //   console.log('3b: '+req.query[key]);
+  // }
+  console.log('3d: '+req.query[id]
 
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
