@@ -222,7 +222,8 @@ function doAll(req,res){
     }
     else{
       res.writeHead(200);
-      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content, accepted: true}; })));
+      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+      res.write(accepted = true);
       res.end();
     }
   });
