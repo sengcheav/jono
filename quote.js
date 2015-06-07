@@ -216,9 +216,15 @@ function doAll(req,res){
   });
 
   query.on('end',function(){
-    res.writeHead(200);
-    res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content, data.accepted = true}; })));
-    res.end();
+    if(results.length == 0){
+      res.writeHead(404);
+      res.end();
+    }
+    else{
+      res.writeHead(200);
+      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content, accepted: true}; })));
+      res.end();
+    }
   });
 }
 
