@@ -300,9 +300,9 @@ function doRandom(req,res){
 
   query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
 
-  query.on('row'){
+  query.on('row',function(){
     max = row.tablekey;
-  }
+  });
 
   query.on('end',function(){
     var key = Math.floor(Math.random() * max);
