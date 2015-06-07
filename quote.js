@@ -218,11 +218,13 @@ function doAll(req,res){
   query.on('end',function(){
     if(results.length == 0){
       res.writeHead(404);
+      res.write(false);
       res.end();
     }
     else{
       res.writeHead(200);
       res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+      res.write(true);
       res.end();
     }
   });
@@ -239,13 +241,14 @@ function doId(req,res){
   query.on('end',function(){
     if(results.length == 0){
       res.writeHead(404);
+
       res.end();
     }
     
     else{
       res.writeHead(200);
       res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-      res.write(true);
+
       res.end();
     }
   });
