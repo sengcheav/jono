@@ -219,23 +219,23 @@ function doAll(req,res){
 
 function doId(req,res){
   console.log('\n\n');
-  for(key in req.params){
-    console.log('1: '+key);
-  }
-  for(key in req.params){
-    console.log('1: '+req.params[key]);
-  }
-  for(key in req.body){
-    console.log('2: '+key);
-  }
-  for(key in req.body){
-    console.log('2: '+req.body[key]);
+  // for(key in req.params){
+  //   console.log('1: '+key);
+  // }
+  // for(key in req.params){
+  //   console.log('1: '+req.params[key]);
+  // }
+  // for(key in req.body){
+  //   console.log('2: '+key);
+  // }
+  // for(key in req.body){
+  //   console.log('2: '+req.body[key]);
+  // }
+  for(key in req.query){
+    console.log('3a: '+key);
   }
   for(key in req.query){
-    console.log('3: '+key);
-  }
-  for(key in req.query){
-    console.log('3: '+req.query[key]);
+    console.log('3b: '+req.query[key]);
   }
 
 
