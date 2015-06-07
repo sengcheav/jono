@@ -22,21 +22,6 @@ app.use(cors());
 
 
 
-//get everything working
-// sort behaviours, should it send error or just a message?
-// add error checking, status codes, all the frills
-
-// security
-// go through assignment steps
-
-//client gives approrpriate error/ console messages
-//logical steps ie already logged on?
-//comments
-// sending res random, need proper write and end send back with proper status code
-// random pre checks
-//failure, send failure
-
-
 app.get('/quote/all', function(req,res) {   
   tokenAllowed(req.query.token,function(ok){
     if(ok){

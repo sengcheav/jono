@@ -66,6 +66,10 @@
 
         $( "#ID" ).bind( "click", function(event, ui) {
           var i = $("#ID2").val();
+          if(i==""){
+            alert('please enter and id value');
+            return;
+          }
           //var ix = parseInt(i,10);
         $.ajax({
           type: "GET",
