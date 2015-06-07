@@ -187,8 +187,8 @@ function doPost(req,res){
     author : req.body.author,
     text : req.body.text
   };
-        // query - insert quote into database using info provided by client in http header
-  query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [numberQuotes++, newQuote.author,newQuote.text]);
+
+  query = client.query('INSERT INTO quotes(author,content) VALUES($2,$3)', [newQuote.author,newQuote.text]);
 
   query.on('end',function(){
     res.writeHead(200);
