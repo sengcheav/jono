@@ -72,6 +72,8 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
           data: {id: i, token: token},
           success : function(data){
+                        console.log(data.g);
+            console.log(data.f);
             if(data == 'Invalid Access token!'){    // errorless, but not succesfull
               alert('quote not retrieved, are you logged in?');
             }
@@ -117,8 +119,7 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
           data : {token: token},
           success : function(data){
-            console.log(data.g);
-            console.log(data.f);
+
             if(data == 'Invalid Access token!'){    // errorless, but not succesfull
               alert('quote not retrieved, are you logged in?');
             }
