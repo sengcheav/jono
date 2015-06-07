@@ -168,6 +168,9 @@ function noToken(req,res){
 }
 
 function doDelete(req,res){
+  console.log('1'+req.query.id);
+    console.log('2'+req.body.id);
+      console.log('3'+req.params.id);
     //precheck - provided id is valid
   if(req.params.id < 1) {
     res.writeHead(400);
