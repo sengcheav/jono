@@ -43,7 +43,6 @@
       });
 
         $( "#delete" ).bind( "click", function(event, ui) {
-          console.log('attempting to delete quote');
           var d = $("delete2").val();
         $.ajax({
           type: "DELETE",
@@ -59,7 +58,6 @@
         });
 
         $( "#post" ).bind( "click", function(event, ui) {
-          console.log('attempting to post quote');
           var a = $("#post2a").val();
           var t = $("#post2t").val();
         $.ajax({
@@ -78,13 +76,12 @@
 
 
         $( "#ID" ).bind( "click", function(event, ui) {
-          alert(token);
-          console.log('attempting to get id quote');
           var i = $("#ID2").val();
+          var ix = parseInt(i,10);
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
-          data: {id: i, token: token},
+          data: {id: ix, token: token},
           success : function(data){
             $('#ID2').val(data);
 
@@ -97,7 +94,6 @@
 
 
         $( "#random" ).bind( "click", function(event, ui) {
-          console.log('attempting to get random quote');
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
@@ -114,8 +110,6 @@
 
 
         $( "#all" ).bind( "click", function(event, ui) {
-          console.log('attempting to get all quotes');
-          alert(token);
         $.ajax({
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
@@ -132,14 +126,11 @@
 
 
         $( "#logout" ).bind( "click", function(event, ui) {
-          console.log('attempting to logout');
-          alert(token);
         $.ajax({
           type: "POST",
           url : "https://calm-bastion-2419.herokuapp.com/logout",
           data : {token: token},
           success : function(data){
-            alert('logged out!');
             token = data;
           },
           error: function (xhr, ajaxOptions, thrownError) {
@@ -152,17 +143,14 @@
         $( "#login" ).bind( "click", function(event, ui) {
         var username = $("#username").val();
         var password = $("#password").val();
-        console.log('button pressed to login, ajax post request being sent');
         $.ajax({
           type: "POST",
           url : "https://calm-bastion-2419.herokuapp.com/login",
           data: {username: username, password: password},
           success : function(data){
             token = data;
-            alert('logged on!!');
           },
           error: function(data) {
-            alert('Not logged in!');
           }
         },"json");
       });
