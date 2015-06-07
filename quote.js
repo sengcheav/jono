@@ -260,25 +260,25 @@ function doDelete(req,res){
   }
 
     for(key in req.params){
-    console.log('1: '+key);
+    console.log('1: '+key[0]);
   }
   for(key in req.params){
-    console.log('1: '+req.params[key]);
+    console.log('1: '+req.params[key].val);
   }
-  for(key in req.body){
-    console.log('2: '+key);
-  }
-  for(key in req.body){
-    console.log('2: '+req.body[key]);
-  }
-  for(key in req.query){
-    console.log('3a: '+key);
-  }
-  for(key in req.query){
-    console.log('3b: '+req.query[key]);
-  }
-  console.log('3ddd: '+req.query[req.query.id]);
-  console.log('gg: '+req.query.id);
+  // for(key in req.body){
+  //   console.log('2: '+key);
+  // }
+  // for(key in req.body){
+  //   console.log('2: '+req.body[key]);
+  // }
+  // for(key in req.query){
+  //   console.log('3a: '+key);
+  // }
+  // for(key in req.query){
+  //   console.log('3b: '+req.query[key]);
+  // }
+  // console.log('3ddd: '+req.query[req.query.id]);
+  // console.log('gg: '+req.query.id);
 
 
 
