@@ -305,7 +305,7 @@ function doRandom(req,res){
   });
 
   query.on('end',function(){
-    var key = Math.floor(Math.random() * max);
+    var key = Math.floor(Math.random() * (max + 1));
     var results = [];
 
     console.log('key: '+ key);
