@@ -49,7 +49,13 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {id: d, token: token},
           success : function(data){
-            alert('quote successfully deleted');
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('quote not deleted, are you logged in?');
+            }
+            else{
+              alert('quote successfully deleted');
+            }
+
           },
           error: function(data) {
             alert('An error occured, quote not deleted');
@@ -57,6 +63,8 @@
         },"json");
 
         });
+
+
 
         $( "#post" ).bind( "click", function(event, ui) {
           var a = $("#post2a").val();
@@ -66,7 +74,13 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {author: a, text: t, token: token},
           success : function(data){
-            alert('quote posted succesfully');
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('quote posted succesfully');
+            }
+            else{
+              alert('quote not posted, are you logged in?');
+            }
+            
           },
           error: function(data) {
             alert('an error occured, quote posted');
@@ -85,8 +99,13 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
           data: {id: ix, token: token},
           success : function(data){
-            alert('quote retrieved with id succesfully');
-            $('#ID2').val(data);
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('quote not retrieved, are you logged in?');
+            }
+            else{
+              alert('quote retrieved with id succesfully');
+              $('#ID2').val(data);
+            }
           },
           error: function(data) {
             alert('an error occured, quote not retrieved.');
@@ -102,8 +121,13 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
           data : {token: token},
           success : function(data){
-            alert('random quote retrieved succesfully');
-            $('#random2').val(data);
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('quote not retrieved, are you logged in?');
+            }
+            else{
+              alert('random quote retrieved succesfully');
+              $('#random2').val(data);
+            }
           },
           error: function(data) {
             alert('an error occured, quote not retrieved');
@@ -118,7 +142,7 @@
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
-          success : function(data,xhr){    
+          success : function(data){    
             if(data == 'Invalid Access token!'){    // errorless, but not succesfull
               alert('did not retrieve quotes, are you logged in?');
             }
@@ -141,10 +165,15 @@
           url : "https://calm-bastion-2419.herokuapp.com/logout",
           data : {token: token},
           success : function(data){
-            alert('succesfully logged out');
-            token = data;
+            if(data == 'Invalid Access token!'){    // errorless, but not succesfull
+              alert('did not log out, are you logged in?');
+            }
+            else{
+              alert('succesfully logged out');
+              token = data;
+            }
           },
-          error: function (xhr, ajaxOptions, thrownError) {
+          error: function (data) {
             alert('an error occured, you have not been logged out');
           }
         },"json");
@@ -160,8 +189,13 @@
           url : "https://calm-bastion-2419.herokuapp.com/login",
           data: {username: username, password: password},
           success : function(data){
-            alert('succesfully logged in');
-            token = data;
+            if(data == 'unauthorized'){
+              alert('not logged in, check your credentials and try again');
+            }
+            else{
+              alert('succesfully logged in');
+              token = data;
+            }
           },
           error: function(data) {
             alert('an error occurred, please try again');
