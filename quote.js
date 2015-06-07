@@ -260,7 +260,6 @@ function doId(req,res){
     else{
       res.writeHead(200);
       res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-      res.write(JSON.stringify(results.map(function (results){ return {f: "t"}; })));
       res.write(JSON.stringify({f: "t"}));
       res.end();
     }
