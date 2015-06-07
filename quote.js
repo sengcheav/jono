@@ -139,7 +139,7 @@ function giveMeAToken(given){
 }
 
 function tokenAllowed(given,callback){
-
+  console.log(given);
   query = client.query('SELECT COUNT(token) FROM validTokens v WHERE v.token = $1',[given]);
 
   var count = 0;
