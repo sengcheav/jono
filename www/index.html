@@ -118,11 +118,14 @@
           type: "GET",
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
-          success : function(data1,data2){
-            console.log(data1);
-            console.log(data2);
-            alert('all quotes retrieved succesfully');
-            //$('#all2').val(data);
+          success : function(data1,data2){    // data2 is errorless successful return of all quotes
+            if(data2){
+              alert('all quotes retrieved succesfully');
+              $('#all2').val(data);
+            }
+            else{
+              alert('cannot retrieve all quotes, are you logged in?');
+            }
           },
           error: function(data) {
             alert('an error occured, quotes not retrieved');
