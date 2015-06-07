@@ -33,6 +33,8 @@ app.use(cors());
 //client gives approrpriate error/ console messages
 //logical steps ie already logged on?
 //comments
+// sending res random, need proper write and end send back with proper status code
+// random pre checks
 
 
 app.get('/quote/all', function(req,res) {   
@@ -163,23 +165,6 @@ function noToken(req,res){
   res.send('Invalid Access token!');
 }
 
-function doAll(req,res){
-  var results = [];
-  query = client.query('SELECT * FROM quotes');
-
-  query.on('row', function(row) {
-    results.push(row);
-  });
-
-  query.on('end',function(){
-    res.writeHead(200);
-    res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-    res.end();
-  });
-
-
-}
-
 function doDelete(req,res){
     //precheck - provided id is valid
   if(req.params.id < 1) {
@@ -222,15 +207,39 @@ function doPost(req,res){
   res.send('added quote!');
 }
 
+function doAll(req,res){
+  var results = [];
+  query = client.query('SELECT * FROM quotes');
+
+  query.on('row', function(row) {
+    results.push(row);
+  });
+
+  query.on('end',function(){
+    res.writeHead(200);
+    res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+    res.end();
+  });
+}
 
 function doId(req,res){
-  // query - select quote from database using a id variable provided in HTTP header
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.body.id]);
+  var results = [];
+  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
+
   query.on('row', function(result) {
-    if(!result){
-      res.send('cannot find quote with this id');
-    }else{
-      res.send('author: '+ result.author +', quote:' + result.content);
+    results.push(row);
+  });
+
+  query.on('end',function(){
+    if(results.length == 0){
+      res.writeHead(404);
+      res.end();
+    }
+    
+    else{
+      res.writeHead(200);
+      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
+      res.end();
     }
   });
 }

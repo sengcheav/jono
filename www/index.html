@@ -49,9 +49,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {id: d, token: token},
           success : function(data){
-
+            alert('quote successfully deleted');
           },
           error: function(data) {
+            alert('An error occured, quote not deleted');
           }
         },"json");
 
@@ -65,9 +66,10 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote",
           data: {author: a, text: t, token: token},
           success : function(data){
-
+            alert('quote posted succesfully');
           },
           error: function(data) {
+            alert('an error occured, quote posted');
           }
         },"json");
 
@@ -83,10 +85,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/:id",
           data: {id: ix, token: token},
           success : function(data){
+            alert('quote retrieved with id succesfully');
             $('#ID2').val(data);
-
           },
           error: function(data) {
+            alert('an error occured, quote not retrieved.');
           }
         },"json");
 
@@ -99,10 +102,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/random",
           data : {token: token},
           success : function(data){
+            alert('random quote retrieved succesfully');
             $('#random2').val(data);
-
           },
           error: function(data) {
+            alert('an error occured, quote not retrieved');
           }
         },"json");
 
@@ -115,10 +119,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/quote/all",
           data : {token: token},
           success : function(data){
+            alert('all quotes retrieved succesfully');
             $('#all2').val(data);
-
           },
           error: function(data) {
+            alert('an error occured, quotes not retrieved');
           }
         },"json");
 
@@ -131,9 +136,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/logout",
           data : {token: token},
           success : function(data){
+            alert('succesfully logged out');
             token = data;
           },
           error: function (xhr, ajaxOptions, thrownError) {
+            alert('an error occured, you have not been logged out');
           }
         },"json");
 
@@ -148,9 +155,11 @@
           url : "https://calm-bastion-2419.herokuapp.com/login",
           data: {username: username, password: password},
           success : function(data){
+            alert('succesfully logged in');
             token = data;
           },
           error: function(data) {
+            alert('an error occurred, please try again');
           }
         },"json");
       });
