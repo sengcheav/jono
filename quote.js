@@ -315,15 +315,16 @@ function doRandom(req,res){
     });
 
     query2.on('end',function(){
-      console.log(results.length);
       if(results.length == 0){
         res.writeHead(404);
         res.end();
       }
       else{
         res.writeHead(200);
+        for(key in results){
+          console.log('k:'+key)
+        }
         res.write('author: '+ results.author +', quote:' + results.content);
-
         res.end();
       }
     });
