@@ -285,7 +285,7 @@ function doDelete(req,res){
     res.end();
   }
 
-  console.log('rr': +req.query.id);
+  console.log('rr; ' +req.query.id);
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
 
   query.on('end',function(){
