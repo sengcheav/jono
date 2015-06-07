@@ -277,7 +277,7 @@ function doRandom(req,res){
     }
     else{
       res.writeHead(200);
-      res.write('author: '+ result.author +', quote:' + result.content);
+      res.write('author: '+ results.author +', quote:' + results.content);
       res.end();
     }
   });
