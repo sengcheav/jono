@@ -175,14 +175,17 @@ function doDelete(req,res){
     res.writeHead(400);
     res.end();
   }
-          // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
-    //locally update the number of quotes held in the database
-  numberQuotes--;
-    // inform the client of success
 
-  res.writeHead(200);
-  res.end();
+  int id = parseInt(req.query.id,10);
+
+  // query - remove quote from database using id provided by client in http header
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [id]);
+
+  query.on('end',function(){
+    numberQuotes--;
+    res.writeHead(200);
+    res.end();
+  });
 }
 
 
