@@ -7,9 +7,7 @@ var client;
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
-var password = require('password-hash-and-salt');
-var numberQuotes = 4;
-var quoteID = 5;          
+var password = require('password-hash-and-salt');         
 var path = require('path');                                                           
 var randtoken = require('rand-token');
 
@@ -189,12 +187,27 @@ function doPost(req,res){
     text : req.body.text
   };
 
-  query = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [quoteID++, newQuote.author,newQuote.text]);
+
+  var newKey;
+  query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
+
+  query.on('row'){
+    newkey = row.tablekey + 1;
+  }
 
   query.on('end',function(){
-    res.writeHead(200);
-    res.end();
+
+    query2 = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [newkey, newQuote.author,newQuote.text]);
+
+    query2.on('end',function(){
+      res.writeHead(200);
+      res.end();
+    });
+
   });
+
+
+
 }
 
 function doAll(req,res){
@@ -271,43 +284,48 @@ function doDelete(req,res){
     res.writeHead(400);
     res.end();
   }
-  if(req.query.id > numberQuotes){
-    res.writeHead(400);
-    res.end();
-  }
 
 
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
 
   query.on('end',function(){
-    numberQuotes--;
     res.writeHead(200);
     res.end();
   });
 }
 
 function doRandom(req,res){
-  var key = Math.floor(Math.random() * numberQuotes);
-  var results = [];
-  console.log(numberQuotes);
 
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+  var max;
 
-  query.on('row',function(row){
-    results.push(row);
-  });
+  query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey ASC LIMIT 1');
+
+  query.on('row'){
+    max = row.tablekey;
+  }
 
   query.on('end',function(){
-    if(results.length == 0){
-      res.writeHead(404);
-      res.end();
-    }
-    else{
-      res.writeHead(200);
-      res.write('author: '+ results.author +', quote:' + results.content);
+    var key = Math.floor(Math.random() * max);
+    var results = [];
 
-      res.end();
-    }
+    query2 = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
+
+    query2.on('row',function(row){
+      results.push(row);
+    });
+
+    query2.on('end',function(){
+      if(results.length == 0){
+        res.writeHead(404);
+        res.end();
+      }
+      else{
+        res.writeHead(200);
+        res.write('author: '+ results.author +', quote:' + results.content);
+
+        res.end();
+      }
+    });
   });
 }
 
