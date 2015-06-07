@@ -77,12 +77,14 @@ app.post('/logout',function(req,res){
   });                              
 });
 
-app.get('seqtok',function(req,res){
+app.get('/seqtok',function(req,res){
   tokenAllowed(req.query.token,function(ok){
     if(ok){
+      console.log('!');
       doseqTok(req,res);
     }
     else{
+            console.log('!!');
       noToken(req,res);
     }
   });                              
