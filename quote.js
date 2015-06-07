@@ -188,7 +188,7 @@ function doPost(req,res){
     text : req.body.text
   };
 
-  query = client.query('INSERT INTO quotes(author,content) VALUES($2,$3)', [newQuote.author,newQuote.text]);
+  query = client.query('INSERT INTO quotes(author,content) VALUES($1,$2)', [newQuote.author,newQuote.text]);
 
   query.on('end',function(){
     res.writeHead(200);
