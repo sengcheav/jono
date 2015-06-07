@@ -176,7 +176,7 @@ function doDelete(req,res){
     res.end();
   }
 
-  int id = parseInt(req.query.id,10);
+  var id = parseInt(req.query.id,10);
 
   // query - remove quote from database using id provided by client in http header
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [id]);
