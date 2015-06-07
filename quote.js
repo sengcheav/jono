@@ -94,7 +94,7 @@ app.post('/logout',function(req,res){
 });
 
 app.delete('/quote/:id', function(req, res) {
-    tokenAllowed(req.body.token,function(ok){
+    tokenAllowed(req.query.token,function(ok){
     if(ok){
       doDelete(req,res);
     }
@@ -176,7 +176,7 @@ function doDelete(req,res){
     res.end();
   }
           // query - remove quote from database using id provided by client in http header
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.params.id]);
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
     //locally update the number of quotes held in the database
   numberQuotes--;
     // inform the client of success
