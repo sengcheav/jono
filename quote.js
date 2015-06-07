@@ -83,7 +83,7 @@ app.post('/quote', function(req, res) {
 });
 
 app.post('/logout',function(req,res){
-    tokenAllowed(req.body.token,function(ok){
+    tokenAllowed(req.query.token,function(ok){
     if(ok){
       doLogOut(req,res);
     }
@@ -193,7 +193,8 @@ function doLogOut(req,res){
 }
 
 function loggedOut(req,res){
-  res.send(null)
+  res.write(null)
+  res.end();
 }
 
 function doPost(req,res){
