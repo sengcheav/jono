@@ -95,8 +95,6 @@ app.post('/logout',function(req,res){
 
 // HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
 app.get('/quote/delete/:id', function(req, res) {
-      console.log('4'+req.params.id.val);
-
     tokenAllowed(req.query.token,function(ok){
     if(ok){
       doDelete(req,res);
@@ -220,6 +218,26 @@ function doAll(req,res){
 }
 
 function doId(req,res){
+  console.log('\n\n');
+  for(key in req.params){
+    console.log('1: '+key);
+  }
+  for(key in req.params){
+    console.log('1: '+req.params[key]);
+  }
+  for(key in req.body){
+    console.log('2: '+key);
+  }
+  for(key in req.body){
+    console.log('2: '+req.body[key]);
+  }
+  for(key in req.query){
+    console.log('3: '+key);
+  }
+  for(key in req.query){
+    console.log('3: '+req.query[key]);
+  }
+
 
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
