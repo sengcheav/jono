@@ -242,7 +242,7 @@ function doId(req,res){
   // console.log('gg: '+req.query.id);
 
 
-
+  
 
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
@@ -276,7 +276,7 @@ function doDelete(req,res){
   }
 
 
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [parseInt(req.query.id)]);
+  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
 
   query.on('end',function(){
     numberQuotes--;
