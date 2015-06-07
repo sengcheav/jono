@@ -232,32 +232,6 @@ function doAll(req,res){
 }
 
 function doId(req,res){
-  console.log('\n\n');
-  // for(key in req.params){
-  //   console.log('1: '+key);
-  // }
-  // for(key in req.params){
-  //   console.log('1: '+req.params[key]);
-  // }
-  // for(key in req.body){
-  //   console.log('2: '+key);
-  // }
-  // for(key in req.body){
-  //   console.log('2: '+req.body[key]);
-  // }
-  // for(key in req.query){
-  //   console.log('3a: '+key);
-  // }
-  // for(key in req.query){
-  //   console.log('3b: '+req.query[key]);
-  // }
-  // console.log('3ddd: '+req.query[req.query.id]);
-  //console.log('3ddd: '+req.query[req.query.id]+1);
-  // console.log('gg: '+req.query.id);
-
-
-
-
   var results = [];
   query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
 
@@ -285,7 +259,34 @@ function doDelete(req,res){
     res.end();
   }
 
-  console.log('rr; ' +req.query.id);
+    for(key in req.params){
+    console.log('1: '+key);
+  }
+  for(key in req.params){
+    console.log('1: '+req.params[key]);
+  }
+  for(key in req.body){
+    console.log('2: '+key);
+  }
+  for(key in req.body){
+    console.log('2: '+req.body[key]);
+  }
+  for(key in req.query){
+    console.log('3a: '+key);
+  }
+  for(key in req.query){
+    console.log('3b: '+req.query[key]);
+  }
+  console.log('3ddd: '+req.query[req.query.id]);
+  console.log('gg: '+req.query.id);
+
+
+
+
+
+
+
+
   query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
 
   query.on('end',function(){
