@@ -72,7 +72,7 @@ app.get('/quote/:id', function(req, res) {
 });
 
 app.post('/quote', function(req, res) {
-    tokenAllowed(req.query.token,function(ok){
+    tokenAllowed(req.body.token,function(ok){
     if(ok){
       doPost(req,res);
     }
@@ -94,7 +94,7 @@ app.post('/logout',function(req,res){
 });
 
 app.delete('/quote/:id', function(req, res) {
-    tokenAllowed(req.query.token,function(ok){
+    tokenAllowed(req.body.token,function(ok){
     if(ok){
       doDelete(req,res);
     }
