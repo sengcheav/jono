@@ -43,17 +43,6 @@ app.get('/seqtok',function(req,res){
   });                              
 });
 
-app.get('/signup',function(req,res){
-  res.statusCode = 302; 
-  res.setHeader("Location", "/signup");
-  res.end();
-});
-
-app.get('/',function(req,res){
-  res.sendFile('www/html/index.html', {root: __dirname });
-});
-
-
 app.post('newUser',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
