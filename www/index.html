@@ -3,6 +3,8 @@
 <head>
 <title>Title of the document</title>
 <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 </head>
 
 <body>
@@ -25,20 +27,45 @@
 
     <script type="text/javascript">
 	    $(document).bind('pageinit', function() {
-	      var token;
-	      $.ajaxSetup ({
-	        cache: false
-	      });
-	      
+
+			var token;
+
+			$.ajaxSetup ({
+				cache: false
+			});
+
 	       $( "#signup" ).bind( "click", function(event, ui) {
-	       	$.ajax({
-	          type: "GET",
-	          url : "https://roadsafe.herokuapp.com/signup",
-	        },"json");
-	       });
+				$.ajax({
+					type: "GET",
+					url : "https://roadsafe.herokuapp.com/signup",
+				},"json");
+			});
+
+			$( "#login" ).bind( "click", function(event, ui) {
+				var un = $("#username").val();
+				var pw = $("#password").val();
+				$.ajax({
+					type: "POST",
+					url : "https://roadsafe.herokuapp.com/login",
+					data: {username: un, password: pw},
+					success : function(data){
+						// if(data == ){    
+						//   alert('unauthorized login!');
+						// }
+						// else{
+						//   alert('Logon succesful');
+						// }
+					},
+					error: function(data) {
+						alert('');
+					}
+				},"json");
+			});
+
 	    });
     </script>
   </body>
 
 
 </html>
+
