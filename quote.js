@@ -58,10 +58,10 @@ app.post('/login',function(req,res){
   query.on('end',function(){
     if(count != 0){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
-        res.writeHead(200);
+        //res.writeHead(200);
         //res.write(token);
         res.sendFile('html/title.html', {root: __dirname })
-        res.end();
+        //res.end();
       });
     }
     else{
