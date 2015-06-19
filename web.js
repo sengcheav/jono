@@ -44,7 +44,7 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.redirect('signup.html');
+  res.redirect('www/html/signup.html');
 });
 
 app.get('/',function(req,res){
