@@ -17,7 +17,7 @@ client = new pg.Client(connectionString);
 client.connect();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-app.use(express.static(__dirname +'/www/html'));
+app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
@@ -44,7 +44,7 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.sendFile('signup.html', {root: __dirname });
+  res.sendFile('html/signup.html', {root: __dirname });
 });
 
 app.post('newUser',function(req,res){
@@ -60,7 +60,7 @@ app.post('newUser',function(req,res){
   query.on('end',function(){
     if(count == 0){
       var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
-        res.sendFile('title.html', {root: __dirname });
+        res.sendFile('html/title.html', {root: __dirname });
       });
     }
     else{
@@ -96,7 +96,7 @@ app.post('/login',function(req,res){
 
   query.on('end',function(){
     if(count != 0){
-      res.sendFile('title.html', {root: __dirname });
+      res.sendFile('html/title.html', {root: __dirname });
       // res.writeHead(200);
       // res.write(token);
       // res.end();
