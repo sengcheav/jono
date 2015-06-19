@@ -47,6 +47,8 @@
 					url : "https://roadsafe.herokuapp.com/login",
 					data: {username: un, password: pw},
 					success : function(data){
+						alert('success: '+data);
+
 						// if(data == ){    
 						//   alert('unauthorized login!');
 						// }
@@ -55,6 +57,7 @@
 						// }
 					},
 					error: function(data) {
+						alert('an error occured');
 					}
 				},"json");
 			});
