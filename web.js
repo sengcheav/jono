@@ -47,6 +47,11 @@ app.get('/signup',function(req,res){
   res.sendFile('html/signup.html', {root: __dirname });
 });
 
+app.get('/',function(req,res){
+  res.sendFile('html/index.html', {root: __dirname });
+});
+
+
 app.post('newUser',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
