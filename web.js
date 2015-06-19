@@ -43,7 +43,8 @@ app.get('/seqtok',function(req,res){
   });                              
 });
 
-app.get('/newUser',function(req,res){
+app.post('/newUser',function(req,res){
+  console.log("here");
   var un = req.body.username;
   var pw = req.body.password;
   var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);

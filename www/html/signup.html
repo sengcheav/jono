@@ -32,7 +32,7 @@
         var un = $("user").val();
         var pw = $("password").val();
         $.ajax({
-          type: "GET",
+          type: "POST",
           url : "https://roadsafe.herokuapp.com/newUser",
           data: {username: un, password: pw},
           success : function(data){
