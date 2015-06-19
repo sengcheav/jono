@@ -17,7 +17,7 @@ client = new pg.Client(connectionString);
 client.connect();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-app.use(express.static(__dirname +'/www'));
+app.use(express.static(__dirname +'/www/html'));
 app.use(cors());
 
 
@@ -62,6 +62,7 @@ app.post('/login',function(req,res){
       var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
         res.writeHead(200);
         res.write(token);
+        res.write(path.join(__dirname, '/www', 'html/title.html');
         res.end();
       });
     }
