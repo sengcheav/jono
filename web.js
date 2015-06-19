@@ -44,6 +44,11 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
+  console.log('1');
+    console.log('1');
+      console.log('1');
+        console.log('1');
+          console.log('1');
   res.sendFile('www/html/signup.html', {root: __dirname });
 });
 
