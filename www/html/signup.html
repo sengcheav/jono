@@ -36,12 +36,14 @@
           url : "https://roadsafe.herokuapp.com/newUser",
           data: {username: un, password: pw},
           success : function(data){
-            if(data == 'User with this Username already exists!'){    // errorless, but not succesfull
+            if(data == 'User with this Username already exists!'){
+              $('#user').val("");
+              $('#password').val("");
               alert(data);
+
             }
             else{
-               $('#user').val("");
-               $('#password').val("");
+              $(location).attr('href','www.html/title.html');
             }
 
           },
