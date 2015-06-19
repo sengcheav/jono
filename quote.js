@@ -21,51 +21,6 @@ app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
-
-app.get('/quote/all', function(req,res) {   
-  tokenAllowed(req.query.token,function(ok){
-    if(ok){
-      doAll(req,res);
-    }
-    else{
-      noToken(req,res);
-    }
-  });                              
-});
-
-app.get('/quote/random', function(req, res) {
-    tokenAllowed(req.query.token,function(ok){
-    if(ok){
-      doRandom(req,res);
-    }
-    else{
-      noToken(req,res);
-    }
-  });                              
-});
-
-app.get('/quote/:id', function(req, res) {
-    tokenAllowed(req.query.token,function(ok){
-    if(ok){
-      doId(req,res);
-    }
-    else{
-      noToken(req,res);
-    }
-  });                              
-});
-
-app.post('/quote', function(req, res) {
-    tokenAllowed(req.body.token,function(ok){
-    if(ok){
-      doPost(req,res);
-    }
-    else{
-      noToken(req,res);
-    }
-  });                              
-});
-
 app.post('/logout',function(req,res){
     tokenAllowed(req.body.token,function(ok){
     if(ok){
@@ -90,17 +45,6 @@ app.get('/seqtok',function(req,res){
   });                              
 });
 
-// HAVE TO USE A GET (could do post also) REQUEST HERE ! BROWSER DOES NOT SUPPORT SENDING DATA FOR DELETE WITH THE REQUEST.
-app.get('/quote/delete/:id', function(req, res) {
-    tokenAllowed(req.query.token,function(ok){
-    if(ok){
-      doDelete(req,res);
-    }
-    else{
-      noToken(req,res);
-    }
-  });                              
-});
 
 app.post('/login',function(req,res){
 
@@ -190,131 +134,8 @@ function loggedOut(req,res){
   res.end();
 }
 
-function doPost(req,res){
-  //precheck - http header has enough information
-  if(!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('text')) {
-    res.writeHead(400);
-    res.end();
-  }
-
-  var newQuote = {
-    author : req.body.author,
-    text : req.body.text
-  };
 
 
-  var newKey;
-  query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey DESC LIMIT 1');
-
-  query.on('row',function(row){
-    newkey = row.tablekey + 1;
-  });
-
-  query.on('end',function(){
-
-    query2 = client.query('INSERT INTO quotes(tablekey,author,content) VALUES($1,$2,$3)', [newkey, newQuote.author,newQuote.text]);
-
-    query2.on('end',function(){
-      res.writeHead(200);
-      res.end();
-    });
-
-  });
-
-
-
-}
-
-function doAll(req,res){
-  var results = [];
-  query = client.query('SELECT * FROM quotes');
-
-  query.on('row', function(row) {
-    results.push(row);
-  });
-
-  query.on('end',function(){
-    if(results.length == 0){
-      res.writeHead(404);
-      res.end();
-    }
-    else{
-      res.writeHead(200);
-      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-      res.end();
-    }
-  });
-}
-
-function doId(req,res){
-  var results = [];
-  query = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [req.query.id]);
-
-  query.on('row', function(row) {
-    results.push(row);
-  });
-
-  query.on('end',function(){
-    if(results.length == 0){
-      res.writeHead(404);
-      res.end();
-    }
-    
-    else{
-      res.writeHead(200);
-      res.write(JSON.stringify(results.map(function (results){ return {author: results.author, content: results.content}; })));
-      res.end();
-    }
-  });
-}
-
-function doDelete(req,res){
-  if(req.query.id < 1) {
-    res.writeHead(400);
-    res.end();
-  }
-
-  query = client.query('DELETE FROM quotes WHERE tablekey = $1', [req.query.id]);
-
-  query.on('end',function(){
-    res.writeHead(200);
-    res.end();
-  });
-}
-
-function doRandom(req,res){
-
-  var max;
-
-  query = client.query('SELECT tablekey FROM quotes q ORDER BY tablekey DESC LIMIT 1');
-
-  query.on('row',function(row){
-    max = row.tablekey;
-  });
-
-  query.on('end',function(){
-    var key = Math.floor(Math.random() * (max + 1));
-    var results = [];
-
-    query2 = client.query('SELECT author, content FROM quotes q WHERE q.tablekey = $1', [key]);
-
-    query2.on('row',function(row){
-      results.push(row);
-    });
-
-    query2.on('end',function(){
-      if(results.length == 0){
-        res.writeHead(404);
-        res.end();
-      }
-      else{
-        res.writeHead(200);
-        res.write('author: '+ results[0].author +', quote:' + results[0].content);
-        res.end();
-      }
-    });
-  });
-}
 
 
 // use PORT set as an environment variable
