@@ -44,7 +44,9 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.redirect('roadsafe/www/html/signup.html');
+  res.statusCode = 302; 
+  res.setHeader("Location", "/signup");
+  res.end();
 });
 
 app.get('/',function(req,res){
