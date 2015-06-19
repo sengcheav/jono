@@ -56,9 +56,9 @@ app.post('/newUser',function(req,res){
   console.log("here3");
   query.on('end',function(){
     if(count == 0){
-      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
-        res.sendFile('html/title.html', {root: __dirname });
-      });
+      res.writeHead(200);
+      res.write('signup succesful');
+      res.end();
     }
     else{
       res.write('User with this Username already exists!');
