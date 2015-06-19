@@ -59,8 +59,8 @@ app.post('newUser',function(req,res){
 
   query.on('end',function(){
     if(count == 0){
-      var query2 = client.query('INSERT INTO ....',function(){
-
+      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
+        res.sendFile('www/title.html', {root: __dirname });
       });
     }
     else{
@@ -74,10 +74,19 @@ app.post('newUser',function(req,res){
 });
 
 
-app.post('/login',function(req,res){
+app.get('/aTokenPlease',function(req,res){
+    var token = giveMeAToken();
+    var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
 
-  var token = giveMeAToken();
-  var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [req.body.username, req.body.password]);
+    });
+});
+
+
+app.post('/login',function(req,res){
+  var un = req.body.username;
+  var pw = req.body.password;
+
+  var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [un,pw]);
 
 
   var count;
@@ -87,18 +96,14 @@ app.post('/login',function(req,res){
 
   query.on('end',function(){
     if(count != 0){
-      var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
-
-        res.sendFile('www/html/title.html', {root: __dirname });
-        // res.writeHead(200);
-        // res.write(token);
-        // res.end();
-      });
+      res.sendFile('www/html/title.html', {root: __dirname });
+      // res.writeHead(200);
+      // res.write(token);
+      // res.end();
     }
     else{
-      res.write('unauthorized');
-      res.end();
     }
+
   });
 
 });

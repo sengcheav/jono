@@ -10,17 +10,17 @@
 <img id="loginbackground"src="images/setting.png">
 
 <section class="container">
+
     <div class="login">
-      <h1 id="title">Login</h1>
-      <form method="post" action="/login">
-        <p id= "user"><input type="text" name="username" value="" placeholder="Username"></p>
-        <p id= "password"><input type="password" name="password" value="" placeholder="Password"></p>
-        <p id= "submit" class="submit"><input type="submit" name="commit" value="Login"></p>
-      </form>
+      <p><input type="text" name="username" value="" placeholder="Username" id = "username"></p>
+      <p><input type="password" name="password" value="" placeholder="Password" id = "password"></p>
+       <input type="submit" value="login" id="login" />
     </div>
+
     <div class = "signup">
-    	<button id="signup" type="button"></button>
+    	<input type="submit" value="signup" id="signup" />
     </div>
+
   </section>
 
     <script type="text/javascript">
@@ -31,6 +31,29 @@
       $.ajaxSetup ({
         cache: false
       });
+        $( "#login" ).bind( "click", function(event, ui) {
+       	var un = $("#username").val();
+        var pw = $("#password").val();
+        $.ajax({
+          type: "POST",
+          url : "https://roadsafe.herokuapp.com/login",
+          data: {username: un, password: pw},
+          success : function(data){
+            // if(data == ){    
+            //   alert('unauthorized login!');
+            // }
+            // else{
+            //   alert('Logon succesful');
+            // }
+          },
+          error: function(data) {
+            alert('');
+          }
+        },"json");
+            });
+
+
+
 
         $( "#signup" ).bind( "click", function(event, ui) {
         $.ajax({
