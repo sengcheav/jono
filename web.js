@@ -17,7 +17,7 @@ client = new pg.Client(connectionString);
 client.connect();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-//app.use(express.static(__dirname +'/www'));
+app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
