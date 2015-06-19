@@ -44,7 +44,7 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.sendFile('html/signup.html', {root: __dirname });
+  res.sendFile('www/html/signup.html', {root: __dirname });
 });
 
 app.post('newUser',function(req,res){
@@ -60,7 +60,7 @@ app.post('newUser',function(req,res){
   query.on('end',function(){
     if(count == 0){
       var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
-        res.sendFile('www/title.html', {root: __dirname });
+        res.sendFile('../www/title.html', {root: __dirname });
       });
     }
     else{
