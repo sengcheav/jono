@@ -17,7 +17,7 @@ client = new pg.Client(connectionString);
 client.connect();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-app.use(express.static(__dirname +'/www'));
+//app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
@@ -44,11 +44,11 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.sendFile('html/signup.html', {root: __dirname });
+  res.sendFile('www/html/signup.html', {root: __dirname });
 });
 
 app.get('/',function(req,res){
-  res.sendFile('html/index.html', {root: __dirname });
+  res.sendFile('www/html/index.html', {root: __dirname });
 });
 
 
