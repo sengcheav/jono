@@ -44,7 +44,7 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  res.sendFile('html/signup.html', {root: __dirname });
+  res.sendFile('/www/html/signup.html', {root: __dirname });
 });
 
 app.get('/',function(req,res){
