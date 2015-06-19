@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signup</title>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+
+<img id="loginbackground"src="images/setting.png">
+
+<section class="container">
+    <div class="login">
+      <h1 id="title">Signup</h1>
+      <form method="post" action="/login">
+        <p id= "user"><input type="text" name="username" value="" placeholder=" Enter a Username"></p>
+        <p id= "password"><input type="password" name="password" value="" placeholder="Enter a Password"></p>
+        <p id= "submit" class="submit"><input type="submit" name="commit" value="Login"></p>
+      </form>
+    </div>
+  </section>
+
+    <script type="text/javascript">
+    $(document).bind('pageinit', function() {
+
+      var token;
+      
+      $.ajaxSetup ({
+        cache: false
+      });
+
+        $( "#signup" ).bind( "click", function(event, ui) {
+        var un = $("user").val();
+        var pw = $("password").val();
+        $.ajax({
+          type: "GET",
+          url : "https://roadsafe.herokuapp.com/newUser",
+          data: {username: un, password: pw},
+          success : function(data){
+            if(data == 'User with this Username already exists!'){    // errorless, but not succesfull
+              alert(data);
+            }
+            else{
+               $('#user').val("");
+               $('#password').val("");
+            }
+
+          },
+          error: function(data) {
+            alert('An error occured');
+          }
+        },"json");
+            });
+    </script>
+  </body>
+
+
+</html>

@@ -1,1 +1,1 @@
-web: node quote.js
+web: node web.js

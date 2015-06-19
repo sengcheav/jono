@@ -18,6 +18,28 @@
         <p id= "submit" class="submit"><input type="submit" name="commit" value="Login"></p>
       </form>
     </div>
+    <div class = "signup">
+    	<button id="signup" type="button"></button>
+    </div>
   </section>
-</body>
+
+    <script type="text/javascript">
+    $(document).bind('pageinit', function() {
+
+      var token;
+      
+      $.ajaxSetup ({
+        cache: false
+      });
+
+        $( "#signup" ).bind( "click", function(event, ui) {
+        $.ajax({
+          type: "GET",
+          url : "https://roadsafe.herokuapp.com/signup",
+        },"json");
+            });
+    </script>
+  </body>
+
+
 </html>
