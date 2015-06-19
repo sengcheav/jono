@@ -35,7 +35,8 @@
 			});
 
 	       $( "#signup" ).bind( "click", function(event, ui) {
-	       		$(location).attr('href','www/html/signup.html');
+	       		var url = 'https://roadsafe.herokuapp.com/signup.html';
+				$(location).attr('href',url);
 			});
 
 			$( "#login" ).bind( "click", function(event, ui) {
