@@ -44,11 +44,6 @@ app.get('/seqtok',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-  console.log('1');
-    console.log('1');
-      console.log('1');
-        console.log('1');
-          console.log('1');
   res.sendFile('www/html/signup.html', {root: __dirname });
 });
 
@@ -88,11 +83,6 @@ app.get('/aTokenPlease',function(req,res){
 
 
 app.post('/login',function(req,res){
-    console.log('12');
-    console.log('12');
-      console.log('12');
-        console.log('12');
-          console.log('12');
   var un = req.body.username;
   var pw = req.body.password;
 
