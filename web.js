@@ -44,19 +44,21 @@ app.get('/seqtok',function(req,res){
 });
 
 app.post('/newUser',function(req,res){
-  console.log("here1");
+
   var un = req.body.username;
   var pw = req.body.password;
   var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
-  console.log("here2");
+
   var count;
   query.on('row',function(result){
     count = result.count;
   });
-  console.log("here3");
+
   query.on('end',function(){
+    console.log(count);
     if(count == 0){
       var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
+        console.log('inserted');
         res.writeHead(200);
         res.write('signup succesful');
         res.end();
@@ -68,7 +70,7 @@ app.post('/newUser',function(req,res){
     }
   });
 
-  console.log("here4");
+
 
 });
 
@@ -95,12 +97,13 @@ app.post('/login',function(req,res){
 
   query.on('end',function(){
     if(count != 0){
-      res.sendFile('html/title.html', {root: __dirname });
-      // res.writeHead(200);
-      // res.write(token);
-      // res.end();
+      res.writeHead(200);
+      res.write(token);
+      res.end();
     }
     else{
+      res.write('unauthorized login!');
+      res.end();
     }
 
   });
