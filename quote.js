@@ -17,7 +17,7 @@ client = new pg.Client(connectionString);
 client.connect();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-app.use(express.static(__dirname +'/www/html'));
+app.use(express.static(__dirname +'/www'));
 app.use(cors());
 
 
@@ -35,11 +35,9 @@ app.post('/logout',function(req,res){
 app.get('/seqtok',function(req,res){
   tokenAllowed(req.query.token,function(ok){
     if(ok){
-      console.log('!');
       doseqTok(req,res);
     }
     else{
-            console.log('!!');
       noToken(req,res);
     }
   });                              
