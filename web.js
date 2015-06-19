@@ -88,6 +88,11 @@ app.get('/aTokenPlease',function(req,res){
 
 
 app.post('/login',function(req,res){
+    console.log('12');
+    console.log('12');
+      console.log('12');
+        console.log('12');
+          console.log('12');
   var un = req.body.username;
   var pw = req.body.password;
 
