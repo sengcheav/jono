@@ -57,7 +57,9 @@ app.post('/newUser',function(req,res){
   query.on('end',function(){
     console.log(count);
     if(count == 0){
-      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw],function(){
+      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
+
+      query2.on('end',function(){
         console.log('inserted');
         res.writeHead(200);
         res.write('signup succesful');
