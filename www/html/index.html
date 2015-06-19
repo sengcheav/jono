@@ -35,10 +35,7 @@
 			});
 
 	       $( "#signup" ).bind( "click", function(event, ui) {
-				$.ajax({
-					type: "GET",
-					url : "https://roadsafe.herokuapp.com/signup",
-				},"json");
+	       		$(location).attr('href','signup.html');
 			});
 
 			$( "#login" ).bind( "click", function(event, ui) {
@@ -68,4 +65,3 @@
 
 
 </html>
-
