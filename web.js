@@ -48,15 +48,12 @@ app.post('/newUser',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
 
-  for(key in req.body){
-    console.log('bodykey: '+key)
-  }
-    for(key in req.params){
-    console.log('paramskey: '+key)
-  }
-    for(key in req.query){
-    console.log('querykey: '+key)
-  }
+  console.log('here');
+  console.log('1 '+req.params.username);
+  console.log('1 '+req.body.username);
+  console.log('1 '+req.query.username);
+
+
 
   // var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
 
