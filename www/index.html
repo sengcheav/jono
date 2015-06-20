@@ -53,8 +53,11 @@
 						}
 						else{
 						  alert('Logon succesful');
+						  alert('data '+ data);
 
-						 // sessionStorage.setItem('token', data)
+
+						  sessionStorage.setItem('token', data);
+						  alert('ss '+ sessionStorage.getItem('token');
 
 						  window.location.replace("html/title.html");
 						}
