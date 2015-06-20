@@ -72,9 +72,9 @@ app.post('/newUser',function(req,res){
 
   //     query2.on('end',function(){
   //       console.log('inserted');
-  //       res.writeHead(200);
-  //       res.write('signup succesful');
-  //       res.end();
+         res.writeHead(200);
+res.write('signup succesful');
+         res.end();
   //     });
   //   }
   //   else{
