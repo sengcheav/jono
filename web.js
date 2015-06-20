@@ -58,30 +58,30 @@ app.post('/newUser',function(req,res){
     console.log('querykey: '+key)
   }
 
-  var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
+  // var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
 
-  var count;
-  query.on('row',function(result){
-    count = result.count;
-  });
+  // var count;
+  // query.on('row',function(result){
+  //   count = result.count;
+  // });
 
-  query.on('end',function(){
-    console.log(count);
-    if(count == 0){
-      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
+  // query.on('end',function(){
+  //   console.log(count);
+  //   if(count == 0){
+  //     var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
 
-      query2.on('end',function(){
-        console.log('inserted');
-        res.writeHead(200);
-        res.write('signup succesful');
-        res.end();
-      });
-    }
-    else{
-      res.write('User with this Username already exists!');
-      res.end();
-    }
-  });
+  //     query2.on('end',function(){
+  //       console.log('inserted');
+  //       res.writeHead(200);
+  //       res.write('signup succesful');
+  //       res.end();
+  //     });
+  //   }
+  //   else{
+  //     res.write('User with this Username already exists!');
+  //     res.end();
+  //   }
+  // });
 
 
 
