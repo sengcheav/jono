@@ -109,7 +109,7 @@ app.post('/login',function(req,res){
   query.on('end',function(){
     if(0==0){
       res.writeHead(200);
-      res.write(token);
+      //res.write(token);
       res.end();
     }
     else if(count != 0){
