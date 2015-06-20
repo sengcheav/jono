@@ -46,7 +46,9 @@
 		$.ajaxSetup ({
 			cache: false
 		});
-		var token = document.cookie;
+
+		var token = sessionStorage.getItem('token');
+
 
 		$( "#logout" ).bind( "click", function(event, ui) {
 		
@@ -57,7 +59,7 @@
 				success : function(data){
 					if(data == 'logout succesful'){    
 					  alert(data);
-					  document.cookie = "";
+
 					  window.location.replace("html/index.html");
 					}
 					else{

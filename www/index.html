@@ -52,8 +52,10 @@
 						  alert(data);
 						}
 						else{
-						  document.cookie = data;
 						  alert('Logon succesful');
+
+						  sessionStorage.setItem('token', data)
+
 						  window.location.replace("html/title.html");
 						}
 					},
