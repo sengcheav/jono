@@ -20,21 +20,13 @@
 <button id="gamelink" type="button">To The Game</button>
 
 
-<button id="tutoriallink" type="button">
-<a id="hyperlink" href="info.html"> How to Play </a>
-</button>
+<button id="tutoriallink" type="button">How to Play</button>
 
-<button id="rankinglink" type="button">
-<a id="hyperlink" href="info.html"> Ranking </a>
-</button>
+<button id="rankinglink" type="button">Ranking</button>
 
-<button id="infolink" type="button">
-<a id="hyperlink" href="info.html"> More Information </a>
-</button>
+<button id="infolink" type="button">More Information</button>
 
-<button id="quitlink" type="button">
-<a id="hyperlink" href="info.html"> Quit </a>
-</button>
+<button id="quitlink" type="button">Quit</button>
 
 <button id="logout" type="button">Logout</button>
 
@@ -50,6 +42,21 @@
 
 		$( "#gamelink" ).bind( "click", function(event, ui) {
 			window.location.replace("worldmap.html");
+		});
+
+		$( "#tutoriallink" ).bind( "click", function(event, ui) {
+			window.location.replace("info.html");
+		});
+
+		$( "#rankinglink" ).bind( "click", function(event, ui) {
+			window.location.replace("info.html");
+		});
+
+		$( "#infolink" ).bind( "click", function(event, ui) {
+			window.location.replace("info.html");
+		});
+		$( "#quitlink" ).bind( "click", function(event, ui) {
+			window.location.replace("info.html");
 		});
 
 		$( "#logout" ).bind( "click", function(event, ui) {
