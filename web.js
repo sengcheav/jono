@@ -59,23 +59,16 @@ app.post('/newUser',function(req,res){
   });
 
   query.on('end',function(){
-    // if(0==0){
-    //     console.log('inserted');
-    //      res.writeHead(200);
-    //      res.write('signup succesful');
-    //      res.end();
-    // }
-    // else 
       if(count == 0){
-      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
-      // CHECK HERE ADDED TO DATABASE
-      query2.on('end',function(){
-        console.log('inserted');
-         res.writeHead(200);
-         res.write('signup succesful');
-         res.end();
-      });
-    }
+        encrypt(pw,function(epw){
+          var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,epw]);
+          query2.on('end',function(){
+           res.writeHead(200);
+           res.write('signup succesful');
+           res.end();
+          });
+        });
+      }
     else{
       res.write('User with this Username already exists!');
       res.end();
@@ -91,30 +84,28 @@ app.post('/login',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
 
-  var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [un,pw]);
-
-
-  var count;
-  query.on('row',function(result){
-    count = result.count;
-  });
-
-  query.on('end',function(){
-    if(count != 0){
-      var token = giveMeAToken();
-      var queryTokenInsert = client.query('INSERT INTO validTokens(token) VALUES($1)',[token]);
-      queryTokenInsert.on('end',function(){
-        res.writeHead(200);
-        res.write(token);
-        res.end();
-      });
-    }
-    else{
+  verifyCredentials(un,pw,function(verified){
+    if(!verified){
       res.write('unauthorized login!');
       res.end();
     }
+    else{
+      var token = giveMeAToken();
+      var queryTokenInsert = client.query('INSERT INTO validTokens(token) VALUES($1)',[token]);
+      queryTokenInsert.on('end',function(){
+        var setUserToken = client.query('UPDATE users SET token = $1 WHERE username = $2',[token,un]);
+        setUserToken.on('end',function(){
+          res.writeHead(200);
+          res.write(token);
+          res.end();
+        });
+      });
+    }
+
+
 
   });
+
 
 });
 
@@ -134,6 +125,43 @@ function doseqTok(req,res){
     });
   });
   
+}
+
+function encrypt(given,callback){
+  password(given).hash(function(error, hash) {
+      if(error){
+        throw new Error('Something went wrong!');
+      }
+      callback(hash);
+  });
+}
+
+
+function verifyCredentials(givenUsername,givenPassword,callback){
+
+  var query = client.query('SELECT password FROM users u WHERE u.username = $1',[givenUsername]);
+
+  var storedHash;
+
+  query.on('row',function(result){
+    storedHash = result.password;
+    //IF !result ?? 
+  });
+
+  query.on('end',function(){
+      if(storedHash == null){
+        callback(false);
+      }
+      password(givenPassword).verifyAgainst(storedHash, function(error, verified) {
+        if(error)
+            throw new Error('Something went wrong!');
+        if(!verified) {
+            callback(false);
+        } else {
+            callback(true);
+        }
+      });
+  });
 }
 
 
@@ -165,7 +193,12 @@ function tokenAllowed(given,callback){
 
 function removeActiveToken(given,callback){
   query = client.query('DELETE FROM validTokens WHERE token = $1',[given]);
-  callback();
+  query.on('end',function(){
+    var removeUserToken = client.query('UPDATE users SET token = $1 WHERE username = $2',["absent",given]);
+    removeUserToken.on('end',function(){
+        callback();
+    });
+  });
 }
 
 function noToken(req,res){ 

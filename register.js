@@ -12,8 +12,7 @@ var un = 'test';
 var pw = '1234';
 
 //CREATE A SCHEMA - users
-query = client.query('CREATE TABLE users(username text PRIMARY KEY, password text NOT NULL)');
-var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
+query = client.query('CREATE TABLE users(username text PRIMARY KEY, password text NOT NULL, token text DEFAULT "absent")');
 
 //CALLBACK TO END DATABASE CONNECTION
 query.on('end', function(result) { client.end(); });

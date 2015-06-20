@@ -38,9 +38,6 @@
 		});
 
 		var token = sessionStorage.getItem('token');
-		 alert('ss '+ sessionStorage.getItem('token'));
-		alert('token: '+ token);
-
 
 
 		$( "#gamelink" ).bind( "click", function(event, ui) {
@@ -71,7 +68,7 @@
 				success : function(data){
 					if(data == 'logout succesful'){    
 					  alert(data);
-
+					  sessionStorage.setItem('token', '');
 					  window.location.replace("../index.html");
 					}
 					else{
