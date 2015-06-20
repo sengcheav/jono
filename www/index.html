@@ -42,6 +42,8 @@
 				alert('2');
 				var un = $("#username").val();
 				var pw = $("#password").val();
+				console.log('un '+un);
+				console.log('pw '+pw);
 				$.ajax({
 					type: "POST",
 					url : "https://roadsafe.herokuapp.com/login",

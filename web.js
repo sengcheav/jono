@@ -15,7 +15,9 @@ var randtoken = require('rand-token');
 
 client = new pg.Client(connectionString);
 client.connect();
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname +'/www'));
 app.use(cors());
@@ -50,10 +52,19 @@ app.post('/newUser',function(req,res){
 
   console.log('here');
   console.log('1 '+req.params.username);
-  console.log('1 '+req.body.username);
-  console.log('1 '+req.query.username);
+  console.log('1 '+req.params.username);
+  console.log('1 '+req.params.username);
 
 
+  for(key in req.body){
+    console.log('bodykey: '+key)
+  }
+    for(key in req.params){
+    console.log('paramskey: '+key)
+  }
+    for(key in req.query){
+    console.log('querykey: '+key)
+  }
 
   // var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
 
