@@ -93,7 +93,6 @@ app.post('/login',function(req,res){
 
   var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [un,pw]);
 
-  var token = doseqTok();
 
   var count;
   query.on('row',function(result){
@@ -101,16 +100,14 @@ app.post('/login',function(req,res){
   });
 
   query.on('end',function(){
-    // if(0==0){
-    //   res.writeHead(200);
-    //   //res.write(token);
-    //   res.end();
-    // }
-    // else 
-      if(count != 0){
-      res.writeHead(200);
-      res.write(token);
-      res.end();
+    if(count != 0){
+      var token = giveMeAToken();
+      var queryTokenInsert = client.query('INSERT INTO validTokens(token) VALUES($1)',[token]);
+      queryTokenInsert.on('end',function(){
+        res.writeHead(200);
+        res.write(token);
+        res.end();
+      });
     }
     else{
       res.write('unauthorized login!');
@@ -143,6 +140,7 @@ function doseqTok(req,res){
 
 function giveMeAToken(given){
   var token = randtoken.generate(16);
+
   return token;
 }
 
