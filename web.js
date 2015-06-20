@@ -132,9 +132,10 @@ function doseqTok(req,res){
         res.end();
   });
   query.on('end',function(){
-    removeActiveToken(req.query.token,function(){});
+    removeActiveToken(req.query.token,function(){
+      return token;
+    });
   });
-
   
 }
 
