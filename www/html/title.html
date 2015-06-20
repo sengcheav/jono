@@ -17,9 +17,7 @@
 <h1 id="title"> Road Crossing App Build </h1>
 
 
-<button id="gamelink" type="button">
-<a href="worldmap.html" id="hyperlink"  title="index">To The Game</a>
-</button>
+<button id="gamelink" type="button">To The Game</button>
 
 
 <button id="tutoriallink" type="button">
@@ -50,6 +48,10 @@
 		//var token = sessionStorage.getItem('token');
 
 
+		$( "#gamelink" ).bind( "click", function(event, ui) {
+			window.location.replace("html/worldmap.html");
+		});
+
 		$( "#logout" ).bind( "click", function(event, ui) {
 		
 			$.ajax({
@@ -60,7 +62,7 @@
 					if(data == 'logout succesful'){    
 					  alert(data);
 
-					  window.location.replace("html/index.html");
+					  window.location.replace("../index.html");
 					}
 					else{
 					  alert('Logout unsuccesful');
