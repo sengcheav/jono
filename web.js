@@ -52,8 +52,13 @@ app.post('/newUser',function(req,res){
 
   console.log('here');
   console.log('1 '+req.params.username);
-  console.log('1 '+req.params.username);
-  console.log('1 '+req.params.username);
+  console.log('1 '+req.body.username);
+  console.log('1 '+req.query.username);
+
+  console.log('there');
+  console.log('1 '+req.params.password);
+  console.log('1 '+req.body.password);
+  console.log('1 '+req.query.password);
 
 
   for(key in req.body){
