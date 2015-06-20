@@ -50,51 +50,31 @@ app.post('/newUser',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
 
-  console.log('here');
-  console.log('h1 '+req.params.username);
-  console.log('h2 '+req.body.username);
-  console.log('h3 '+req.query.username);
 
-  console.log('there');
-  console.log('t1 '+req.params.password);
-  console.log('t2 '+req.body.password);
-  console.log('t3 '+req.query.password);
+  var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
 
+  var count;
+  query.on('row',function(result){
+    count = result.count;
+  });
 
-  for(key in req.body){
-    console.log('bodykey: '+key)
-  }
-    for(key in req.params){
-    console.log('paramskey: '+key)
-  }
-    for(key in req.query){
-    console.log('querykey: '+key)
-  }
+  query.on('end',function(){
+    console.log(count);
+    if(count == 0){
+      var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
 
-  // var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1', [un]);
-
-  // var count;
-  // query.on('row',function(result){
-  //   count = result.count;
-  // });
-
-  // query.on('end',function(){
-  //   console.log(count);
-  //   if(count == 0){
-  //     var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
-
-  //     query2.on('end',function(){
-  //       console.log('inserted');
+      query2.on('end',function(){
+        console.log('inserted');
          res.writeHead(200);
-res.write('signup succesful');
+         res.write('signup succesful');
          res.end();
-  //     });
-  //   }
-  //   else{
-  //     res.write('User with this Username already exists!');
-  //     res.end();
-  //   }
-  // });
+      });
+    }
+    else{
+      res.write('User with this Username already exists!');
+      res.end();
+    }
+  });
 
 
 
