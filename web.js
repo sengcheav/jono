@@ -51,14 +51,14 @@ app.post('/newUser',function(req,res){
   var pw = req.body.password;
 
   console.log('here');
-  console.log('1 '+req.params.username);
-  console.log('1 '+req.body.username);
-  console.log('1 '+req.query.username);
+  console.log('h1 '+req.params.username);
+  console.log('h2 '+req.body.username);
+  console.log('h3 '+req.query.username);
 
   console.log('there');
-  console.log('1 '+req.params.password);
-  console.log('1 '+req.body.password);
-  console.log('1 '+req.query.password);
+  console.log('t1 '+req.params.password);
+  console.log('t2 '+req.body.password);
+  console.log('t3 '+req.query.password);
 
 
   for(key in req.body){
