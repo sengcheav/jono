@@ -59,15 +59,16 @@ app.post('/newUser',function(req,res){
   });
 
   query.on('end',function(){
-    if(0==0){
-        console.log('inserted');
-         res.writeHead(200);
-         res.write('signup succesful');
-         res.end();
-    }
-    else if(count == 0){
+    // if(0==0){
+    //     console.log('inserted');
+    //      res.writeHead(200);
+    //      res.write('signup succesful');
+    //      res.end();
+    // }
+    // else 
+      if(count == 0){
       var query2 = client.query('INSERT INTO users(username,password) VALUES($1,$2)',[un,pw]);
-
+      // CHECK HERE ADDED TO DATABASE
       query2.on('end',function(){
         console.log('inserted');
          res.writeHead(200);
@@ -86,20 +87,13 @@ app.post('/newUser',function(req,res){
 });
 
 
-app.get('/aTokenPlease',function(req,res){
-    var token = giveMeAToken();
-    var query2 = client.query('INSERT INTO validTokens(token) VALUES($1)', [token],function(){
-
-    });
-});
-
-
 app.post('/login',function(req,res){
   var un = req.body.username;
   var pw = req.body.password;
 
   var query = client.query('SELECT COUNT(username) FROM users u WHERE u.username = $1 AND u.password = $2', [un,pw]);
 
+  var token = doseqTok();
 
   var count;
   query.on('row',function(result){
@@ -107,12 +101,13 @@ app.post('/login',function(req,res){
   });
 
   query.on('end',function(){
-    if(0==0){
-      res.writeHead(200);
-      //res.write(token);
-      res.end();
-    }
-    else if(count != 0){
+    // if(0==0){
+    //   res.writeHead(200);
+    //   //res.write(token);
+    //   res.end();
+    // }
+    // else 
+      if(count != 0){
       res.writeHead(200);
       res.write(token);
       res.end();
@@ -183,7 +178,7 @@ function doLogOut(req,res){
 }
 
 function loggedOut(req,res){
-  res.write("")
+  res.write('logout succesful');
   res.end();
 }
 

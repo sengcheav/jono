@@ -3,6 +3,8 @@
   <head>
     
 	<link rel="stylesheet" href="../css/index.css" type="text/css" media="screen">
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  	<script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 	
   </head>
 
@@ -36,8 +38,43 @@
 <a id="hyperlink" href="info.html"> Quit </a>
 </button>
 
+<button id="logout" type="button"></button>
+
+
+<script type="text/javascript">
+	$(document).bind('pageinit', function() {
+		$.ajaxSetup ({
+			cache: false
+		});
+		var token = document.cookie;
+
+		$( "#logout" ).bind( "click", function(event, ui) {
+		
+			$.ajax({
+				type: "POST",
+				url : "https://roadsafe.herokuapp.com/logout",
+				data: {token: token},
+				success : function(data){
+					if(data == 'logout succesful'){    
+					  alert(data);
+					  document.cookie = "";
+					  window.location.replace("html/index.html");
+					}
+					else{
+					  alert('Logout unsuccesful');
+					}
+				},
+				error: function(data) {
+					alert('an error occured');
+				}
+			},"json");
+		});
+
+	});
+	</script>
+
+
+
 
   </body>
-
-  
 </html>
