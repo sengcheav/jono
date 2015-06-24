@@ -16,10 +16,6 @@ function car(caraudio) {
   var carcoming=document.getElementById(caraudio);
   carcoming.play();
 }
-
-function hint() {
-    alert("Remember to look around for cars!");
-}
 </script>
   
 
@@ -28,15 +24,14 @@ function hint() {
 <div id="myWorkContent"> 
 
  <!-- Player -->
-	<div id="playerrb"><img id="playerimgrb" src="images/boy.svg"></div>	
+	<div id="player1"><img id="playerimg1" src="images/boy.svg"></div>	
 
 	<!-- Car-->
-	<div id="car1rb2"><img id="carimgrb2" src="images/cars-01.svg"></div>
 
-	<div id="car1rb"><img id="carimgrb" src="images/cars-02.svg"></div>	
+<!-- Car is gone -->
 
  <!-- Background -->	
-<img id="gamebackground" src="images/set(roundabout)-01.svg"><img id="gamebackground2" src="images/set(roundabout)-02.svg"><img id="gamebackground3" src="images/set(roundabout)-03.svg">
+<img id="gamebackground" src="images/set(normal)-01.svg"><img id="gamebackground2" src="images/set(normal)-02.svg"><img id="gamebackground3" src="images/set(normal)-03.svg">
 <div>
 </div>
 
@@ -50,16 +45,16 @@ function hint() {
 
  <!-- Cross Button -->								 
 
-	<button id="crossicon" type="button" onclick="hint()">
-		Cross
+	<button id="crossicon" type="button">
+		<a href="worldmap.html"  id="hyperlink">Cross</a>
 	</button>
 
 
 
 
  <!-- Wait Button -->	
-	<button id="waiticon" type="button" >
-		<a href="game3.html#gamebackground2"  id="hyperlink">Wait</a>
+	<button id="waiticon" type="button">
+		<a href= "title.html" id="hyperlink">Wait</a>
 	</button>
 
 

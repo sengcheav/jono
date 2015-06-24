@@ -18,8 +18,11 @@ function car(caraudio) {
 }
 
 function hint() {
-    alert("Remember to look around for cars!");
+    alert("Crossing Time!");
 }
+
+
+
 </script>
   
 
@@ -31,9 +34,9 @@ function hint() {
 	<div id="playerrb"><img id="playerimgrb" src="images/boy.svg"></div>	
 
 	<!-- Car-->
-	<div id="car1rb2"><img id="carimgrb2" src="images/cars-01.svg"></div>
+	<div id="car2rb2"><img id="carimgrb2" src="images/cars-01.svg"></div>
 
-	<div id="car1rb"><img id="carimgrb" src="images/cars-02.svg"></div>	
+	<div id="car2rb"><img id="carimgrb" src="images/cars-02.svg"></div>	
 
  <!-- Background -->	
 <img id="gamebackground" src="images/set(roundabout)-01.svg"><img id="gamebackground2" src="images/set(roundabout)-02.svg"><img id="gamebackground3" src="images/set(roundabout)-03.svg">
@@ -50,16 +53,16 @@ function hint() {
 
  <!-- Cross Button -->								 
 
-	<button id="crossicon" type="button" onclick="hint()">
-		Cross
+	<button id="crossicon" type="button">
+		<a href="rb4.html#gamebackground2"  id="hyperlink">Cross</a>
 	</button>
 
 
 
 
  <!-- Wait Button -->	
-	<button id="waiticon" type="button" >
-		<a href="game3.html#gamebackground2"  id="hyperlink">Wait</a>
+	<button id="waiticon" type="button" onclick="hint()">
+		Wait
 	</button>
 
 

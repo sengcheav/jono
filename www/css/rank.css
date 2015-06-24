@@ -1,0 +1,37 @@
+body{
+
+max-height: 768px;
+background-repeat: no-repeat;
+}
+
+
+p{
+
+	position:absolute;
+	left: 0;
+	right: 0;
+	top:50%;
+	margin-left:20%;
+	margin-right:20%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 1em;
+}
+
+#backicon {
+	opacity: 0.6;
+	left: 2%;
+	top:92%;
+	margin:0 auto;
+	position:absolute;
+	display:block;
+	height:50px;
+	width:50px;
+}
+
+#background{
+	display: inline-block;
+    vertical-align: middle;
+    max-width:100%;
+    max-width:auto;
+}

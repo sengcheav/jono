@@ -59,7 +59,7 @@ function hint() {
 
  <!-- Wait Button -->	
 	<button id="waiticon" type="button" >
-		<a href="game3.html#gamebackground2"  id="hyperlink">Wait</a>
+		<a href="rb3.html#gamebackground2"  id="hyperlink">Wait</a>
 	</button>
 
 
@@ -67,8 +67,12 @@ function hint() {
  <!-- Listen Button -->	
 
 
+<audio id="audio1" src="horn.mp3" controls preload="auto" autobuffer>
+	Your browser does not support the audio element.
+</audio>
+
 <form>
-<input type="image" src="images/speaker.png" id="listenicon">
+<input type="image" src="images/speaker.png" id="listenicon" value="Play Sound" onClick="car('audio1')">
 </form>
 
 <!--

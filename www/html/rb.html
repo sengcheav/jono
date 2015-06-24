@@ -18,7 +18,7 @@ function car(caraudio) {
 }
 
 function hint() {
-    alert("Remember to look around for cars!");
+    alert("Remember to listen for cars!");
 }
 </script>
   
@@ -31,9 +31,9 @@ function hint() {
 	<div id="playerrb"><img id="playerimgrb" src="images/boy.svg"></div>	
 
 	<!-- Car-->
-	<div id="car1rb2"><img id="carimgrb2" src="images/cars-01.svg"></div>
+	<div id="carrb2"><img id="carimgrb2" src="images/cars-01.svg"></div>
 
-	<div id="car1rb"><img id="carimgrb" src="images/cars-02.svg"></div>	
+	<div id="carrb"><img id="carimgrb" src="images/cars-02.svg"></div>	
 
  <!-- Background -->	
 <img id="gamebackground" src="images/set(roundabout)-01.svg"><img id="gamebackground2" src="images/set(roundabout)-02.svg"><img id="gamebackground3" src="images/set(roundabout)-03.svg">
@@ -59,16 +59,18 @@ function hint() {
 
  <!-- Wait Button -->	
 	<button id="waiticon" type="button" >
-		<a href="game3.html#gamebackground2"  id="hyperlink">Wait</a>
+		<a href="rb2.html#gamebackground2"  id="hyperlink">Wait</a>
 	</button>
 
 
 
  <!-- Listen Button -->	
-
+<audio id="audio1" src="horn.mp3" controls preload="auto" autobuffer>
+	Your browser does not support the audio element.
+</audio>
 
 <form>
-<input type="image" src="images/speaker.png" id="listenicon">
+<input type="image" src="images/speaker.png" id="listenicon" value="Play Sound" onClick="car('audio1')">
 </form>
 
 <!--

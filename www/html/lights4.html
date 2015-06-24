@@ -1,0 +1,97 @@
+<DOCTYPE html>
+<html>
+  <head>
+    
+	<link rel="stylesheet" type="text/css" href="../css/index.css" >
+	<script src="jscript/sense.js" type="text/javascript" charset="utf-8"></script>
+	
+  </head>
+
+
+  <body>
+
+<!-- Script to play audio -->
+<script>
+function car(caraudio) {
+  var carcoming=document.getElementById(caraudio);
+  carcoming.play();
+}
+
+function hint() {
+    alert("The green man means its safe to cross!");
+}
+</script>
+  
+
+	
+
+<div id="myWorkContent"> 
+
+ <!-- Player -->
+	<div id="player1lights"><img id="playerimglights" src="images/boy.svg"></div>	
+
+ <!-- Car -->
+	<div id="carlights4"><img id="carimglights" src="images/cars-02.svg"></div>	
+
+<div id="blackdiv2"></div>
+
+ <!-- Background -->	
+<img id="gamebackground" src="images/set(light)-01.svg"><img id="gamebackground2" src="images/set(light)-02.svg"><img id="gamebackground3" src="images/set(light)-03.svg">
+<div>
+</div>
+
+ <!-- User Interface -->	
+
+ <!-- Back Icon -->
+    <a href= "worldmap.html" >
+	<img src="images/backicon.png" id="backicon">
+	</a>
+	
+
+ <!-- Cross Button -->								 
+
+	<button id="crossicon" type="button" >
+		<a href="worldmap.html"  id="hyperlink">Cross</a>
+	</button>
+
+
+
+
+ <!-- Wait Button -->	
+	<button id="waiticon" type="button" ">
+		Wait
+	</button>
+
+
+
+ <!-- Listen Button -->	
+
+
+<form>
+<input type="image" src="images/speaker.png" id="listenicon">
+</form>
+
+<!--
+<input type="image" src="logg.png" name="saveForm" class="btTxt submit"  />
+
+    <a href= "" >
+		<img src="images/speaker.png" id="listenicon">
+	</a>
+	
+-->
+
+<div>
+	
+	
+	<script>
+	    var sense = sense.init();
+
+	    sense.addTiltScroll(function(){
+	        // Your callback code here!
+	    });
+	</script>
+			
+  </body>
+
+
+</html>
